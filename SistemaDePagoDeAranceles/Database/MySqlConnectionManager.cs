@@ -11,7 +11,7 @@ namespace SistemaDePagoDeAranceles.Database
             _connectionString = configuration.GetConnectionString("MySqlConnection");
         }
 
-        private MySqlConnection _connection => new(_connectionString);
+        private MySqlConnection CreateConnection() => new(_connectionString);
 
         public IEnumerable<T> ExecuteQuery<T>(string query, T model) where T : new()
         {
@@ -21,7 +21,7 @@ namespace SistemaDePagoDeAranceles.Database
 
         public IEnumerable<T> ExecuteQuery<T>(string query) where T : new()
         {
-            MySqlCommand command = new(query, _connection);
+            MySqlCommand command = new(query);
             return ExecuteCommand<T>( command );
         }
         public int ExecuteNonQuery<T>(string query, T model) where T : new()
@@ -32,27 +32,30 @@ namespace SistemaDePagoDeAranceles.Database
 
         public int ExecuteNonQuery(string query)
         {
-            using MySqlCommand command = new MySqlCommand(query);
+            using MySqlCommand command = new (query);
             return ExecuteCommand(command);
         }
 
         private int ExecuteCommand(MySqlCommand command)
         {
-            command.Connection = _connection;
-            _connection.Open();
+            using MySqlConnection connection = CreateConnection();
+            command.Connection = connection;
+            connection.Open();
             int affectedRows = command.ExecuteNonQuery();
-            _connection.Close();
             return affectedRows;
         }
         private IEnumerable<T> ExecuteCommand<T>(MySqlCommand command) where T: new()
         {
-            command.Connection = _connection;
-            _connection.Open();
+            using MySqlConnection connection = CreateConnection();
+
+            command.Connection = connection;
+            connection.Open();
+
             using MySqlDataAdapter adapter = new(command);
             DataTable dataTable = new();
             adapter.Fill( dataTable );
+
             IEnumerable<T> results = DbMapper.MapDataTableToModelIterable<T>(dataTable);
-            _connection.Close();
             return results;
         }
     }
