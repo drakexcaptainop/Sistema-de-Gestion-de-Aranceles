@@ -6,7 +6,7 @@ namespace SistemaDePagoDeAranceles.Database
 {
     public static class DbMapper
     {
-        public static T MapDataRow<T>(DataRow row) where T : new()
+        public static T MapDataRowToModel<T>(DataRow row) where T : new()
         {
             T model = new();
             PropertyInfo[] propertyInfo = typeof(T).GetProperties();
@@ -21,12 +21,12 @@ namespace SistemaDePagoDeAranceles.Database
             return model;
         }
 
-        public static IEnumerable<T> MapDataTable<T>(DataTable dataTable) where T : new()
+        public static IEnumerable<T> MapDataTableToModelIterable<T>(DataTable dataTable) where T : new()
         {
             List<T> resultList = [];
             foreach (DataRow row in dataTable.Rows)
             {
-                T mappedObject = MapDataRow<T>(row);
+                T mappedObject = MapDataRowToModel<T>(row);
                 resultList.Add(mappedObject);
             }
             return resultList;

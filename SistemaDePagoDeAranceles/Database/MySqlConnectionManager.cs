@@ -5,17 +5,17 @@ namespace SistemaDePagoDeAranceles.Database
 {
     public class MySqlConnectionManager
     {
-        private readonly MySqlConnection _connection;
+        private readonly string _connectionString;
         public MySqlConnectionManager(IConfiguration configuration)
         {
-            _connection = new MySqlConnection(configuration.GetConnectionString("MySqlConnection"));
+            _connectionString = configuration.GetConnectionString("MySqlConnection");
         }
+
+        private MySqlConnection _connection => new(_connectionString);
 
         public IEnumerable<T> ExecuteQuery<T>(string query, T model) where T : new()
         {
-            List<T> results = new();
             using MySqlCommand command = DbParameterHelper.PopulateCommandParameters(query, model);
-            command.Connection = _connection;
             return ExecuteCommand<T>(command);
         }
 
@@ -24,14 +24,34 @@ namespace SistemaDePagoDeAranceles.Database
             MySqlCommand command = new(query, _connection);
             return ExecuteCommand<T>( command );
         }
+        public int ExecuteNonQuery<T>(string query, T model) where T : new()
+        {
+            using MySqlCommand command = DbParameterHelper.PopulateCommandParameters(query, model);
+            return ExecuteCommand(command);
+        }
 
+        public int ExecuteNonQuery(string query)
+        {
+            using MySqlCommand command = new MySqlCommand(query);
+            return ExecuteCommand(command);
+        }
+
+        private int ExecuteCommand(MySqlCommand command)
+        {
+            command.Connection = _connection;
+            _connection.Open();
+            int affectedRows = command.ExecuteNonQuery();
+            _connection.Close();
+            return affectedRows;
+        }
         private IEnumerable<T> ExecuteCommand<T>(MySqlCommand command) where T: new()
         {
+            command.Connection = _connection;
             _connection.Open();
-            using MySqlDataReader reader = command.ExecuteReader();
+            using MySqlDataAdapter adapter = new(command);
             DataTable dataTable = new();
-            dataTable.Load(reader);
-            IEnumerable<T> results = DbMapper.MapDataTable<T>(dataTable);
+            adapter.Fill( dataTable );
+            IEnumerable<T> results = DbMapper.MapDataTableToModelIterable<T>(dataTable);
             _connection.Close();
             return results;
         }
