@@ -9,7 +9,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<MySqlConnectionManager>();
 
 //Example of repository injection
+
 builder.Services.AddScoped<BaseDbRepository<Test>, ExampleTestRepository>();
+
 
 var app = builder.Build();
 
