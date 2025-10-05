@@ -13,7 +13,7 @@ namespace SistemaDePagoDeAranceles.Database
 
         private MySqlConnection CreateConnection() => new(_connectionString);
 
-        public IEnumerable<T> ExecuteQuery<T>(string query, T model) where T : new()
+        public IEnumerable<T> ExecuteParameterizedQuery<T>(string query, T model) where T : new()
         {
             using MySqlCommand command = DbParameterHelper.PopulateCommandParameters(query, model);
             return ExecuteCommand<T>(command);
@@ -24,7 +24,7 @@ namespace SistemaDePagoDeAranceles.Database
             MySqlCommand command = new(query);
             return ExecuteCommand<T>( command );
         }
-        public int ExecuteNonQuery<T>(string query, T model) where T : new()
+        public int ExecuteParameterizedNonQuery<T>(string query, T model) where T : new()
         {
             using MySqlCommand command = DbParameterHelper.PopulateCommandParameters(query, model);
             return ExecuteCommand(command);
