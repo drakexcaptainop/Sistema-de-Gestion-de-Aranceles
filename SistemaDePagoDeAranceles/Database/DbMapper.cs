@@ -14,8 +14,15 @@ namespace SistemaDePagoDeAranceles.Database
             {
                 if (row.Table.Columns.Contains(property.Name))
                 {
-                    var castedValue = Convert.ChangeType(row[property.Name], property.PropertyType);
-                    property.SetValue(model, castedValue);
+                    if (row[property.Name] == DBNull.Value)
+                    {
+                        property.SetValue(model, Activator.CreateInstance(property.PropertyType));
+                    }
+                    else
+                    {
+                        var castedValue = Convert.ChangeType(row[property.Name], property.PropertyType);
+                        property.SetValue(model, castedValue);
+                    }
                 }
             }
             return model;

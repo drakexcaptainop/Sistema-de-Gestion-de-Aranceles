@@ -1,4 +1,5 @@
 using SistemaDePagoDeAranceles.Database;
+using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Respository;
 using SistemaDePagoDeAranceles.Models;
 
@@ -10,7 +11,8 @@ builder.Services.AddSingleton<MySqlConnectionManager>();
 
 //Example of repository injection
 
-builder.Services.AddScoped<BaseDbRepository<Test>, ExampleTestRepository>();
+builder.Services.AddScoped<BaseDbRepository<Test>, ExampleTestRepository>(); // NO
+builder.Services.AddScoped<RepositoryFactory<Test>, ExampleTestRepositoryCreator>(); //SI
 
 
 var app = builder.Build();
