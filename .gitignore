@@ -366,3 +366,5 @@ FodyWeavers.xsd
 .idea/
 *.iml
 out/
+
+.DS_Store
