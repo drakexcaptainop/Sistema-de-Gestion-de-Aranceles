@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<MySqlConnectionManager>();
 
+
+
 //Example of repository injection
 
 //builder.Services.AddScoped<BaseDbRepository<Test>, ExampleTestRepository>(); // NO
@@ -18,12 +20,11 @@ builder.Services.AddSingleton<MySqlConnectionManager>();
 //builder.Services.AddScoped<RepositoryFactory<Category>, CategoryRepositoryCreator>(); //SI
 
 
-builder.Services.AddScoped<IDbRespository<Category>, CategoryRepository>();
+builder.Services.AddSingleton<IDbRespository<Category>, CategoryRepository>();
 // Register PersonInCharge repository and its factory
-builder.Services.AddScoped<RepositoryFactory<PersonInCharge>, PersonInChargeRepositoryCreator>();
-builder.Services.AddScoped<IDbRespository<PersonInCharge>, PersonInChargeRepository>();
+builder.Services.AddSingleton<IRepositoryFactory<PersonInCharge>, PersonInChargeRepositoryCreator>();
 // Register Establishment repository and factory
-builder.Services.AddScoped<RepositoryFactory<Establishment>, EstablishmentRepositoryCreator>();
+builder.Services.AddSingleton<IRepositoryFactory<Establishment>, EstablishmentRepositoryCreator>();
 
 
 var app = builder.Build();
