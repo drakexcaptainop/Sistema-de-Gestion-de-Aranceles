@@ -13,43 +13,43 @@
     <div class="row g-3">
         <div class="col-md-6">
             <label asp-for="Establishment.Name" class="form-label"></label>
-            <input asp-for="Establishment.Name" class="form-control" required />
+            <input asp-for="Establishment.Name" class="form-control" required minlength="3" maxlength="200" pattern="^(?!\d+$).+" title="El nombre debe tener entre 3 y 200 caracteres y no puede ser solo números." />
             <span asp-validation-for="Establishment.Name" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.BusinessName" class="form-label"></label>
-            <input asp-for="Establishment.BusinessName" class="form-control" />
+            <input asp-for="Establishment.BusinessName" class="form-control" maxlength="200" />
             <span asp-validation-for="Establishment.BusinessName" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.TaxId" class="form-label"></label>
-            <input asp-for="Establishment.TaxId" class="form-control" />
+            <input asp-for="Establishment.TaxId" class="form-control" maxlength="50" pattern="^[A-Za-z0-9\-]+$" title="El NIT solo puede contener letras, números y guiones." />
             <span asp-validation-for="Establishment.TaxId" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.Email" class="form-label"></label>
-            <input asp-for="Establishment.Email" class="form-control" />
+            <input asp-for="Establishment.Email" class="form-control" type="email" maxlength="150" />
             <span asp-validation-for="Establishment.Email" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.Phone" class="form-label"></label>
-            <input asp-for="Establishment.Phone" class="form-control" />
+            <input asp-for="Establishment.Phone" class="form-control" maxlength="20" pattern="^[0-9()+\-\s]+$" title="Teléfono inválido." />
             <span asp-validation-for="Establishment.Phone" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.Address" class="form-label"></label>
-            <input asp-for="Establishment.Address" class="form-control" />
+            <input asp-for="Establishment.Address" class="form-control" required maxlength="1000" />
             <span asp-validation-for="Establishment.Address" class="text-danger"></span>
         </div>
         
         <div class="col-md-6" style="display: none">
             <label asp-for="Establishment.SanitaryLicense" class="form-label"></label>
-            <input asp-for="Establishment.SanitaryLicense" class="form-control" />
+            <input asp-for="Establishment.SanitaryLicense" class="form-control" maxlength="100" />
             <span asp-validation-for="Establishment.SanitaryLicense" class="text-danger"></span>
         </div>
         
