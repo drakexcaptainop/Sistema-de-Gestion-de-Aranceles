@@ -29,15 +29,7 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
         }
         public IActionResult OnPost()
         {
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == Person.Id);
-            if (entity == null)
-                return RedirectToPage("./Index");
-
-            entity.Status = false;
-            entity.UpdateDate = DateTime.Now;
-
-            _repository.Update(entity);
-
+            _repository.Delete(Person);
             return RedirectToPage("./Index");
         }
 

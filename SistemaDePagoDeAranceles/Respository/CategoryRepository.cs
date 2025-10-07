@@ -12,9 +12,8 @@ namespace SistemaDePagoDeAranceles.Respository
         }
         public override int Delete(Category model)
         {
-            string query = "DELETE FROM category WHERE id = @Id";
+            string query = "UPDATE category SET last_update = CURRENT_TIMESTAMP, active = FALSE WHERE id = @Id";
             return sqlConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
-
         }
 
         public override IEnumerable<Category> GetAll()
@@ -32,7 +31,7 @@ namespace SistemaDePagoDeAranceles.Respository
 
         public override int Update(Category model)
         {
-            string query = "UPDATE category SET name = @Name, description = @Description, base_amount = @BaseAmount, last_update = @LastUpdate, active = @Active, created_by = @CreatedBy WHERE id = @Id";
+            string query = "UPDATE category SET name = @Name, description = @Description, base_amount = @BaseAmount, last_update = CURRENT_TIMESTAMP, created_by = @CreatedBy WHERE id = @Id";
             return sqlConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
         }
     }

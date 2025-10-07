@@ -11,7 +11,7 @@ public class EstablishmentRepository : BaseDbRepository<Establishment>
 
     public override int Delete(Establishment model)
     {
-        string query = "DELETE FROM establishment WHERE id = @Id";
+        string query = "UPDATE establishment SET last_update = CURRENT_TIMESTAMP, active = FALSE WHERE id = @Id";
         return sqlConnectionManager.ExecuteParameterizedNonQuery<Establishment>(query, model);
     }
 
@@ -29,7 +29,7 @@ public class EstablishmentRepository : BaseDbRepository<Establishment>
 
     public override int Update(Establishment model)
     {
-        string query = "UPDATE establishment SET name = @Name, business_name = @BusinessName, tax_id = @TaxId, sanitary_license = @SanitaryLicense, sanitary_license_expiry = @SanitaryLicenseExpiry, address = @Address, phone = @Phone, email = @Email, establishment_type = @EstablishmentType, person_in_charge_id = @PersonInChargeId, last_update = @LastUpdate, active = @Active, created_by = @CreatedBy WHERE id = @Id";
+        string query = "UPDATE establishment SET name = @Name, business_name = @BusinessName, tax_id = @TaxId, sanitary_license = @SanitaryLicense, sanitary_license_expiry = @SanitaryLicenseExpiry, address = @Address, phone = @Phone, email = @Email, establishment_type = @EstablishmentType, person_in_charge_id = @PersonInChargeId, last_update = CURRENT_TIMESTAMP, created_by = @CreatedBy WHERE id = @Id";
         return sqlConnectionManager.ExecuteParameterizedNonQuery<Establishment>(query, model);
     }
 }

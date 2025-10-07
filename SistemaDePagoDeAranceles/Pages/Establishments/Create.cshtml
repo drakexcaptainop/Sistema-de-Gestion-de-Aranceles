@@ -64,11 +64,11 @@
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.EstablishmentType" class="form-label"></label>
+            <label class="form-label">Person in Charge</label>
             <select asp-for="Establishment.PersonInChargeId" class="form-select">
                 @foreach (var person in Model.PersonsInCharge)
                 {
-                    <option value="@person.Id">@person.Ci</option>
+                    <option value="@person.Id">@String.Concat(person.FirstName, " ",person.LastName) </option>
 				}
             </select>
         </div>

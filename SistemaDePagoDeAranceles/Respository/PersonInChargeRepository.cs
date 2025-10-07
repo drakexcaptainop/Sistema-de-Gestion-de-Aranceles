@@ -10,7 +10,7 @@ public class PersonInChargeRepository : BaseDbRepository<PersonInCharge>
     }
     public override int Delete(PersonInCharge model)
     {
-        string query = "DELETE FROM person_in_charge WHERE id = @Id";
+        string query = "UPDATE person_in_charge SET last_update = CURRENT_TIMESTAMP, active = FALSE WHERE id = @Id";
         return sqlConnectionManager.ExecuteParameterizedNonQuery<PersonInCharge>(query, model);
     }
 
@@ -28,7 +28,7 @@ public class PersonInChargeRepository : BaseDbRepository<PersonInCharge>
 
     public override int Update(PersonInCharge model)
     {
-        string query = "UPDATE person_in_charge SET first_name = @FirstName, last_name = @LastName, email = @Email, phone = @Phone, ci = @Ci, last_update = @UpdateDate, active = @Status, created_by = @CreatedBy WHERE id = @Id";
+        string query = "UPDATE person_in_charge SET first_name = @FirstName, last_name = @LastName, email = @Email, phone = @Phone, ci = @Ci, last_update = CURRENT_TIMESTAMP, created_by = @CreatedBy WHERE id = @Id";
         return sqlConnectionManager.ExecuteParameterizedNonQuery<PersonInCharge>(query, model);
     }
 }

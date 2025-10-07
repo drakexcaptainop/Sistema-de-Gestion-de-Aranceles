@@ -32,14 +32,7 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public IActionResult OnPost()
         {
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == Category.Id);
-            if (entity == null)
-                return RedirectToPage("Index");
-            entity.Active = false;
-            entity.LastUpdate = DateTime.Now;
-
-            _repository.Update(entity);
-
+            _repository.Delete(Category);
             return RedirectToPage("./Index");
         }
     }

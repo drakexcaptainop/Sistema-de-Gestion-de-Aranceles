@@ -30,14 +30,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public IActionResult OnPost()
         {
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == Establishment.Id);
-            if (entity == null)
-                return RedirectToPage("Index");
-            entity.Active = false;
-            entity.LastUpdate = DateTime.Now;
-
-            _repository.Update(entity);
-
+            _repository.Delete(Establishment);  
             return RedirectToPage("./Index");
         }
     }

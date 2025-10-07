@@ -18,7 +18,7 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public void OnGet()
         {
-            Categories = _repository.GetAll().ToList();
+            Categories = _repository.GetAll().Where(category => category.Active).ToList();
         }
     }
 }

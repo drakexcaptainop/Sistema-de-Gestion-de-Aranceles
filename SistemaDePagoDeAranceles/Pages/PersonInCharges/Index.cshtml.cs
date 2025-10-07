@@ -18,7 +18,7 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
 
         public void OnGet()
         {
-            Persons = _repository.GetAll().ToList();
+            Persons = _repository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
         }
     }
 }

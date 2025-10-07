@@ -18,7 +18,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public void OnGet()
         {
-            Establishments = _repository.GetAll().ToList();
+            Establishments = _repository.GetAll().Where(establishment =>  establishment.Active).ToList();
         }
     }
 }
