@@ -1,0 +1,32 @@
+﻿@page
+@model SistemaDePagoDeAranceles.Pages.CategorysModel
+@{
+	<h2>Datos de Categoria</h2>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nombre</th>
+				<th>Descripcion</th>
+				<th>Estado Licencia Sanitaria</th>
+				<th>FechaRegistro</th>
+				<th>Ultima Actualizacion</th>
+				<th>Estado</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var category in Model.Categorys)
+			{
+				<tr>
+					<td>@category.Id</td>
+					<td>@category.Name</td>
+					<td>@category.Description</td>
+					<td>@(category.SanitaryLicenseStatus ? "Activo" : "Inactivo")</td>
+					<td>@category.DateRegister.ToString("dd/MM/yyyy")</td>
+					<td>@category.LastUpdate?.ToString("dd/MM/yyyy")</td>
+					<td>@category.Status</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

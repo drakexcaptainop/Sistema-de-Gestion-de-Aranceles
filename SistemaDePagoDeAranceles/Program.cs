@@ -11,8 +11,14 @@ builder.Services.AddSingleton<MySqlConnectionManager>();
 
 //Example of repository injection
 
-builder.Services.AddScoped<BaseDbRepository<Test>, ExampleTestRepository>(); // NO
-builder.Services.AddScoped<RepositoryFactory<Test>, ExampleTestRepositoryCreator>(); //SI
+//builder.Services.AddScoped<BaseDbRepository<Test>, ExampleTestRepository>(); // NO
+//builder.Services.AddScoped<RepositoryFactory<Test>, ExampleTestRepositoryCreator>(); //SI
+
+//builder.Services.AddScoped<BaseDbRepository<Category>, CategoryRepository>(); // NO
+//builder.Services.AddScoped<RepositoryFactory<Category>, CategoryRepositoryCreator>(); //SI
+
+
+builder.Services.AddScoped<IDbRespository<Category>, CategoryRepository>();
 
 
 var app = builder.Build();
