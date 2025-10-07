@@ -8,10 +8,10 @@
 				<th>Id</th>
 				<th>Nombre</th>
 				<th>Descripcion</th>
-				<th>Estado Licencia Sanitaria</th>
-				<th>FechaRegistro</th>
+				<th>Monto Base</th>
+				<th>Fecha Registro</th>
 				<th>Ultima Actualizacion</th>
-				<th>Estado</th>
+				<th>Activo</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -21,10 +21,10 @@
 					<td>@category.Id</td>
 					<td>@category.Name</td>
 					<td>@category.Description</td>
-					<td>@(category.SanitaryLicenseStatus ? "Activo" : "Inactivo")</td>
-					<td>@category.DateRegister.ToString("dd/MM/yyyy")</td>
+					<td>@category.BaseAmount.ToString("F2")</td>
+					<td>@category.RegisterDate.ToString("dd/MM/yyyy")</td>
 					<td>@category.LastUpdate?.ToString("dd/MM/yyyy")</td>
-					<td>@category.Status</td>
+					<td>@(category.Active ? "Activo" : "Inactivo")</td>
 				</tr>
 			}
 		</tbody>
