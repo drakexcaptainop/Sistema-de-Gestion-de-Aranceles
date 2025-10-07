@@ -7,18 +7,18 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class IndexModel : PageModel
     {
-        private readonly CategoryRepository _repository;
+        private readonly IDbRespository<Category> _repository;
 
         public List<Category> Categories { get; set; } = new();
 
-        public IndexModel(CategoryRepositoryCreator factory)
+        public IndexModel(IRepositoryFactory<Category> factory)
         {
-            _repository = (CategoryRepository)factory.CreateRepository();
+            _repository = factory.CreateRepository();
         }
 
         public void OnGet()
         {
-            Categories = _repository.GetAll().ToList();
+            Categories = _repository.GetAll().Where(category => category.Active).ToList();
         }
     }
 }

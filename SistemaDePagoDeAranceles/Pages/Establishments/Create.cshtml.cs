@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Models;
 using SistemaDePagoDeAranceles.Respository;
 
@@ -7,18 +8,22 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 {
     public class CreateModel : PageModel
     {
-        private readonly EstablishmentRepository _repository;
+        private readonly IDbRespository<Establishment> _repository;
+        private readonly IDbRespository<PersonInCharge> _personRepository;
 
         [BindProperty]
         public Establishment Establishment { get; set; } = new();
+        public List<PersonInCharge> PersonsInCharge { get; set; } = new();
 
-        public CreateModel(EstablishmentRepository repository)
+        public CreateModel(IRepositoryFactory<Establishment> factory, IRepositoryFactory<PersonInCharge> personFactory)
         {
-            _repository = repository;
+            _repository = factory.CreateRepository();
+            _personRepository = personFactory.CreateRepository();
         }
 
         public void OnGet()
         {
+            PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
         }
 
         public IActionResult OnPost()
@@ -28,7 +33,6 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             Establishment.SanitaryLicenseExpiry= DateTime.Now;
             Establishment.Active = true;
             Establishment.CreatedBy = 1;
-            Establishment.PersonInChargeId = 1;
             
             if (!ModelState.IsValid)
             {
