@@ -16,11 +16,19 @@ namespace SistemaDePagoDeAranceles.Database
                 {
                     if (row[property.Name] == DBNull.Value)
                     {
-                        property.SetValue(model, Activator.CreateInstance(property.PropertyType));
+                        if (Nullable.GetUnderlyingType(property.PropertyType) != null)
+                        {
+                            property.SetValue(model,  null);
+                        }
+                        else
+                        {
+                            property.SetValue(model, Activator.CreateInstance(property.PropertyType));
+                        }
                     }
                     else
                     {
-                        var castedValue = Convert.ChangeType(row[property.Name], property.PropertyType);
+                        Type targetType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                        var castedValue = Convert.ChangeType(row[property.Name], targetType);
                         property.SetValue(model, castedValue);
                     }
                 }
