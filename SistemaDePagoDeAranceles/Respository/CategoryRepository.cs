@@ -12,27 +12,27 @@ namespace SistemaDePagoDeAranceles.Respository
         }
         public override int Delete(Category model)
         {
-            string query = "DELETE FROM categoria WHERE id = @Id";
+            string query = "DELETE FROM category WHERE id = @Id";
             return sqlConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
 
         }
 
         public override IEnumerable<Category> GetAll()
         {
-            string query = "Select nombre as Name, descripcion as Description, estadoLicenciaSanitaria as SanitaryLicenseStatus, fechaRegistro as DateRegister, ultimaActualizacion as LastUpdate, estado as Status from categoria";
+        string query = "SELECT id as Id, name as Name, description as Description, base_amount as BaseAmount, register_date as RegisterDate, last_update as LastUpdate, active as Active, created_by as CreatedBy FROM category";
             return sqlConnectionManager.ExecuteQuery<Category>(query);
         }
 
         public override int Insert(Category model)
         {
-            string query = "INSERT INTO categoria (nombre, descripcion, estadoLicenciaSanitaria, fechaRegistro, ultimaActualizacion, estado) VALUES (@Name, @Description, @SanitaryLicenseStatus, @DateRegister, @LastUpdate, @Status)";
+            string query = "INSERT INTO category (name, description, base_amount, register_date, last_update, active, created_by) VALUES (@Name, @Description, @BaseAmount, @RegisterDate, @LastUpdate, @Active, @CreatedBy)";
             return sqlConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
 
         }
 
         public override int Update(Category model)
         {
-            string query = "UPDATE categoria SET nombre = @Name, descripcion = @Description, estadoLicenciaSanitaria = @SanitaryLicenseStatus, fechaRegistro = @DateRegister, ultimaActualizacion = @LastUpdate, estado = @Status WHERE id = @Id";
+            string query = "UPDATE category SET name = @Name, description = @Description, base_amount = @BaseAmount, register_date = @RegisterDate, last_update = @LastUpdate, active = @Active, created_by = @CreatedBy WHERE id = @Id";
             return sqlConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
         }
     }
