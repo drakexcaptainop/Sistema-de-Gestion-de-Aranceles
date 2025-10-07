@@ -1,0 +1,55 @@
+@page
+@model SistemaDePagoDeAranceles.Pages.Establishments.IndexModel
+@{
+    ViewData["Title"] = "Gestión de Establecimientos";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<a asp-page="Create" class="btn btn-primary mb-3">
+    <i class="bi bi-plus-circle"></i> Nuevo Establecimiento
+</a>
+
+<table class="table table-hover align-middle">
+    <thead class="table-primary">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Razón Social</th>
+        <th>NIT</th>
+        <th>Teléfono</th>
+        <th>Email</th>
+        <th>Tipo</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.Establishments.Any())
+    {
+        @foreach (var e in Model.Establishments)
+        {
+            <tr>
+                <td>@e.Id</td>
+                <td>@e.Name</td>
+                <td>@e.BusinessName</td>
+                <td>@e.TaxId</td>
+                <td>@e.Phone</td>
+                <td>@e.Email</td>
+                <td>@e.EstablishmentType</td>
+                <td>@(e.Active ? "Sí" : "No")</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@e.Id" class="btn btn-sm btn-outline-warning">Editar</a>
+                    <a asp-page="Delete" asp-route-id="@e.Id" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="9" class="text-center text-muted">No hay establecimientos registrados.</td>
+        </tr>
+    }
+    </tbody>
+</table>

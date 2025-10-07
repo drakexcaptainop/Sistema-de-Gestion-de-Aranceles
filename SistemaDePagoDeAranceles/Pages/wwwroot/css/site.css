@@ -1,0 +1,24 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.sidebar {
+    height: 100vh;
+}
+
+.sidebar .nav-link {
+    color: #333;
+    padding: 10px 20px;
+    border-radius: .375rem;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background-color: #0d6efd;
+    color: white !important;
+}
+
+.card {
+    border-radius: 0.75rem;
+}
