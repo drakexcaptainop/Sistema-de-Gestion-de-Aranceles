@@ -1,16 +1,33 @@
-namespace SistemaDePagoDeAranceles.Models;
+using System.ComponentModel.DataAnnotations;
 
-public class PersonInCharge
+namespace SistemaDePagoDeAranceles.Models
 {
-    public int Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Phone { get; set; }
-    public string Ci { get; set; }
-    public DateTime RegisterDate { get; set; }
-    public DateTime UpdateDate { get; set; }
-    public bool Status  { get; set; }
-    public int CreatedBy {get;set;}
-    
+    public class PersonInCharge
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "El nombre es invalido")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "El apellido es obligatorio")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "El apellido es invalido")]
+        public string LastName { get; set; }
+
+        [EmailAddress(ErrorMessage = "Correo inválido")]
+        public string Email { get; set; }
+
+        [Phone(ErrorMessage = "Número de teléfono inválido")]
+        [StringLength(8, MinimumLength = 7, ErrorMessage = "Numero de telefono invalido")]
+        public string Phone { get; set; }
+
+        [Required(ErrorMessage = "El CI es obligatorio")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "El CI es invalido")]
+        public string Ci { get; set; }
+
+        public DateTime RegisterDate { get; set; }
+        public DateTime UpdateDate { get; set; }
+        public bool Status { get; set; }
+        public int CreatedBy { get; set; }
+    }
 }
