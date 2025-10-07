@@ -33,7 +33,11 @@
             <td>@item.RegisterDate.ToString("dd/MM/yyyy")</td>
             <td>
                 <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
-                <a asp-page="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id"
+                      onsubmit="return confirm('¿Está seguro de que desea eliminar esta categoría?');"
+                      style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                </form>
             </td>
         </tr>
     }

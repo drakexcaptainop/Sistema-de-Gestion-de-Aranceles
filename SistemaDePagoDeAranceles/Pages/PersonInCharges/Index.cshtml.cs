@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Models;
@@ -19,6 +20,14 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
         public void OnGet()
         {
             Persons = _repository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
+        }
+        
+        public IActionResult OnPostDelete(int id)
+        {
+            var personInCharge = _repository.GetAll().ToList().FirstOrDefault(p => p.Id == id);
+            
+            _repository.Delete(personInCharge);
+            return RedirectToPage();
         }
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Models;
@@ -19,6 +20,14 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
         public void OnGet()
         {
             Establishments = _repository.GetAll().Where(establishment =>  establishment.Active).ToList();
+        }
+        
+        public IActionResult OnPostDelete(int id)
+        {
+            var establishment = _repository.GetAll().ToList().FirstOrDefault(e => e.Id == id);
+            
+            _repository.Delete(establishment);
+            return RedirectToPage();
         }
     }
 }

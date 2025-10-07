@@ -40,7 +40,11 @@
                 <td>@(e.Active ? "Sí" : "No")</td>
                 <td>
                     <a asp-page="Edit" asp-route-id="@e.Id" class="btn btn-sm btn-outline-warning">Editar</a>
-                    <a asp-page="Delete" asp-route-id="@e.Id" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@e.Id"
+                          onsubmit="return confirm('¿Está seguro de que desea eliminar este establecimiento?');"
+                          style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                    </form>
                 </td>
             </tr>
         }

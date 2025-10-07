@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Models;
 using SistemaDePagoDeAranceles.Respository;
@@ -19,6 +20,14 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
         public void OnGet()
         {
             Categories = _repository.GetAll().Where(category => category.Active).ToList();
+        }
+        
+        public IActionResult OnPostDelete(int id)
+        {
+            var category = _repository.GetAll().ToList().FirstOrDefault(c => c.Id == id);
+            
+            _repository.Delete(category);
+            return RedirectToPage();
         }
     }
 }
