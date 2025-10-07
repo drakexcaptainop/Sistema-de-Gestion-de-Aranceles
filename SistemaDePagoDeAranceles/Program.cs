@@ -22,6 +22,9 @@ builder.Services.AddScoped<IDbRespository<Category>, CategoryRepository>();
 // Register PersonInCharge repository and its factory
 builder.Services.AddScoped<RepositoryFactory<PersonInCharge>, PersonInChargeRepositoryCreator>();
 builder.Services.AddScoped<IDbRespository<PersonInCharge>, PersonInChargeRepository>();
+// Register Establishment repository and factory
+builder.Services.AddScoped<RepositoryFactory<Establishment>, EstablishmentRepositoryCreator>();
+builder.Services.AddScoped<IDbRespository<Establishment>, EstablishmentRepository>();
 
 
 var app = builder.Build();
