@@ -9,11 +9,11 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class CreateModel : PageModel
     {
-        private readonly CategoryRepository _repository;
+        private readonly IDbRespository<Category> _repository;
 
-        public CreateModel(CategoryRepositoryCreator factory)
+        public CreateModel(IRepositoryFactory<Category> factory)
         {
-            _repository = (CategoryRepository)factory.CreateRepository();
+            _repository = factory.CreateRepository();
         }
 
         [BindProperty]

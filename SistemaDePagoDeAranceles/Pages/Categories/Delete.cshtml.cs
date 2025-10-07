@@ -9,11 +9,11 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class DeleteModel : PageModel
     {
-        private readonly CategoryRepository _repository;
+        private readonly IDbRespository<Category> _repository;
 
-        public DeleteModel(CategoryRepositoryCreator factory)
+        public DeleteModel(IRepositoryFactory<Category> factory)
         {
-            _repository = (CategoryRepository)factory.CreateRepository();
+            _repository = factory.CreateRepository();
         }
 
         [BindProperty]
@@ -32,14 +32,7 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public IActionResult OnPost()
         {
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == Category.Id);
-            if (entity == null)
-                return RedirectToPage("Index");
-            entity.Active = false;
-            entity.LastUpdate = DateTime.Now;
-
-            _repository.Update(entity);
-
+            _repository.Delete(Category);
             return RedirectToPage("./Index");
         }
     }
