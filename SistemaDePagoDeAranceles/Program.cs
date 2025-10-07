@@ -19,6 +19,9 @@ builder.Services.AddSingleton<MySqlConnectionManager>();
 
 
 builder.Services.AddScoped<IDbRespository<Category>, CategoryRepository>();
+// Register PersonInCharge repository and its factory
+builder.Services.AddScoped<RepositoryFactory<PersonInCharge>, PersonInChargeRepositoryCreator>();
+builder.Services.AddScoped<IDbRespository<PersonInCharge>, PersonInChargeRepository>();
 
 
 var app = builder.Build();
