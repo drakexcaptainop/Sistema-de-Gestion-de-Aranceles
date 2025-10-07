@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Models;
 using SistemaDePagoDeAranceles.Respository;
 
@@ -8,9 +8,9 @@ namespace SistemaDePagoDeAranceles.Pages
     public class CategorysModel : PageModel
     {
 
-        private readonly IDbRespository<Category> _categoryRepository;
+        private readonly RepositoryFactory<Category> _categoryRepository;
 
-        public CategorysModel(IDbRespository<Category> categoriaRepository)
+        public CategorysModel(RepositoryFactory<Category> categoriaRepository)
         {
             _categoryRepository = categoriaRepository;
         }
@@ -19,7 +19,7 @@ namespace SistemaDePagoDeAranceles.Pages
 
         public void OnGet()
         {
-            Categorys = _categoryRepository.GetAll();
+            Categorys = _categoryRepository.CreateRepository().GetAll();
         }
     }
 }

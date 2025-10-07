@@ -18,7 +18,8 @@ builder.Services.AddSingleton<MySqlConnectionManager>();
 //builder.Services.AddScoped<RepositoryFactory<Category>, CategoryRepositoryCreator>(); //SI
 
 
-builder.Services.AddScoped<IDbRespository<Category>, CategoryRepository>();
+
+builder.Services.AddScoped<RepositoryFactory<Category>, CategoryRepositoryCreator>();
 
 
 var app = builder.Build();

@@ -11,5 +11,3 @@ public abstract class RepositoryFactory<T> : IRepositoryFactory<T>
     }
     public abstract IDbRespository<T> CreateRepository();
 }
-
-
