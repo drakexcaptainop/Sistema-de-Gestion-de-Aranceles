@@ -19,7 +19,7 @@ namespace SistemaDePagoDeAranceles.Respository
 
         public override IEnumerable<Category> GetAll()
         {
-        string query = "SELECT id as Id, name as Name, description as Description, base_amount as BaseAmount, register_date as RegisterDate, last_update as LastUpdate, active as Active, created_by as CreatedBy FROM category";
+        string query = "SELECT id as Id, name as Name, description as Description, base_amount as BaseAmount, register_date as RegisterDate, last_update as LastUpdate, active as Active, created_by as CreatedBy FROM category WHERE active = 1";
             return sqlConnectionManager.ExecuteQuery<Category>(query);
         }
 
