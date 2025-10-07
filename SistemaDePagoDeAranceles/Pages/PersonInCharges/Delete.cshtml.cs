@@ -21,16 +21,24 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
         {
             var entity = _repository.GetAll().FirstOrDefault(e => e.Id == id);
             if (entity == null)
-                return RedirectToPage("Index");
+                return RedirectToPage("./Index");
 
             Person = entity;
             return Page();
         }
-
         public IActionResult OnPost()
         {
-            _repository.Delete(Person);
-            return RedirectToPage("Index");
+            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == Person.Id);
+            if (entity == null)
+                return RedirectToPage("./Index");
+
+            entity.Status = false;
+            entity.UpdateDate = DateTime.Now;
+
+            _repository.Update(entity);
+
+            return RedirectToPage("./Index");
         }
+
     }
 }
