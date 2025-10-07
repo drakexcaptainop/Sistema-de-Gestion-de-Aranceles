@@ -30,6 +30,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
         {
             Establishment.RegisterDate = DateTime.Now;
             Establishment.LastUpdate = DateTime.Now;
+            Establishment.SanitaryLicenseExpiry= DateTime.Now;
             Establishment.Active = true;
             Establishment.CreatedBy = 1;
             

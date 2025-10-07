@@ -23,7 +23,10 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
+            {
+                Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Person)}");
                 return Page();
+            }
 
             Person.RegisterDate = DateTime.Now;
             Person.UpdateDate = DateTime.Now;

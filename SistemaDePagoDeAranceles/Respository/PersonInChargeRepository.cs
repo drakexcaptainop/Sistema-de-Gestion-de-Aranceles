@@ -16,7 +16,7 @@ public class PersonInChargeRepository : BaseDbRepository<PersonInCharge>
 
     public override IEnumerable<PersonInCharge> GetAll()
     {
-        string query = "SELECT id as Id, first_name as FirstName, last_name as LastName, email as Email, phone as Phone, ci as Ci, register_date as RegisterDate, last_update as UpdateDate, active as Status, created_by as CreatedBy FROM person_in_charge";
+        string query = "SELECT id as Id, first_name as FirstName, last_name as LastName, email as Email, phone as Phone, ci as Ci, register_date as RegisterDate, last_update as UpdateDate, active as Status, created_by as CreatedBy FROM person_in_charge WHERE active = 1";
         return sqlConnectionManager.ExecuteQuery<PersonInCharge>(query);
     }
 

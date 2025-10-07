@@ -23,12 +23,15 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
-                return Page();
-
             Category.RegisterDate = DateTime.Now;
             Category.LastUpdate = DateTime.Now;
-            Category.CreatedBy = 1; 
+            Category.CreatedBy = 1;
+            Category.Active = true;
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Category)}");
+                return Page();
+            }
             _repository.Insert(Category);
 
             return RedirectToPage("./Index");

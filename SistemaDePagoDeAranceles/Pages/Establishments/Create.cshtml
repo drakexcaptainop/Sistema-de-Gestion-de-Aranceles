@@ -12,36 +12,43 @@
         <div class="col-md-6">
             <label asp-for="Establishment.Name" class="form-label"></label>
             <input asp-for="Establishment.Name" class="form-control" required />
+            <span asp-validation-for="Establishment.Name" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.BusinessName" class="form-label"></label>
             <input asp-for="Establishment.BusinessName" class="form-control" />
+            <span asp-validation-for="Establishment.BusinessName" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.TaxId" class="form-label"></label>
             <input asp-for="Establishment.TaxId" class="form-control" />
+            <span asp-validation-for="Establishment.TaxId" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.Email" class="form-label"></label>
             <input asp-for="Establishment.Email" class="form-control" />
+            <span asp-validation-for="Establishment.Email" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.Phone" class="form-label"></label>
             <input asp-for="Establishment.Phone" class="form-control" />
+            <span asp-validation-for="Establishment.Phone" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.Address" class="form-label"></label>
             <input asp-for="Establishment.Address" class="form-control" />
+            <span asp-validation-for="Establishment.Address" class="text-danger"></span>
         </div>
         
         <div class="col-md-6">
             <label asp-for="Establishment.SanitaryLicense" class="form-label"></label>
             <input asp-for="Establishment.SanitaryLicense" class="form-control" />
+            <span asp-validation-for="Establishment.SanitaryLicense" class="text-danger"></span>
         </div>
 
         <div class="col-md-6">
@@ -73,3 +80,7 @@
         <a asp-page="Index" class="btn btn-secondary ms-2">Cancelar</a>
     </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
