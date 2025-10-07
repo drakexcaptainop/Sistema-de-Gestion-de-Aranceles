@@ -1,0 +1,40 @@
+@page
+@model SistemaDePagoDeAranceles.Pages.PersonInCharges.IndexModel
+@{
+    ViewData["Title"] = "Encargados";
+}
+
+<h1>Lista de Encargados</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Nuevo Encargado</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>CI</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model.Persons)
+    {
+        <tr>
+            <td>@p.FirstName @p.LastName</td>
+            <td>@p.Email</td>
+            <td>@p.Phone</td>
+            <td>@p.Ci</td>
+            <td>@(p.Status ? "Si" : "No")</td>
+            <td>
+                <a asp-page="Edit" asp-route-id="@p.Id" class="btn btn-warning btn-sm">Editar</a>
+                <a asp-page="Delete" asp-route-id="@p.Id" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

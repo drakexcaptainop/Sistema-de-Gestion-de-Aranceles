@@ -9,7 +9,7 @@ public class PersonInCharge
     public string Phone { get; set; }
     public string Ci { get; set; }
     public DateTime RegisterDate { get; set; }
-    public DateTime? UpdateDate { get; set; }
+    public DateTime UpdateDate { get; set; }
     public bool Status  { get; set; }
     public int CreatedBy {get;set;}
     
