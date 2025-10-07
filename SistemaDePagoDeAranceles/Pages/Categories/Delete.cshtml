@@ -1,0 +1,20 @@
+@page "{id:int}"
+@model SistemaDePagoDeAranceles.Pages.Categories.DeleteModel
+
+@{
+    ViewData["Title"] = "Eliminar Categoría";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>¿Estás seguro que deseas eliminar esta categoría?</h4>
+
+<div class="mb-3">
+    <strong>@Model.Category.Name</strong> - @Model.Category.Description
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Category.Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+</form>
