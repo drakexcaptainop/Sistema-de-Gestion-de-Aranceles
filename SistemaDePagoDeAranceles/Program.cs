@@ -24,7 +24,6 @@ builder.Services.AddScoped<RepositoryFactory<PersonInCharge>, PersonInChargeRepo
 builder.Services.AddScoped<IDbRespository<PersonInCharge>, PersonInChargeRepository>();
 // Register Establishment repository and factory
 builder.Services.AddScoped<RepositoryFactory<Establishment>, EstablishmentRepositoryCreator>();
-builder.Services.AddScoped<IDbRespository<Establishment>, EstablishmentRepository>();
 
 
 var app = builder.Build();
