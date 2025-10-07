@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Models;
 using SistemaDePagoDeAranceles.Respository;
 
@@ -7,14 +8,14 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 {
     public class DeleteModel : PageModel
     {
-        private readonly EstablishmentRepository _repository;
+        private readonly IDbRespository<Establishment> _repository;
 
         [BindProperty]
         public Establishment Establishment { get; set; } = new();
 
-        public DeleteModel(EstablishmentRepository repository)
+        public DeleteModel(IRepositoryFactory<Establishment> factory)
         {
-            _repository = repository;
+            _repository = factory.CreateRepository();
         }
 
         public IActionResult OnGet(int id)

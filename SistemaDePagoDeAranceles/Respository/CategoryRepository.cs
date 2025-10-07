@@ -32,7 +32,7 @@ namespace SistemaDePagoDeAranceles.Respository
 
         public override int Update(Category model)
         {
-            string query = "UPDATE category SET name = @Name, description = @Description, base_amount = @BaseAmount, register_date = @RegisterDate, last_update = @LastUpdate, active = @Active, created_by = @CreatedBy WHERE id = @Id";
+            string query = "UPDATE category SET name = @Name, description = @Description, base_amount = @BaseAmount, last_update = @LastUpdate, active = @Active, created_by = @CreatedBy WHERE id = @Id";
             return sqlConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
         }
     }

@@ -10,11 +10,11 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class EditModel : PageModel
     {
-        private readonly CategoryRepository _repository;
+        private readonly IDbRespository<Category> _repository;
 
-        public EditModel(CategoryRepositoryCreator factory)
+        public EditModel(IRepositoryFactory<Category> factory)
         {
-            _repository = (CategoryRepository)factory.CreateRepository();
+            _repository = factory.CreateRepository();
         }
 
         [BindProperty]

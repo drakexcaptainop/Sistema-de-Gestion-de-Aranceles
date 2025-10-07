@@ -9,11 +9,11 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class DeleteModel : PageModel
     {
-        private readonly CategoryRepository _repository;
+        private readonly IDbRespository<Category> _repository;
 
-        public DeleteModel(CategoryRepositoryCreator factory)
+        public DeleteModel(IRepositoryFactory<Category> factory)
         {
-            _repository = (CategoryRepository)factory.CreateRepository();
+            _repository = factory.CreateRepository();
         }
 
         [BindProperty]

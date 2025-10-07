@@ -56,6 +56,16 @@
             </select>
         </div>
 
+        <div class="col-md-6">
+            <label asp-for="Establishment.EstablishmentType" class="form-label"></label>
+            <select asp-for="Establishment.PersonInChargeId" class="form-select">
+                @foreach (var person in Model.PersonsInCharge)
+                {
+                    <option value="@person.Id">@person.Ci</option>
+				}
+            </select>
+        </div>
+
     </div>
 
     <div class="mt-4">
