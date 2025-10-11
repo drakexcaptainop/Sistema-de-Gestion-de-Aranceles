@@ -1,4 +1,7 @@
+using SistemaDePagoDeAranceles.Application.Services;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Database;
+using SistemaDePagoDeAranceles.Domain.Ports.DabasePorts;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Respository;
 using SistemaDePagoDeAranceles.Models;
@@ -15,7 +18,11 @@ builder.Services.AddSingleton<MySqlConnectionManager>();
 // 🔹 CATEGORY CONFIGURATION
 // ==========================
 
-builder.Services.AddScoped<IRepositoryFactory<Category>, CategoryRepositoryCreator>();
+//builder.Services.AddScoped<IRepositoryFactory<Category>, CategoryRepositoryCreator>();
+
+builder.Services.AddSingleton<IDbConnectionManager, SistemaDePagoDeAranceles.Infrastructure.Database.MySqlConnectionManager>();
+builder.Services.AddSingleton<SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts.IDbRepository<Category>, SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters.CategoryRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<Category>, CategoryRespositoryServiceCreator>();
 
 // ==========================
 // 🔹 PERSON IN CHARGE CONFIG

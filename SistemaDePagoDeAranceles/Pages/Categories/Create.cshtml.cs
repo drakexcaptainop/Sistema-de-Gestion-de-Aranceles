@@ -1,19 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Models;
-using SistemaDePagoDeAranceles.Factory;
-using SistemaDePagoDeAranceles.Respository;
-using System;
+using SistemaDePagoDeAranceles.Application.Services;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 
 namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class CreateModel : PageModel
     {
-        private readonly IDbRespository<Category> _repository;
+        private readonly IRepositoryService<Category> _repository;
 
-        public CreateModel(IRepositoryFactory<Category> factory)
+        public CreateModel(IRepositoryServiceFactory<Category> factory)
         {
-            _repository = factory.CreateRepository();
+            _repository = factory.CreateRepositoryService();
         }
 
         [BindProperty]
