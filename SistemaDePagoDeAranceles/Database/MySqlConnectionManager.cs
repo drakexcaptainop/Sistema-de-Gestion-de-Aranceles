@@ -8,7 +8,7 @@ namespace SistemaDePagoDeAranceles.Database
         private readonly string _connectionString;
         public MySqlConnectionManager(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _connectionString = configuration.GetConnectionString("MySqlConnection");
         }
 
         private MySqlConnection CreateConnection() => new(_connectionString);
