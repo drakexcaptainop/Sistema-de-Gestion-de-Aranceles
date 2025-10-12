@@ -10,7 +10,6 @@ public class MySqlConnectionManager : IDbConnectionManager
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
-
         private MySqlConnection CreateConnection() => new(_connectionString);
 
         public IEnumerable<T> ExecuteParameterizedQuery<T>(string query, T model) where T : new()

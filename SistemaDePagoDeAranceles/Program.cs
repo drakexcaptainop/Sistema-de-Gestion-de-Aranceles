@@ -21,7 +21,8 @@ builder.Services.AddSingleton<MySqlConnectionManager>();
 //builder.Services.AddScoped<IRepositoryFactory<Category>, CategoryRepositoryCreator>();
 
 builder.Services.AddSingleton<IDbConnectionManager, SistemaDePagoDeAranceles.Infrastructure.Database.MySqlConnectionManager>();
-builder.Services.AddSingleton<SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts.IDbRepository<Category>, SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters.CategoryRepository>();
+builder.Services.AddSingleton<SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts.IDbRepository<Category>, 
+    SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters.CategoryRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<Category>, CategoryRespositoryServiceCreator>();
 
 // ==========================
