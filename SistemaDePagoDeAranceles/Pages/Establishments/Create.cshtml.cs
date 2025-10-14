@@ -25,6 +25,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
         {
             Establishment.RegisterDate = DateTime.Now;
             Establishment.LastUpdate = DateTime.Now;
+            Establishment.BusinessName = "business name example";
             Establishment.Active = true;
             Establishment.CreatedBy = 1;
             Establishment.PersonInChargeId = 1;
