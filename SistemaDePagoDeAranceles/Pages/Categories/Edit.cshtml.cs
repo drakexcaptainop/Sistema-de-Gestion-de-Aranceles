@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Models;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Respository;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using System;
 using System.Linq;
 
@@ -10,11 +12,11 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class EditModel : PageModel
     {
-        private readonly IDbRespository<Category> _repository;
+        private readonly IRepositoryService<Category> _repository;
 
-        public EditModel(IRepositoryFactory<Category> factory)
+        public EditModel(IRepositoryServiceFactory<Category> factory)
         {
-            _repository = factory.CreateRepository();
+            _repository = factory.CreateRepositoryService();
         }
 
         [BindProperty]
