@@ -12,52 +12,48 @@
 
     <div class="row g-3">
         <div class="col-md-6">
-            <label asp-for="Establishment.Name" class="form-label"></label>
+            <label asp-for="Establishment.Name" class="form-label">Nombre</label>
             <input asp-for="Establishment.Name" class="form-control" required />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.BusinessName" class="form-label"></label>
-            <input asp-for="Establishment.BusinessName" class="form-control" />
-        </div>
-
-        <div class="col-md-6">
-            <label asp-for="Establishment.TaxId" class="form-label"></label>
+            <label asp-for="Establishment.TaxId" class="form-label">Codigo de Impuesto</label>
             <input asp-for="Establishment.TaxId" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Email" class="form-label"></label>
+            <label asp-for="Establishment.Email" class="form-label">Correo Electronico</label>
             <input asp-for="Establishment.Email" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Phone" class="form-label"></label>
+            <label asp-for="Establishment.Phone" class="form-label">Tel�fono celular</label>
             <input asp-for="Establishment.Phone" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Address" class="form-label"></label>
+            <label asp-for="Establishment.Address" class="form-label">Direcci�n</label>
             <input asp-for="Establishment.Address" class="form-control" />
         </div>
         
         <div class="col-md-6" style="display: none">
-            <label asp-for="Establishment.SanitaryLicense" class="form-label"></label>
+            <label asp-for="Establishment.SanitaryLicense" class="form-label">Licencia Sanitaria</label>
             <input asp-for="Establishment.SanitaryLicense" class="form-control" />
         </div>
         
         <div class="col-md-6" style="display: none">
-            <label asp-for="Establishment.PersonInChargeId" class="form-label"></label>
+            <label asp-for="Establishment.PersonInChargeId" class="form-label">CI Persona encargada</label>
             <input asp-for="Establishment.PersonInChargeId" class="form-control" />
+            <span asp-validation-for="Establishment.PersonInChargeId" class="text-danger"></span>
         </div>
         
         <div class="col-md-6" style="display: none">
-            <label asp-for="Establishment.Active" class="form-label"></label>
+            <label asp-for="Establishment.Active" class="form-label">Activo</label>
             <input asp-for="Establishment.Active" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.EstablishmentType" class="form-label"></label>
+            <label asp-for="Establishment.EstablishmentType" class="form-label">Tipo de Establecimiento</label>
             <select asp-for="Establishment.EstablishmentType" class="form-select">
                 <option value="">Seleccionar tipo</option>
                 <option value="RESTAURANT">RESTAURANT</option>
@@ -74,3 +70,7 @@
         <a asp-page="Index" class="btn btn-secondary ms-2">Cancelar</a>
     </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

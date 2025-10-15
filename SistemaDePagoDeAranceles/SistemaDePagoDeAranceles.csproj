@@ -10,4 +10,12 @@
     <PackageReference Include="MySql.Data" Version="9.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\logototal.jpeg" />
+  </ItemGroup>
+
 </Project>

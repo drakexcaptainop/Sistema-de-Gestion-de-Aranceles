@@ -10,42 +10,37 @@
 <form method="post" class="card shadow-sm p-4">
     <div class="row g-3">
         <div class="col-md-6">
-            <label asp-for="Establishment.Name" class="form-label"></label>
+            <label asp-for="Establishment.Name" class="form-label">Nombre</label>
             <input asp-for="Establishment.Name" class="form-control" required />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.BusinessName" class="form-label"></label>
-            <input asp-for="Establishment.BusinessName" class="form-control" />
-        </div>
-
-        <div class="col-md-6">
-            <label asp-for="Establishment.TaxId" class="form-label"></label>
+            <label asp-for="Establishment.TaxId" class="form-label">Codigo de Impuesto</label>
             <input asp-for="Establishment.TaxId" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Email" class="form-label"></label>
+            <label asp-for="Establishment.Email" class="form-label">Correo Electr�nico</label>
             <input asp-for="Establishment.Email" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Phone" class="form-label"></label>
+            <label asp-for="Establishment.Phone" class="form-label">Tel�fono celular</label>
             <input asp-for="Establishment.Phone" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Address" class="form-label"></label>
+            <label asp-for="Establishment.Address" class="form-label">Direcci�n</label>
             <input asp-for="Establishment.Address" class="form-control" />
         </div>
         
         <div class="col-md-6">
-            <label asp-for="Establishment.SanitaryLicense" class="form-label"></label>
+            <label asp-for="Establishment.SanitaryLicense" class="form-label">Licencia Sanitaria</label>
             <input asp-for="Establishment.SanitaryLicense" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.EstablishmentType" class="form-label"></label>
+            <label asp-for="Establishment.EstablishmentType" class="form-label">Tipo de Establecimiento</label>
             <select asp-for="Establishment.EstablishmentType" class="form-select">
                 <option value="">Seleccionar tipo</option>
                 <option value="RESTAURANT">RESTAURANT</option>
@@ -56,6 +51,16 @@
             </select>
         </div>
 
+        <div class="col-md-6">
+            <label class="form-label">Person in Charge</label>
+            <select asp-for="Establishment.PersonInChargeId" class="form-select">
+                @foreach (var person in Model.PersonsInCharge)
+                {
+                    <option value="@person.Id">@String.Concat(person.FirstName, " ",person.LastName) </option>
+				}
+            </select>
+        </div>
+
     </div>
 
     <div class="mt-4">
@@ -63,3 +68,7 @@
         <a asp-page="Index" class="btn btn-secondary ms-2">Cancelar</a>
     </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

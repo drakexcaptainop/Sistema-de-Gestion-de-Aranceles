@@ -1,4 +1,7 @@
+using SistemaDePagoDeAranceles.Application.Services;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Database;
+using SistemaDePagoDeAranceles.Domain.Ports.DabasePorts;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Respository;
 using SistemaDePagoDeAranceles.Models;
@@ -14,26 +17,25 @@ builder.Services.AddSingleton<MySqlConnectionManager>();
 // ==========================
 // 🔹 CATEGORY CONFIGURATION
 // ==========================
-builder.Services.AddScoped<CategoryRepository>();
-builder.Services.AddScoped<IDbRespository<Category>, CategoryRepository>();
-builder.Services.AddScoped<RepositoryFactory<Category>, CategoryRepositoryCreator>();
-builder.Services.AddScoped<CategoryRepositoryCreator>();
+
+//builder.Services.AddScoped<IRepositoryFactory<Category>, CategoryRepositoryCreator>();
+
+builder.Services.AddSingleton<IDbConnectionManager, SistemaDePagoDeAranceles.Infrastructure.Database.MySqlConnectionManager>();
+builder.Services.AddSingleton<SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts.IDbRepository<Category>, 
+    SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters.CategoryRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<Category>, CategoryRespositoryServiceCreator>();
 
 // ==========================
 // 🔹 PERSON IN CHARGE CONFIG
 // ==========================
-builder.Services.AddScoped<PersonInChargeRepository>();
-builder.Services.AddScoped<IDbRespository<PersonInCharge>, PersonInChargeRepository>();
-builder.Services.AddScoped<RepositoryFactory<PersonInCharge>, PersonInChargeRepositoryCreator>();
-builder.Services.AddScoped<PersonInChargeRepositoryCreator>();
+
+builder.Services.AddScoped<IRepositoryFactory<PersonInCharge>, PersonInChargeRepositoryCreator>();
 
 // ==========================
 // 🔹 ESTABLISHMENT CONFIG
 // ==========================
-builder.Services.AddScoped<EstablishmentRepository>();
-builder.Services.AddScoped<IDbRespository<Establishment>, EstablishmentRepository>();
-builder.Services.AddScoped<RepositoryFactory<Establishment>, EstablishmentRepositoryCreator>();
-builder.Services.AddScoped<EstablishmentRepositoryCreator>();
+
+builder.Services.AddScoped<IRepositoryFactory<Establishment>, EstablishmentRepositoryCreator>();
 
 // ==========================
 // 🔹 APP PIPELINE

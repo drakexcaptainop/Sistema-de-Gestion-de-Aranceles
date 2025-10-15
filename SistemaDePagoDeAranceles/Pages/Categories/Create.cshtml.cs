@@ -1,19 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Models;
-using SistemaDePagoDeAranceles.Factory;
-using SistemaDePagoDeAranceles.Respository;
-using System;
+using SistemaDePagoDeAranceles.Application.Services;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 
 namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class CreateModel : PageModel
     {
-        private readonly CategoryRepository _repository;
+        private readonly IRepositoryService<Category> _repository;
 
-        public CreateModel(CategoryRepositoryCreator factory)
+        public CreateModel(IRepositoryServiceFactory<Category> factory)
         {
-            _repository = (CategoryRepository)factory.CreateRepository();
+            _repository = factory.CreateRepositoryService();
         }
 
         [BindProperty]
@@ -23,12 +23,15 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
-                return Page();
-
             Category.RegisterDate = DateTime.Now;
             Category.LastUpdate = DateTime.Now;
-            Category.CreatedBy = 1; 
+            Category.CreatedBy = 1;
+            Category.Active = true;
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Category)}");
+                return Page();
+            }
             _repository.Insert(Category);
 
             return RedirectToPage("./Index");

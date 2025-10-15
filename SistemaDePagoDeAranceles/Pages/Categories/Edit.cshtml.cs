@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Models;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Respository;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using System;
 using System.Linq;
 
@@ -10,11 +12,11 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class EditModel : PageModel
     {
-        private readonly CategoryRepository _repository;
+        private readonly IRepositoryService<Category> _repository;
 
-        public EditModel(CategoryRepositoryCreator factory)
+        public EditModel(IRepositoryServiceFactory<Category> factory)
         {
-            _repository = (CategoryRepository)factory.CreateRepository();
+            _repository = factory.CreateRepositoryService();
         }
 
         [BindProperty]
@@ -33,10 +35,13 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
-                return Page();
-
             Category.LastUpdate = DateTime.Now;
+            Category.CreatedBy = 1;
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Category)}");
+                return Page();
+            }
 
             _repository.Update(Category);
 

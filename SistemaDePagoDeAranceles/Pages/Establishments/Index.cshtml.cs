@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Models;
 using SistemaDePagoDeAranceles.Respository;
 
@@ -7,21 +8,21 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 {
     public class IndexModel : PageModel
     {
-        private readonly EstablishmentRepository _repository;
+        private readonly IDbRespository<Establishment> _repository;
 
         [BindProperty]
         public string SearchTerm { get; set; }
 
         public List<Establishment> Establishments { get; set; } = new();
 
-        public IndexModel(EstablishmentRepository repository)
+        public IndexModel(IRepositoryFactory<Establishment> factory)
         {
-            _repository = repository;
+            _repository = factory.CreateRepository();
         }
 
         public void OnGet()
         {
-            Establishments = _repository.GetAll().ToList();
+            Establishments = _repository.GetAll().Where(establishment =>  establishment.Active).ToList();
         }
 
         public void OnPost()

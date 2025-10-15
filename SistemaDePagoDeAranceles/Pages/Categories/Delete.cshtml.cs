@@ -3,17 +3,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Models;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Respository;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using System.Linq;
 
 namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class DeleteModel : PageModel
     {
-        private readonly CategoryRepository _repository;
+        private readonly IRepositoryService<Category> _repository;
 
-        public DeleteModel(CategoryRepositoryCreator factory)
+        public DeleteModel(IRepositoryServiceFactory<Category> factory)
         {
-            _repository = (CategoryRepository)factory.CreateRepository();
+            _repository = factory.CreateRepositoryService();
         }
 
         [BindProperty]
