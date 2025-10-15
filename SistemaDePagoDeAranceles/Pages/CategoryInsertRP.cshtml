@@ -1,0 +1,37 @@
+@page
+@model SistemaDePagoDeAranceles.Pages.CategoryInsertRP
+
+@{
+}
+Layout = Shared.L
+<h2>Add New Category</h2>
+
+<form method="post" class="form-group">
+    <div class="mb-3">
+        <label asp-for="Category.Name" class="form-label"></label>
+        <input asp-for="Category.Name" class="form-control" />
+        <span asp-validation-for="Category.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Category.Description" class="form-label"></label>
+        <textarea asp-for="Category.Description" class="form-control"></textarea>
+        <span asp-validation-for="Category.Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Category.BaseAmount" class="form-label"></label>
+        <input asp-for="Category.BaseAmount" class="form-control" />
+        <span asp-validation-for="Category.BaseAmount" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Category.CreatedBy" class="form-label"></label>
+        <input asp-for="Category.CreatedBy" class="form-control" />
+        <span asp-validation-for="Category.CreatedBy" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-page="./Categorys" class="btn btn-secondary">Cancel</a>
+</form>
+

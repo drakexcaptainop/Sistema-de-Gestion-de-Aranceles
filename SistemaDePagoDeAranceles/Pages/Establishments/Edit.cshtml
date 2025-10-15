@@ -27,12 +27,12 @@
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Phone" class="form-label">Teléfono celular</label>
+            <label asp-for="Establishment.Phone" class="form-label">Telï¿½fono celular</label>
             <input asp-for="Establishment.Phone" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Address" class="form-label">Dirección</label>
+            <label asp-for="Establishment.Address" class="form-label">Direcciï¿½n</label>
             <input asp-for="Establishment.Address" class="form-control" />
         </div>
         
@@ -44,6 +44,7 @@
         <div class="col-md-6" style="display: none">
             <label asp-for="Establishment.PersonInChargeId" class="form-label">CI Persona encargada</label>
             <input asp-for="Establishment.PersonInChargeId" class="form-control" />
+            <span asp-validation-for="Establishment.PersonInChargeId" class="text-danger"></span>
         </div>
         
         <div class="col-md-6" style="display: none">
@@ -69,3 +70,7 @@
         <a asp-page="Index" class="btn btn-secondary ms-2">Cancelar</a>
     </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
