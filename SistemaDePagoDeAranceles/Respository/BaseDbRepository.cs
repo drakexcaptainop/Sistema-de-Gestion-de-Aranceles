@@ -16,5 +16,7 @@ namespace SistemaDePagoDeAranceles.Respository
         public abstract int Insert(T model);
 
         public abstract int Update(T model);
+
+        public abstract IEnumerable<T> Search(string property);
     }
 }
