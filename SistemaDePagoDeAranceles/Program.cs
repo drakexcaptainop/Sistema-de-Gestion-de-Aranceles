@@ -5,6 +5,7 @@ using SistemaDePagoDeAranceles.Domain.Ports.DabasePorts;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Respository;
 using SistemaDePagoDeAranceles.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,18 @@ builder.Services.AddScoped<IRepositoryFactory<PersonInCharge>, PersonInChargeRep
 builder.Services.AddScoped<IRepositoryFactory<Establishment>, EstablishmentRepositoryCreator>();
 
 // ==========================
+// 🔹 LOGIN CONFIG
+// ==========================
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(opt =>
+    {
+        opt.LoginPath = "/Login";
+        opt.LogoutPath = "/Logout";
+        opt.AccessDeniedPath = "/Denied";
+        opt.SlidingExpiration = true;
+    });
+
+// ==========================
 // 🔹 APP PIPELINE
 // ==========================
 var app = builder.Build();
@@ -46,6 +59,9 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
 
 app.UseStaticFiles();
 app.UseRouting();
