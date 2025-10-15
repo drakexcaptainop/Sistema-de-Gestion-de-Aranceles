@@ -1,3 +1,4 @@
+using MySql.Data.MySqlClient;
 using SistemaDePagoDeAranceles.Database;
 using SistemaDePagoDeAranceles.Models;
 
@@ -32,4 +33,31 @@ public class EstablishmentRepository : BaseDbRepository<Establishment>
         string query = "UPDATE establishment SET name = @Name, business_name = @BusinessName, tax_id = @TaxId, sanitary_license = @SanitaryLicense, sanitary_license_expiry = @SanitaryLicenseExpiry, address = @Address, phone = @Phone, email = @Email, establishment_type = @EstablishmentType, person_in_charge_id = @PersonInChargeId, register_date = @RegisterDate, last_update = @LastUpdate, active = @Active, created_by = @CreatedBy WHERE id = @Id";
         return sqlConnectionManager.ExecuteParameterizedNonQuery<Establishment>(query, model);
     }
+
+    public override IEnumerable<Establishment> Search(string property)
+    {
+        var pattern = $"%{property?.Trim() ?? string.Empty}%";
+
+        const string sql = @"
+        SELECT
+            id AS Id, name AS Name, business_name AS BusinessName, tax_id AS TaxId,
+            sanitary_license AS SanitaryLicense, sanitary_license_expiry AS SanitaryLicenseExpiry,
+            address AS Address, phone AS Phone, email AS Email,
+            establishment_type AS EstablishmentType, person_in_charge_id AS PersonInChargeId,
+            register_date AS RegisterDate, last_update AS LastUpdate,
+            active AS Active, created_by AS CreatedBy
+        FROM establishment
+        WHERE name LIKE @p
+           OR business_name LIKE @p
+           OR tax_id LIKE @p
+           OR address LIKE @p
+           OR phone LIKE @p
+           OR email LIKE @p;";
+
+        var p = new MySqlParameter("@p", MySqlDbType.VarChar) { Value = pattern };
+
+        return sqlConnectionManager.ExecuteQuery<Establishment>(sql, p);
+    }
+
+
 }

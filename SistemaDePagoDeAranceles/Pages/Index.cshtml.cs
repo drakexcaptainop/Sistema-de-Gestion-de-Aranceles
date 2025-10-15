@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MySqlX.XDevAPI.Common;
 
 namespace SistemaDePagoDeAranceles.Pages
 {
@@ -16,5 +17,6 @@ namespace SistemaDePagoDeAranceles.Pages
         {
 
         }
+
     }
 }

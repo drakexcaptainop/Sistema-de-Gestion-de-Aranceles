@@ -35,5 +35,10 @@ namespace SistemaDePagoDeAranceles.Respository
             string query = "UPDATE category SET name = @Name, description = @Description, base_amount = @BaseAmount, register_date = @RegisterDate, last_update = @LastUpdate, active = @Active, created_by = @CreatedBy WHERE id = @Id";
             return sqlConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
         }
+
+        public override IEnumerable<Category> Search(string property)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

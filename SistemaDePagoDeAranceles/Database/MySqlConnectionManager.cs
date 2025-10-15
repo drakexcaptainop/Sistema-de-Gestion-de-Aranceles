@@ -24,6 +24,14 @@ namespace SistemaDePagoDeAranceles.Database
             MySqlCommand command = new(query);
             return ExecuteCommand<T>( command );
         }
+        public IEnumerable<T> ExecuteQuery<T>(string query, params MySqlParameter[] parameters) where T : new()
+        {
+            using var command = new MySqlCommand(query);
+            if (parameters is { Length: > 0 })
+                command.Parameters.AddRange(parameters);
+            return ExecuteCommand<T>(command);
+        }
+
         public int ExecuteParameterizedNonQuery<T>(string query, T model) where T : new()
         {
             using MySqlCommand command = DbParameterHelper.PopulateCommandParameters(query, model);

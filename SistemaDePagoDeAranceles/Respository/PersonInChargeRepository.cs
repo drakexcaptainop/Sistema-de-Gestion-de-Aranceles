@@ -31,4 +31,8 @@ public class PersonInChargeRepository : BaseDbRepository<PersonInCharge>
         string query = "UPDATE person_in_charge SET first_name = @FirstName, last_name = @LastName, email = @Email, phone = @Phone, ci = @Ci, register_date = @RegisterDate, last_update = @UpdateDate, active = @Status, created_by = @CreatedBy WHERE id = @Id";
         return sqlConnectionManager.ExecuteParameterizedNonQuery<PersonInCharge>(query, model);
     }
+    public override IEnumerable<PersonInCharge> Search(string property)
+    {
+        throw new NotImplementedException();
+    }
 }
