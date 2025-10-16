@@ -4,10 +4,12 @@ using SistemaDePagoDeAranceles.Domain.Ports.ServicePorts;
 
 namespace SistemaDePagoDeAranceles.Application.Services
 {
-    public class EmailService 
+    public class EmailService
     {
-        IEmailService _emailService;
-
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<EmailService> _logger;
+        private IEmailService _emailService;
+        
         public EmailService(IEmailService emailService)
         {
             _emailService = emailService;
@@ -80,6 +82,7 @@ namespace SistemaDePagoDeAranceles.Application.Services
                 </body>
                 </html>
             ";
+
             return await SendEmailAsync(toEmail, subject, body, isHtml: true);
         }
     }

@@ -17,66 +17,42 @@ else
     <div asp-validation-summary="All" class="text-danger mb-3"></div>
     <div class="row g-3">
         <div class="col-md-6">
-<<<<<<< Updated upstream
                 <label asp-for="Establishment.Name" class="form-label">Nombre</label>
-=======
-            <label asp-for="Establishment.Name" class="form-label">Nombre</label>
-            <span asp-validation-for="Establishment.Name"></span>
->>>>>>> Stashed changes
             <input asp-for="Establishment.Name" class="form-control" required />
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.TaxId" class="form-label">Codigo de Impuesto</label>
-            <span asp-validation-for="Establishment.TaxId"></span>
             <input asp-for="Establishment.TaxId" class="form-control" />
         </div>
 
         <div class="col-md-6">
-<<<<<<< Updated upstream
             <label asp-for="Establishment.Email" class="form-label">Correo Electronico</label>
-=======
-            <label asp-for="Establishment.Email" class="form-label">Correo Electr�nico</label>
-            <span asp-validation-for="Establishment.Email"></span>
->>>>>>> Stashed changes
             <input asp-for="Establishment.Email" class="form-control" />
         </div>
 
         <div class="col-md-6">
-<<<<<<< Updated upstream
             <label asp-for="Establishment.Phone" class="form-label">Telefono celular</label>
-=======
-            <label asp-for="Establishment.Phone" class="form-label">Tel�fono celular</label>
-            <span asp-validation-for="Establishment.Phone"></span>
->>>>>>> Stashed changes
             <input asp-for="Establishment.Phone" class="form-control" />
         </div>
 
         <div class="col-md-6">
-<<<<<<< Updated upstream
             <label asp-for="Establishment.Address" class="form-label">Direccion</label>
-=======
-            <label asp-for="Establishment.Address" class="form-label">Direcci�n</label>
-            <span asp-validation-for="Establishment.Address"></span>
->>>>>>> Stashed changes
             <input asp-for="Establishment.Address" class="form-control" />
         </div>
         
         <div class="col-md-6">
             <label asp-for="Establishment.SanitaryLicense" class="form-label">Licencia Sanitaria</label>
-            <span asp-validation-for="Establishment.SanitaryLicense"></span>
             <input asp-for="Establishment.SanitaryLicense" class="form-control" />
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.SanitaryLicenseExpiry" class="form-label">Fecha de Vencimiento de Licencia Sanitaria</label>
-            <span asp-validation-for="Establishment.SanitaryLicenseExpiry"></span>
             <input asp-for="Establishment.SanitaryLicenseExpiry" type="date" class="form-control" />
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.EstablishmentType" class="form-label">Tipo de Establecimiento</label>
-            <span asp-validation-for="Establishment.EstablishmentType"></span>
             <select asp-for="Establishment.EstablishmentType" class="form-select">
                 <option value="">Seleccionar tipo</option>
                 <option value="RESTAURANT">RESTAURANTE</option>
@@ -89,7 +65,6 @@ else
 
         <div class="col-md-6">
             <label class="form-label">Persona a Cargo</label>
-            <span asp-validation-for="Establishment.PersonInChargeId"></span>
             <select asp-for="Establishment.PersonInChargeId" class="form-select">
                 @foreach (var person in Model.PersonsInCharge)
                 {
