@@ -9,7 +9,7 @@ namespace SistemaDePagoDeAranceles.Application.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepositoryService _userService;
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
 
         // Role mapping between application role names and DB integer codes
         private static readonly Dictionary<string, int> RoleToCode = new()
@@ -20,7 +20,7 @@ namespace SistemaDePagoDeAranceles.Application.Services
 
         private static readonly Dictionary<int, string> CodeToRole = RoleToCode.ToDictionary(kv => kv.Value, kv => kv.Key);
 
-        public AuthService(IUserRepositoryService userService, EmailService emailService)
+        public AuthService(IUserRepositoryService userService, IEmailService emailService)
         {
             _userService = userService;
             _emailService = emailService;

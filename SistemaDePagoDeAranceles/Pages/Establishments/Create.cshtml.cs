@@ -25,7 +25,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             _repository = factory.CreateRepositoryService();
             _personRepository = personFactory.CreateRepositoryService();
         }
-        
+
         public void OnGet()
         {
             ResultGetAllPersonInCharge = _personRepository.GetAll();
@@ -37,14 +37,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public IActionResult OnPost()
         {
-<<<<<<< Updated upstream
             Establishment.BusinessName = "bussiness name example";
-=======
-            Establishment.RegisterDate = DateTime.Now;
-            Establishment.LastUpdate = DateTime.Now;
-            Establishment.BusinessName = "1234";
-            Establishment.Active = true;
->>>>>>> Stashed changes
             var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedCreatorId))
                 Establishment.CreatedBy = parsedCreatorId;
@@ -67,12 +60,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             {
                 return RedirectToPage("./Index");
             }
-<<<<<<< Updated upstream
             return Page();
-=======
-
-            return RedirectToPage();
->>>>>>> Stashed changes
         }
 
     }
