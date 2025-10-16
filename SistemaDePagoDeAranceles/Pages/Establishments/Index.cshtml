@@ -36,9 +36,8 @@ else
         </tr>
         </thead>
         <tbody>
-        @if (Model.Establishments.Any())
-        {
-            @foreach (var e in Model.EstablishmentsGetAllResult.Value.Where(e => e.Active))
+
+        @foreach (var e in Model.EstablishmentsGetAllResult.Value.Where(e => e.Active))
             {
                 <tr>
                     <td>@e.Name</td>
@@ -52,14 +51,8 @@ else
                         <a asp-page="Delete" asp-route-id="@(Model.Protect(e.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
                     </td>
                 </tr>
-            }
         }
-        else
-        {
-            <tr>
-                <td colspan="9" class="text-center text-muted">No hay establecimientos registrados.</td>
-            </tr>
-        }
+ 
         </tbody>
     </table>
 }

@@ -33,8 +33,7 @@
     </tr>
     </thead>
     <tbody>
-    @if (Model.Users.Any())
-    {
+
         @foreach (var user in Model.Users)
         {
             <tr>
@@ -72,12 +71,6 @@
                 </td>
             </tr>
         }
-    }
-    else
-    {
-        <tr>
-            <td colspan="7" class="text-center text-muted">No hay usuarios registrados.</td>
-        </tr>
-    }
+  
     </tbody>
 </table>
