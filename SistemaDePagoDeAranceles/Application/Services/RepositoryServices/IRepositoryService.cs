@@ -6,4 +6,5 @@ public interface IRepositoryService<TModel>
     public int Insert(TModel model);
     public int Update(TModel model);
     public int Delete(TModel model);
+    public IEnumerable<TModel> Search(string property);
 }

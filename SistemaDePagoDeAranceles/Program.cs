@@ -1,12 +1,13 @@
 using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
-using SistemaDePagoDeAranceles.Database;
 using SistemaDePagoDeAranceles.Domain.Ports.DabasePorts;
 using SistemaDePagoDeAranceles.Factory;
-using SistemaDePagoDeAranceles.Respository;
-using SistemaDePagoDeAranceles.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
+using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
+using SistemaDePagoDeAranceles.Domain.Models;
+using SistemaDePagoDeAranceles.Infrastructure.Database;
+using SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,34 +26,44 @@ builder.Services.AddSingleton<IdProtector>();
 
 //builder.Services.AddScoped<IRepositoryFactory<Category>, CategoryRepositoryCreator>();
 
-builder.Services.AddSingleton<IDbConnectionManager, SistemaDePagoDeAranceles.Infrastructure.Database.MySqlConnectionManager>();
-builder.Services.AddSingleton<SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts.IDbRepository<Category>, 
-    SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters.CategoryRepository>();
+
+builder.Services.AddSingleton<IDbRepository<Category>, CategoryRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<Category>, CategoryRespositoryServiceCreator>();
 
 // ==========================
 //  PERSON IN CHARGE CONFIG
 // ==========================
 
-builder.Services.AddScoped<IRepositoryFactory<PersonInCharge>, PersonInChargeRepositoryCreator>();
+builder.Services.AddSingleton<IDbRepository<PersonInCharge>, PersonInChargeRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<PersonInCharge>, PersonInChargeRepositoryServiceCreator>();
 
 // ==========================
 //  ESTABLISHMENT CONFIG
 // ==========================
 
-builder.Services.AddScoped<IRepositoryFactory<Establishment>, EstablishmentRepositoryCreator>();
+builder.Services.AddSingleton<IDbRepository<Establishment>, EstablishmentRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<Establishment>, EstablishmentRepositoryServiceCreator>();
 
 // ==========================
-//  LOGIN CONFIG
+// 🔹 PAYMENT CONFIG
 // ==========================
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(opt =>
-    {
-        opt.LoginPath = "/Login";
-        opt.LogoutPath = "/Logout";
-        opt.AccessDeniedPath = "/Denied";
-        opt.SlidingExpiration = true;
-    });
+
+builder.Services.AddSingleton<IDbRepository<Payment>, PaymentRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<Payment>, PaymentRepositoryServiceCreator>();
+
+// ==========================
+// 🔹 FEE CONFIG
+// ==========================
+
+builder.Services.AddSingleton<IDbRepository<Fee>, FeeRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<Fee>, FeeRepositoryServiceCreator>();
+
+// ==========================
+// 🔹 USER CONFIG
+// ==========================
+
+builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
 
 // ==========================
 //  APP PIPELINE

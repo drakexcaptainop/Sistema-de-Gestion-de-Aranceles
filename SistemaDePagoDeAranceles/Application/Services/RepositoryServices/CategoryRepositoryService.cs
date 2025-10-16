@@ -1,5 +1,5 @@
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
-using SistemaDePagoDeAranceles.Models;
+using SistemaDePagoDeAranceles.Domain.Models;
 
 namespace SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 

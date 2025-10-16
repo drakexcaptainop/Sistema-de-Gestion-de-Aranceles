@@ -56,7 +56,7 @@ public class EstablishmentRepository : BaseDbRepository<Establishment>
 
         var p = new MySqlParameter("@p", MySqlDbType.VarChar) { Value = pattern };
 
-        return sqlConnectionManager.ExecuteQuery<Establishment>(sql, p);
+        return sqlConnectionManager.ExecuteQuery<Establishment>(sql);
     }
 
 
