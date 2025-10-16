@@ -31,8 +31,8 @@
             <td>@p.Ci</td>
             <td>@(p.Status ? "Si" : "No")</td>
             <td>
-                <a asp-page="Edit" asp-route-id="@p.Id" class="btn btn-warning btn-sm">Editar</a>
-                <a asp-page="Delete" asp-route-id="@p.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                <a asp-page="Edit" asp-route-id="@(Model.Protect(p.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
+                <a asp-page="Delete" asp-route-id="@(Model.Protect(p.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
             </td>
         </tr>
     }

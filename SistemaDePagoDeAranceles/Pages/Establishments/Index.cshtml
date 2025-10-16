@@ -13,15 +13,15 @@
 <form method="post" asp-page-handler="Search" class="space-y-2">
     <input asp-for="SearchTerm"
            class="form-control"
-           placeholder="Search products by name" />
-    <button type="submit" class="btn btn-primary">Search</button>
+           placeholder="Buscar Establecimientos por el Nombre" />
+    <button type="submit" class="btn btn-primary">Buscar</button>
 </form>
 
+<br>
 <table class="table table-hover align-middle">
     <thead class="table-primary">
     <tr>
         <th>Nombre</th>
-        <th>Razón Social</th>
         <th>NIT</th>
         <th>Teléfono</th>
         <th>Email</th>
@@ -35,14 +35,13 @@
         {
             <tr>
                 <td>@e.Name</td>
-                <td>@e.BusinessName</td>
                 <td>@e.TaxId</td>
                 <td>@e.Phone</td>
                 <td>@e.Email</td>
                 <td>@e.EstablishmentType</td>
                 <td>
-                    <a asp-page="Edit" asp-route-id="@e.Id" class="btn btn-sm btn-outline-warning">Editar</a>
-                    <a asp-page="Delete" asp-route-id="@e.Id" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    <a asp-page="Edit" asp-route-id="@(Model.Protect(e.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
+                    <a asp-page="Delete" asp-route-id="@(Model.Protect(e.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
                 </td>
             </tr>
         }

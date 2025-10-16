@@ -11,17 +11,21 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
     public class IndexModel : PageModel
     {
         private readonly IRepositoryService<Category> _repository;
-
+        private readonly IdProtector _idProtector;
         public List<Category> Categories { get; set; } = new();
 
-        public IndexModel(IRepositoryServiceFactory<Category> factory)
+        public IndexModel(IRepositoryServiceFactory<Category> factory, IdProtector idProtector)
         {
             _repository = factory.CreateRepositoryService();
+            _idProtector = idProtector;
         }
 
         public void OnGet()
         {
             Categories = _repository.GetAll().Where(category => category.Active).ToList();
         }
+
+        public string Protect(int id) => _idProtector.ProtectInt(id);
+
     }
 }

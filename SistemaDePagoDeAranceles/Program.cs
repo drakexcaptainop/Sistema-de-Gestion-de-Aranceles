@@ -6,6 +6,8 @@ using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Respository;
 using SistemaDePagoDeAranceles.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddRazorPages();
 
 // Database connection
 builder.Services.AddSingleton<MySqlConnectionManager>();
+builder.Services.AddDataProtection();
+builder.Services.AddSingleton<IdProtector>();
 
 // ==========================
 // 🔹 CATEGORY CONFIGURATION
@@ -27,19 +31,19 @@ builder.Services.AddSingleton<SistemaDePagoDeAranceles.Domain.Ports.RepositoryPo
 builder.Services.AddScoped<IRepositoryServiceFactory<Category>, CategoryRespositoryServiceCreator>();
 
 // ==========================
-// 🔹 PERSON IN CHARGE CONFIG
+//  PERSON IN CHARGE CONFIG
 // ==========================
 
 builder.Services.AddScoped<IRepositoryFactory<PersonInCharge>, PersonInChargeRepositoryCreator>();
 
 // ==========================
-// 🔹 ESTABLISHMENT CONFIG
+//  ESTABLISHMENT CONFIG
 // ==========================
 
 builder.Services.AddScoped<IRepositoryFactory<Establishment>, EstablishmentRepositoryCreator>();
 
 // ==========================
-// 🔹 LOGIN CONFIG
+//  LOGIN CONFIG
 // ==========================
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(opt =>
@@ -51,7 +55,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 // ==========================
-// 🔹 APP PIPELINE
+//  APP PIPELINE
 // ==========================
 var app = builder.Build();
 
