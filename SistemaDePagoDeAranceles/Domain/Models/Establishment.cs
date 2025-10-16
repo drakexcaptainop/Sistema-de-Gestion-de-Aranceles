@@ -9,9 +9,7 @@ public class Establishment
     [Required(ErrorMessage = "El nombre es obligatorio")]
     [StringLength(100, MinimumLength = 3,ErrorMessage = "El nombre no debe exceder los 100 caracteres")]
     public string Name { get; set; }
-
-    [StringLength(150, MinimumLength = 3,ErrorMessage = "El nombre comercial no debe exceder los 150 caracteres")]
-    public string BusinessName { get; set; }
+    public string? BusinessName { get; set; }
 
     [StringLength(20)]
     public string TaxId { get; set; }

@@ -37,17 +37,19 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public IActionResult OnPost()
         {
-            Establishment.RegisterDate = DateTime.Now;
-            Establishment.LastUpdate = DateTime.Now;
-            Establishment.BusinessName = ".";
-            Establishment.Active = true;
+            Establishment.BusinessName = "bussiness name example";
             var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedCreatorId))
                 Establishment.CreatedBy = parsedCreatorId;
             
             if (!ModelState.IsValid)
             {
-                return RedirectToPage();
+                ResultGetAllPersonInCharge = _personRepository.GetAll();
+                if (ResultGetAllPersonInCharge.IsSuccess)
+                {
+                    PersonsInCharge = ResultGetAllPersonInCharge.Value.Where(personInCharge => personInCharge.Status).ToList();
+                }
+                return Page();
             }
             
             Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Establishment)}");
@@ -58,12 +60,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             {
                 return RedirectToPage("./Index");
             }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error);
-            }
-            return RedirectToPage();
+            return Page();
         }
 
     }
