@@ -24,7 +24,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 SELECT
                     id                         AS Id,
                     name                       AS Name,
-                    business_name              AS BusinessName,
                     tax_id                     AS TaxId,
                     sanitary_license           AS SanitaryLicense,
                     sanitary_license_expiry    AS SanitaryLicenseExpiry,
@@ -49,7 +48,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 INSERT INTO establishment
                 (
                     name,
-                    business_name,
                     tax_id,
                     sanitary_license,
                     sanitary_license_expiry,
@@ -66,7 +64,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 VALUES
                 (
                     @Name,
-                    @BusinessName,
                     @TaxId,
                     @SanitaryLicense,
                     @SanitaryLicenseExpiry,
@@ -88,7 +85,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 UPDATE establishment
                 SET
                     name                    = @Name,
-                    business_name           = @BusinessName,
                     tax_id                  = @TaxId,
                     sanitary_license        = @SanitaryLicense,
                     sanitary_license_expiry = @SanitaryLicenseExpiry,
@@ -109,7 +105,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
             var probe = new Establishment
             {
                 Name = property,
-                BusinessName = property,
                 TaxId = property,
                 SanitaryLicense = property,
                 Address = property,
@@ -122,7 +117,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 SELECT
                     id                         AS Id,
                     name                       AS Name,
-                    business_name              AS BusinessName,
                     tax_id                     AS TaxId,
                     sanitary_license           AS SanitaryLicense,
                     sanitary_license_expiry    AS SanitaryLicenseExpiry,
@@ -138,7 +132,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 FROM establishment
                 WHERE status = TRUE AND (
                     (@Name IS NOT NULL AND name              LIKE CONCAT('%', @Name, '%')) OR
-                    (@BusinessName IS NOT NULL AND business_name   LIKE CONCAT('%', @BusinessName, '%')) OR
                     (@TaxId IS NOT NULL AND tax_id           LIKE CONCAT('%', @TaxId, '%')) OR
                     (@SanitaryLicense IS NOT NULL AND sanitary_license LIKE CONCAT('%', @SanitaryLicense, '%')) OR
                     (@Address IS NOT NULL AND address        LIKE CONCAT('%', @Address, '%')) OR

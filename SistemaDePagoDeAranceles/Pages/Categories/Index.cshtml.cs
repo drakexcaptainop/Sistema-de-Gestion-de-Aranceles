@@ -22,7 +22,7 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public void OnGet()
         {
-            Categories = _repository.GetAll().Where(category => category.Active).ToList();
+            Categories = _repository.GetAll().Where(category => category.Status).ToList();
         }
 
         public string Protect(int id) => _idProtector.ProtectInt(id);

@@ -23,10 +23,10 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public IActionResult OnPost()
         {
-            Category.RegisterDate = DateTime.Now;
+            Category.CreatedDate = DateTime.Now;
             Category.LastUpdate = DateTime.Now;
             Category.CreatedBy = 1;
-            Category.Active = true;
+            Category.Status = true;
             if (!ModelState.IsValid)
             {
                 Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Category)}");

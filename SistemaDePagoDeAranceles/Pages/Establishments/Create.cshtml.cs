@@ -30,10 +30,9 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public IActionResult OnPost()
         {
-            Establishment.RegisterDate = DateTime.Now;
+            Establishment.CreatedDate = DateTime.Now;
             Establishment.LastUpdate = DateTime.Now;
-            Establishment.BusinessName = "business name example";
-            Establishment.Active = true;
+            Establishment.Status = true;
             Establishment.CreatedBy = 1;
             
             if (!ModelState.IsValid)

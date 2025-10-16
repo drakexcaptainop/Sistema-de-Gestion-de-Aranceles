@@ -1,5 +1,5 @@
 @page
-@using SistemaDePagoDeAranceles.Models
+@using SistemaDePagoDeAranceles.Domain.Models
 @model SistemaDePagoDeAranceles.Pages.Establishments.CreateModel
 @{
     ViewData["Title"] = "Registrar Establecimiento";
@@ -37,6 +37,11 @@
         <div class="col-md-6">
             <label asp-for="Establishment.SanitaryLicense" class="form-label">Licencia Sanitaria</label>
             <input asp-for="Establishment.SanitaryLicense" class="form-control" />
+        </div>
+        
+        <div class="col-md-6">
+            <label asp-for="Establishment.SanitaryLicenseExpiry" class="form-label">Fecha de expiracion de licencia</label>
+            <input asp-for="Establishment.SanitaryLicenseExpiry" class="form-control" type="date"/>
         </div>
 
         <div class="col-md-6">

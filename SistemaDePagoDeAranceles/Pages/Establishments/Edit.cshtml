@@ -1,5 +1,5 @@
 @page "{id?}"
-@using SistemaDePagoDeAranceles.Models
+@using SistemaDePagoDeAranceles.Domain.Models
 @model SistemaDePagoDeAranceles.Pages.Establishments.EditModel
 @{
     ViewData["Title"] = "Editar Establecimiento";
@@ -9,7 +9,6 @@
 
 <form method="post" class="card shadow-sm p-4">
     <input type="hidden" asp-for="Establishment.Id" />
-    <input type="hidden" asp-for="Establishment.BusinessName" />
     <div class="row g-3">
         <div class="col-md-6">
             <label asp-for="Establishment.Name" class="form-label">Nombre</label>
@@ -48,8 +47,8 @@
         </div>
         
         <div class="col-md-6" style="display: none">
-            <label asp-for="Establishment.Active" class="form-label">Activo</label>
-            <input asp-for="Establishment.Active" class="form-control" />
+            <label asp-for="Establishment.Status" class="form-label">Activo</label>
+            <input asp-for="Establishment.Status" class="form-control" />
         </div>
 
         <div class="col-md-6">

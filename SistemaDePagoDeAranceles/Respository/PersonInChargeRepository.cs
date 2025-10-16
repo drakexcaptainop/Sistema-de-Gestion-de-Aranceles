@@ -1,5 +1,5 @@
 using SistemaDePagoDeAranceles.Database;
-using SistemaDePagoDeAranceles.Models;
+using SistemaDePagoDeAranceles.Domain.Models;
 
 namespace SistemaDePagoDeAranceles.Respository;
 
