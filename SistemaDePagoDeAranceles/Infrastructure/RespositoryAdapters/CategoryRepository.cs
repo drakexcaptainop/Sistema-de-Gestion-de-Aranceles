@@ -13,26 +13,98 @@ public class CategoryRepository : IDbRepository<Category>
     }
     public int Delete(Category model)
     {
-        string query = "UPDATE category SET last_update = CURRENT_TIMESTAMP, active = FALSE WHERE id = @Id";
-        return _dbConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
+        string query = @"
+                UPDATE category
+                SET last_update = CURRENT_TIMESTAMP,
+                    status = FALSE
+                WHERE id = @Id;";
+        return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
     }
 
     public IEnumerable<Category> GetAll()
     {
-        string query = "SELECT id as Id, name as Name, description as Description, base_amount as BaseAmount, register_date as RegisterDate, last_update as LastUpdate, active as Active, created_by as CreatedBy FROM category WHERE active = 1";
+        string query = @"
+                SELECT
+                    id             AS Id,
+                    name           AS Name,
+                    description    AS Description,
+                    base_amount    AS BaseAmount,
+                    created_by     AS CreatedBy,
+                    created_date   AS CreatedDate,
+                    last_update    AS LastUpdate,
+                    status         AS Status
+                FROM category
+                WHERE status = TRUE
+                ORDER BY id DESC;";
         return _dbConnectionManager.ExecuteQuery<Category>(query);
     }
 
     public int Insert(Category model)
     {
-        string query = "INSERT INTO category (name, description, base_amount, register_date, last_update, active, created_by) VALUES (@Name, @Description, @BaseAmount, @RegisterDate, @LastUpdate, @Active, @CreatedBy)";
-        return _dbConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
+        string query = @"
+                INSERT INTO category
+                (
+                    name,
+                    description,
+                    base_amount,
+                    created_by,
+                    created_date,
+                    last_update,
+                    status
+                )
+                VALUES
+                (
+                    @Name,
+                    @Description,
+                    @BaseAmount,
+                    @CreatedBy,
+                    CURRENT_TIMESTAMP,
+                    CURRENT_TIMESTAMP,
+                    @Status
+                );";
+        return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
 
     }
 
     public int Update(Category model)
     {
-        string query = "UPDATE category SET name = @Name, description = @Description, base_amount = @BaseAmount, last_update = CURRENT_TIMESTAMP, created_by = @CreatedBy WHERE id = @Id";
-        return _dbConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
+        string query = @"
+                UPDATE category
+                SET
+                    name         = @Name,
+                    description  = @Description,
+                    base_amount  = @BaseAmount,
+                    created_by   = @CreatedBy,
+                    last_update  = CURRENT_TIMESTAMP,
+                    status       = @Status
+                WHERE id = @Id;";
+        return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
+    }
+    public IEnumerable<Category> Search(string property)
+    {
+        var probe = new Category
+        {
+            Name = property,
+            Description = property
+        };
+
+        const string query = @"
+                SELECT
+                    id             AS Id,
+                    name           AS Name,
+                    description    AS Description,
+                    base_amount    AS BaseAmount,
+                    created_by     AS CreatedBy,
+                    created_date   AS CreatedDate,
+                    last_update    AS LastUpdate,
+                    status         AS Status
+                FROM category
+                WHERE status = TRUE
+                AND (
+                    (@Name IS NOT NULL AND name LIKE CONCAT('%', @Name, '%')) OR
+                    (@Description IS NOT NULL AND description LIKE CONCAT('%', @Description, '%'))
+                )
+                ORDER BY id DESC;";
+        return _dbConnectionManager.ExecuteParameterizedQuery<Category>(query, probe);
     }
 }

@@ -39,18 +39,6 @@ builder.Services.AddScoped<IRepositoryFactory<PersonInCharge>, PersonInChargeRep
 builder.Services.AddScoped<IRepositoryFactory<Establishment>, EstablishmentRepositoryCreator>();
 
 // ==========================
-// 🔹 LOGIN CONFIG
-// ==========================
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(opt =>
-    {
-        opt.LoginPath = "/Login";
-        opt.LogoutPath = "/Logout";
-        opt.AccessDeniedPath = "/Denied";
-        opt.SlidingExpiration = true;
-    });
-
-// ==========================
 // 🔹 APP PIPELINE
 // ==========================
 var app = builder.Build();

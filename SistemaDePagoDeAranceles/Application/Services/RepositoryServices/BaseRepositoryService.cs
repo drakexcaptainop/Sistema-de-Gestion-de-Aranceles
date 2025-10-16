@@ -28,4 +28,9 @@ public abstract class BaseRepositoryService<T> : IRepositoryService<T>
     {
         return _repository.Delete(model);
     }
+
+    public IEnumerable<T> Search(string property)
+    {
+        return _repository.Search(property);
+    }
 }
