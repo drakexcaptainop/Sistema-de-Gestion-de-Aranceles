@@ -35,7 +35,12 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
                 return RedirectToPage("./Error");
             }
 
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == realId);
+            var result = _repository.GetAll();
+            if (result.IsFailure)
+            {
+                return RedirectToPage("Index");
+            }
+            var entity = result.Value.FirstOrDefault(e => e.Id == realId);
             if (entity == null)
                 return RedirectToPage("./Index");
 

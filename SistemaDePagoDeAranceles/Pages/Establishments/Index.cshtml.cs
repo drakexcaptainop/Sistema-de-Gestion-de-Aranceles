@@ -4,6 +4,7 @@ using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
+using SistemaDePagoDeAranceles.Domain.Common;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 
 namespace SistemaDePagoDeAranceles.Pages.Establishments
@@ -17,6 +18,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
         public string SearchTerm { get; set; }
 
         public List<Establishment> Establishments { get; set; } = new();
+        public Result<IEnumerable<Establishment>> EstablishmentsGetAllResult { get; set; } 
 
         public IndexModel(IRepositoryServiceFactory<Establishment> factory, IdProtector idProtector)
         {
@@ -26,18 +28,18 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public void OnGet()
         {
-            Establishments = _repository.GetAll().Where(establishment =>  establishment.Active).ToList();
+            EstablishmentsGetAllResult = _repository.GetAll();
         }
 
         public void OnPost()
         {
             if (string.IsNullOrWhiteSpace(SearchTerm))
             {
-                Establishments = _repository.GetAll().ToList();
+                EstablishmentsGetAllResult = _repository.GetAll();
             }
             else
             {
-                Establishments = _repository.Search(SearchTerm).ToList();
+                EstablishmentsGetAllResult = _repository.Search(SearchTerm);
             }
         }
 
