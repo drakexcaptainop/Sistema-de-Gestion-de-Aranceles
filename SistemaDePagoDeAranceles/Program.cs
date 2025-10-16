@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 using SistemaDePagoDeAranceles.Domain.Ports.ServicePorts;
@@ -62,15 +63,20 @@ builder.Services.AddScoped<IRepositoryServiceFactory<Fee>, FeeRepositoryServiceC
 // ==========================
 
 builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
+builder.Services.AddSingleton<SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts.IUserRepository, SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters.UserRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
+builder.Services.AddScoped<IUserRepositoryService>(sp => 
+{
+    var factory = sp.GetRequiredService<IRepositoryServiceFactory<User>>();
+    return (IUserRepositoryService)factory.CreateRepositoryService();
+});
 
 // ==========================
 // 🔹 Authentication CONFIG
 // ==========================
 // Session + HttpContextAccessor
 
-// Register IUserRepository and IAuthService so page models can resolve IAuthService
-builder.Services.AddSingleton<SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts.IUserRepository, SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters.UserRepository>();
+// Register IAuthService so page models can resolve IAuthService
 builder.Services.AddScoped<SistemaDePagoDeAranceles.Domain.Ports.ServicePorts.IAuthService, SistemaDePagoDeAranceles.Application.Services.AuthService>();
 // Add authentication (cookie) and authorization
 builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)

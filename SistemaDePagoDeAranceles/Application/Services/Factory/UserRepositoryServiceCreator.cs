@@ -6,12 +6,15 @@ namespace SistemaDePagoDeAranceles.Application.Services.Factory;
 
 public class UserRepositoryServiceCreator : BaseRepositoryServiceCreator<User>
 {
-    public UserRepositoryServiceCreator(IDbRepository<User> repository) : base(repository)
+    private readonly IUserRepository _userRepository;
+    
+    public UserRepositoryServiceCreator(IDbRepository<User> repository, IUserRepository userRepository) : base(repository)
     {
-        
+        _userRepository = userRepository;
     }
+    
     public override IRepositoryService<User> CreateRepositoryService()
     {
-        return new UserRepositoryService(_repository);
+        return new UserRepositoryService(_repository, _userRepository);
     }
 }

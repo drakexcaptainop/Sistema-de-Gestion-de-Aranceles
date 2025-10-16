@@ -1,15 +1,14 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using SistemaDePagoDeAranceles.Domain.Models;
-using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 using SistemaDePagoDeAranceles.Domain.Ports.ServicePorts;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 
 namespace SistemaDePagoDeAranceles.Application.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IDbRepository<User> _userRepo;
-        private readonly IUserRepository _userQuery;
+        private readonly IUserRepositoryService _userService;
 
         // Role mapping between application role names and DB integer codes
         private static readonly Dictionary<string, int> RoleToCode = new()
@@ -20,15 +19,14 @@ namespace SistemaDePagoDeAranceles.Application.Services
 
         private static readonly Dictionary<int, string> CodeToRole = RoleToCode.ToDictionary(kv => kv.Value, kv => kv.Key);
 
-        public AuthService(IDbRepository<User> userRepo, IUserRepository userQuery)
+        public AuthService(IUserRepositoryService userService)
         {
-            _userRepo = userRepo;
-            _userQuery = userQuery;
+            _userService = userService;
         }
 
         public (bool ok, int? userId, string? role, string? error) ValidateLogin(string username, string plainPassword)
         {
-            var user = _userQuery.GetByUsername(username);
+            var user = _userService.GetByUsername(username);
             if (user is null || !user.Status) return (false, null, null, "Usuario no encontrado o inactivo.");
 
             var givenHash = Md5Hex(plainPassword);
@@ -53,7 +51,7 @@ namespace SistemaDePagoDeAranceles.Application.Services
             var baseUser = (firstName + "." + lastName).ToLower().Replace(" ", "");
             var candidate = baseUser;
             int suffix = 1;
-            while (_userQuery.GetByUsername(candidate) != null)
+            while (_userService.GetByUsername(candidate) != null)
             {
                 candidate = baseUser + suffix.ToString();
                 suffix++;
@@ -78,7 +76,7 @@ namespace SistemaDePagoDeAranceles.Application.Services
                 Status = true
             };
 
-            var inserted = _userRepo.Insert(user);
+            var inserted = _userService.Insert(user);
             if (inserted <= 0) return (false, null, null, "No se pudo insertar el usuario.");
             return (true, candidate, pwd, null);
         }
