@@ -6,17 +6,15 @@
 }
 
 <h2 class="mb-4">@ViewData["Title"]</h2>
-
+<a asp-page="Create" class="btn btn-primary mb-3">
+    <i class="bi bi-plus-circle"></i> Nuevo Establecimiento
+</a>
 @if (Model.EstablishmentsGetAllResult.IsFailure)
 {
-    <h2 class="mb-4">No se encontraron registros</h2>
+    <h2 class="mb-4">@Model.EstablishmentsGetAllResult.Errors.FirstOrDefault()</h2>
 }
 else
 {
-    <a asp-page="Create" class="btn btn-primary mb-3">
-        <i class="bi bi-plus-circle"></i> Nuevo Establecimiento
-    </a>
-
     <form method="post" asp-page-handler="Search" class="space-y-2">
         <input asp-for="SearchTerm"
                class="form-control"

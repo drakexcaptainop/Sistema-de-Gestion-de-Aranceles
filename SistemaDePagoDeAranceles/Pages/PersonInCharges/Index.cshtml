@@ -4,19 +4,15 @@
     ViewData["Title"] = "Encargados";
 }
 <h1>Lista de Encargados</h1>
-
+<p>
+    <a asp-page="Create" class="btn btn-primary">Nuevo Encargado</a>
+</p>
 @if (Model.ResultGetAllPersonInCharge.IsFailure)
 {
     <h2>No se encontraron registros</h2>
 }
 else
 {
-    
- 
-
-    <p>
-        <a asp-page="Create" class="btn btn-primary">Nuevo Encargado</a>
-    </p>
     <table class="table table-striped">
         <thead>
         <tr>

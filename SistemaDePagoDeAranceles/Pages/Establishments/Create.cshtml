@@ -9,7 +9,7 @@
 @if (Model.ResultGetAllPersonInCharge.IsFailure)
 {
     <h2 class="mb-4"> No se encontraror encarcagos registrados, registre un encargado para continuar. </h2>
-    <a asp-page="./PersonInCharges/Create" class="btn btn-secondary ms-2">Registrar Encargado</a>
+    <a asp-page="/PersonInCharges/Create" class="btn btn-secondary ms-2">Registrar Encargado</a>
 }
 else
 {
