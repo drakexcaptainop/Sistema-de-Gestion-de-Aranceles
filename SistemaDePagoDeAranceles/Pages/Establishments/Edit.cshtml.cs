@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Models;
 using SistemaDePagoDeAranceles.Respository;
@@ -9,19 +10,30 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
     public class EditModel : PageModel
     {
         private readonly IDbRespository<Establishment> _repository;
-
+        private readonly IdProtector _idProtector;
+        
         [BindProperty]
         public Establishment Establishment { get; set; } = new();
 
-        public EditModel(IRepositoryFactory<Establishment> factory)
+        public EditModel(IRepositoryFactory<Establishment> factory, IdProtector idProtector)
         {
             _repository = factory.CreateRepository();
+            _idProtector = idProtector;
         }
 
-        public IActionResult OnGet(int id)
+        public IActionResult OnGet(string id)
         {
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == id);
-            Console.WriteLine(entity.PersonInChargeId);
+            int realId;
+            try
+            {
+                realId = _idProtector.UnprotectInt(id);
+            }
+            catch
+            {
+                return RedirectToPage("./Error");
+            }
+
+            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == realId);
             if (entity == null)
                 return RedirectToPage("./Index");
 
@@ -37,8 +49,6 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
                 Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Establishment)}");
                 return Page();
             }
-
-            Establishment.LastUpdate = DateTime.Now;
             _repository.Update(Establishment);
 
             return RedirectToPage("./Index");

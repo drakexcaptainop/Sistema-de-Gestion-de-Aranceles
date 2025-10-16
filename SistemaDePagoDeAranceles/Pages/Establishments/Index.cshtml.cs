@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Models;
 using SistemaDePagoDeAranceles.Respository;
@@ -9,15 +10,17 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
     public class IndexModel : PageModel
     {
         private readonly IDbRespository<Establishment> _repository;
+        private readonly IdProtector _idProtector;
 
         [BindProperty]
         public string SearchTerm { get; set; }
 
         public List<Establishment> Establishments { get; set; } = new();
 
-        public IndexModel(IRepositoryFactory<Establishment> factory)
+        public IndexModel(IRepositoryFactory<Establishment> factory, IdProtector idProtector)
         {
             _repository = factory.CreateRepository();
+            _idProtector =  idProtector;
         }
 
         public void OnGet()
@@ -37,5 +40,6 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             }
         }
 
+        public string Protect(int id) => _idProtector.ProtectInt(id);
     }
 }
