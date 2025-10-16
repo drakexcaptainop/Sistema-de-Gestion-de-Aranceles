@@ -46,16 +46,18 @@ namespace SistemaDePagoDeAranceles.Pages.Users
         public IActionResult OnPost()
         {
             var result = _repository.Delete(User);
-            
-            if (result > 0)
+            if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = "Usuario eliminado exitosamente.";
             }
             else
             {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error);
+                }
                 TempData["ErrorMessage"] = "Error al eliminar el usuario.";
             }
-            
             return RedirectToPage("./Index");
         }
     }

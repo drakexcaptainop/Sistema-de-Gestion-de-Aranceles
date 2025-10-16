@@ -52,8 +52,16 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
             }
             
             Person.UpdateDate = DateTime.Now;
-            _repository.Update(Person);
-            return RedirectToPage("./Index");
+            var result = _repository.Update(Person);
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
     }
 }

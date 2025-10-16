@@ -1,3 +1,4 @@
+using SistemaDePagoDeAranceles.Domain.Common;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 
 namespace SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
@@ -14,19 +15,28 @@ public abstract class BaseRepositoryService<T> : IRepositoryService<T>
         return _repository.GetAll();
     }
 
-    public int Insert(T model)
+    public Result<T> Insert(T model)
     {
-        return _repository.Insert(model);
+        var inserted = _repository.Insert(model);
+        if (inserted > 0)
+            return Result<T>.Success(model);
+        return Result<T>.Failure("No se pudo insertar el registro.");
     }
 
-    public int Update(T model)
+    public Result<T> Update(T model)
     {
-        return _repository.Update(model);
+        var updated = _repository.Update(model);
+        if (updated > 0)
+            return Result<T>.Success(model);
+        return Result<T>.Failure("No se pudo actualizar el registro.");
     }
 
-    public int Delete(T model)
+    public Result<T> Delete(T model)
     {
-        return _repository.Delete(model);
+        var deleted = _repository.Delete(model);
+        if (deleted > 0)
+            return Result<T>.Success(model);
+        return Result<T>.Failure("No se pudo eliminar el registro.");
     }
 
     public IEnumerable<T> Search(string property)

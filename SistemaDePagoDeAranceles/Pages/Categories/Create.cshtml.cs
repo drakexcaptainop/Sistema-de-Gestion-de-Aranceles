@@ -29,15 +29,22 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
             var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedCreatorId))
                 Category.CreatedBy = parsedCreatorId;
-            Category.Active = true;
+            Category.Status = true;
             if (!ModelState.IsValid)
             {
                 Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Category)}");
                 return Page();
             }
-            _repository.Insert(Category);
-
-            return RedirectToPage("./Index");
+            var result = _repository.Insert(Category);
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
     }
 }

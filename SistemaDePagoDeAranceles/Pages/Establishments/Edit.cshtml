@@ -9,7 +9,10 @@
 
 <form method="post" class="card shadow-sm p-4">
     <input type="hidden" asp-for="Establishment.Id" />
-    <input type="hidden" asp-for="Establishment.BusinessName" />
+    <div class="col-md-6">
+        <label asp-for="Establishment.BusinessName" class="form-label">Nombre Comercial</label>
+        <input asp-for="Establishment.BusinessName" class="form-control" required />
+    </div>
     <div class="row g-3">
         <div class="col-md-6">
             <label asp-for="Establishment.Name" class="form-label">Nombre</label>

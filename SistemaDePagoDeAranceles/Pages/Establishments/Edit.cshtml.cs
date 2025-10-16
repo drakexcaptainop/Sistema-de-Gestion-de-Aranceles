@@ -53,9 +53,18 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             }
             Establishment.LastUpdate = DateTime.Now;
             var editorId = User.GetUserId();
-            _repository.Update(Establishment);
+            var result = _repository.Update(Establishment);
 
-            return RedirectToPage("./Index");
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
     }
 }

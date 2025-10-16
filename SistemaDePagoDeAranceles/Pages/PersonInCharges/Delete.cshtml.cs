@@ -44,8 +44,16 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
         }
         public IActionResult OnPost()
         {
-            _repository.Delete(Person);
-            return RedirectToPage("./Index");
+            var result = _repository.Delete(Person);
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
 
     }

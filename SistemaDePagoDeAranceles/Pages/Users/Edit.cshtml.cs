@@ -51,16 +51,17 @@ namespace SistemaDePagoDeAranceles.Pages.Users
             }
 
             User.LastUpdate = DateTime.UtcNow;
-            
             var result = _repository.Update(User);
-
-            if (result > 0)
+            if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = "Usuario actualizado exitosamente.";
                 return RedirectToPage("./Index");
             }
-
-            ModelState.AddModelError(string.Empty, "Error al actualizar el usuario.");
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            TempData["ErrorMessage"] = "Error al actualizar el usuario.";
             return Page();
         }
     }

@@ -8,7 +8,13 @@
 <h2 class="mb-4">@ViewData["Title"]</h2>
 
 <form method="post" class="card shadow-sm p-4">
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
     <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="Establishment.BusinessName" class="form-label">Nombre Comercial</label>
+            <input asp-for="Establishment.BusinessName" class="form-control" required />
+        </div>
+        
         <div class="col-md-6">
             <label asp-for="Establishment.Name" class="form-label">Nombre</label>
             <input asp-for="Establishment.Name" class="form-control" required />

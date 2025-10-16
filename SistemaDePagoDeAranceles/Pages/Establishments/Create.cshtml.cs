@@ -47,14 +47,17 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             
             Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Establishment)}");
             var result = _repository.Insert(Establishment);
-            Console.WriteLine($"[DEBUG] Resultado de inserción: {result}");
+            Console.WriteLine($"[DEBUG] Resultado de inserción: {System.Text.Json.JsonSerializer.Serialize(result)}");
 
-            if (result > 0)
+            if (result.IsSuccess)
             {
                 return RedirectToPage("./Index");
             }
-            
-            ModelState.AddModelError(string.Empty, "Error al registrar el establecimiento.");
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
             PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
             return Page();
         }

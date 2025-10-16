@@ -78,8 +78,8 @@ namespace SistemaDePagoDeAranceles.Application.Services
                 Status = true
             };
 
-            var inserted = _userService.Insert(user);
-            if (inserted <= 0) return (false, null, null, "No se pudo insertar el usuario.");
+            var result = _userService.Insert(user);
+            if (!result.IsSuccess) return (false, null, null, string.Join("; ", result.Errors));
             
             // Send email with credentials (async fire-and-forget)
             _ = Task.Run(async () => 

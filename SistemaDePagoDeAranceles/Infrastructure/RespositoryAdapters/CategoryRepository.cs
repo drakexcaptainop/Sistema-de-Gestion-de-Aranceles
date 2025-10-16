@@ -63,7 +63,7 @@ public class CategoryRepository : IDbRepository<Category>
                     @CreatedBy,
                     CURRENT_TIMESTAMP,
                     CURRENT_TIMESTAMP,
-                    @Status
+                    TRUE
                 );";
         return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
 
@@ -71,17 +71,15 @@ public class CategoryRepository : IDbRepository<Category>
 
     public int Update(Category model)
     {
-        string query = @"
-                UPDATE category
-                SET
-                    name         = @Name,
-                    description  = @Description,
-                    base_amount  = @BaseAmount,
-                    created_by   = @CreatedBy,
-                    last_update  = CURRENT_TIMESTAMP,
-                    status       = @Status
-                WHERE id = @Id;";
-        return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
+    string query = @"
+        UPDATE category
+        SET
+            name         = @Name,
+            description  = @Description,
+            base_amount  = @BaseAmount,
+            last_update  = CURRENT_TIMESTAMP
+        WHERE id = @Id;";
+    return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
     }
     public IEnumerable<Category> Search(string property)
     {

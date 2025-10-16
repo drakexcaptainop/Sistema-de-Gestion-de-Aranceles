@@ -44,8 +44,16 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public IActionResult OnPost()
         {
-            _repository.Delete(Establishment);  
-            return RedirectToPage("./Index");
+            var result = _repository.Delete(Establishment);
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
     }
 }

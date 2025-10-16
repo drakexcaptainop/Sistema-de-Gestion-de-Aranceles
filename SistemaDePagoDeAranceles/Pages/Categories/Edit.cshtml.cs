@@ -53,9 +53,16 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
             }
 
             Category.LastUpdate = DateTime.Now;
-            _repository.Update(Category);
-
-            return RedirectToPage("./Index");
+            var result = _repository.Update(Category);
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
     }
 }
