@@ -1,9 +1,9 @@
 using MySql.Data.MySqlClient;
 using System.Data;
-using SistemaDePagoDeAranceles.Domain.Ports.DabasePorts;
+
 namespace SistemaDePagoDeAranceles.Infrastructure.Database;
 
-public class MySqlConnectionManager : IDbConnectionManager
+public class MySqlConnectionManager
     {
         private readonly string _connectionString;
         public MySqlConnectionManager(IConfiguration configuration)

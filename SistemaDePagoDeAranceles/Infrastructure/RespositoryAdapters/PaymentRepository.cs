@@ -1,13 +1,15 @@
-﻿using SistemaDePagoDeAranceles.Domain.Models;
-using SistemaDePagoDeAranceles.Domain.Ports.DabasePorts;
+﻿using SistemaDePagoDeAranceles.Domain.Ports;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
+using SistemaDePagoDeAranceles.Infrastructure.Database;
+using SistemaDePagoDeAranceles.Domain.Models;
+using SistemaDePagoDeAranceles.Infrastructure.Database;
 
 namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
 {
     public class PaymentRepository : IDbRepository<Payment>
     {
-        private readonly IDbConnectionManager _dbConnectionManager;
-        public PaymentRepository(IDbConnectionManager dbConnectionManager)
+        private readonly MySqlConnectionManager _dbConnectionManager;
+        public PaymentRepository(MySqlConnectionManager dbConnectionManager)
         {
             _dbConnectionManager = dbConnectionManager;
         }
