@@ -10,9 +10,20 @@ public abstract class BaseRepositoryService<T> : IRepositoryService<T>
     {
         _repository = repository;
     }
-    public IEnumerable<T> GetAll()
+    public Result<IEnumerable<T>> GetAll()
     {
-        return _repository.GetAll();
+        try
+        {
+            IEnumerable<T> items = _repository.GetAll();
+            if (!items.Any())
+                return Result<IEnumerable<T>>.Failure("No se tienen registros");
+
+            return Result<IEnumerable<T>>.Success(items);
+        }
+        catch (Exception)
+        {
+            return Result<IEnumerable<T>>.Failure($"Ocurrio un error al obtener los datos");
+        }
     }
 
     public Result<T> Insert(T model)
@@ -39,8 +50,19 @@ public abstract class BaseRepositoryService<T> : IRepositoryService<T>
         return Result<T>.Failure("No se pudo eliminar el registro.");
     }
 
-    public IEnumerable<T> Search(string property)
+    public Result<IEnumerable<T>> Search(string property)
     {
-        return _repository.Search(property);
+        try
+        {
+            IEnumerable<T> items = _repository.Search(property);
+            if (!items.Any())
+                return Result<IEnumerable<T>>.Failure("No se encontraron registros de coincidencia");
+
+            return Result<IEnumerable<T>>.Success(items);
+        }
+        catch (Exception)
+        {
+            return Result<IEnumerable<T>>.Failure($"Ocurrio un error al obtener los datos");
+        }
     }
 }

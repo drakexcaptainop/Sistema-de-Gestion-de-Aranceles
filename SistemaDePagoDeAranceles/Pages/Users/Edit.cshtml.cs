@@ -35,7 +35,12 @@ namespace SistemaDePagoDeAranceles.Pages.Users
                 return RedirectToPage("./Index");
             }
 
-            var entity = _repository.GetAll().FirstOrDefault(u => u.Id == realId);
+            var result = _repository.GetAll();
+            if (result.IsFailure)
+            {
+                return NotFound();
+            }
+            var entity = result.Value.FirstOrDefault(u => u.Id == realId);
             if (entity == null)
                 return RedirectToPage("./Index");
 

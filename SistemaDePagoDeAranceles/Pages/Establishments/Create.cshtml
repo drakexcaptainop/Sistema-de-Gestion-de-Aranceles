@@ -6,8 +6,14 @@
 }
 
 <h2 class="mb-4">@ViewData["Title"]</h2>
-
-<form method="post" class="card shadow-sm p-4">
+@if (Model.ResultGetAllPersonInCharge.IsFailure)
+{
+    <h2 class="mb-4"> No se encontraror encarcagos registrados, registre un encargado para continuar. </h2>
+    <a asp-page="./PersonInCharges/Create" class="btn btn-secondary ms-2">Registrar Encargado</a>
+}
+else
+{
+    <form method="post" class="card shadow-sm p-4">
     <div asp-validation-summary="All" class="text-danger mb-3"></div>
     <div class="row g-3">
         <div class="col-md-6">
@@ -83,3 +89,6 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+}
+
+

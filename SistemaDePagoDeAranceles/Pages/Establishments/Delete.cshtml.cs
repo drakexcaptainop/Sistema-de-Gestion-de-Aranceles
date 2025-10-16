@@ -34,7 +34,14 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
                 return RedirectToPage("./Index");
             }
 
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == realId);
+            var result = _repository.GetAll();
+
+            if (result.IsFailure)
+            {
+                return NotFound(result.Errors.FirstOrDefault());
+            }
+
+            var entity = result.Value.FirstOrDefault(e => e.Id == realId);
             if (entity == null)
                 return RedirectToPage("Index");
 

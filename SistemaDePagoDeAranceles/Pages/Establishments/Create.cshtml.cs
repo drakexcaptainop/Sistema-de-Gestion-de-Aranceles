@@ -4,6 +4,7 @@ using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
+using SistemaDePagoDeAranceles.Domain.Common;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 
 namespace SistemaDePagoDeAranceles.Pages.Establishments
@@ -16,6 +17,8 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
         [BindProperty]
         public Establishment Establishment { get; set; } = new();
         public List<PersonInCharge> PersonsInCharge { get; set; } = new();
+        
+        public Result<IEnumerable<PersonInCharge>> ResultGetAllPersonInCharge { get; set; }
 
         public CreateModel(IRepositoryServiceFactory<Establishment> factory, IRepositoryServiceFactory<PersonInCharge> personFactory)
         {
@@ -25,7 +28,11 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public void OnGet()
         {
-            PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
+            ResultGetAllPersonInCharge = _personRepository.GetAll();
+            if (ResultGetAllPersonInCharge.IsSuccess)
+            {
+                PersonsInCharge = ResultGetAllPersonInCharge.Value.Where(personInCharge => personInCharge.Status).ToList();
+            }
         }
 
         public IActionResult OnPost()
@@ -41,8 +48,8 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             
             if (!ModelState.IsValid)
             {
-                PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
-                return Page();
+                //PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
+                return RedirectToPage();
             }
             
             Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Establishment)}");
@@ -58,8 +65,8 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             {
                 ModelState.AddModelError(string.Empty, error);
             }
-            PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
-            return Page();
+            //PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
+            return RedirectToPage();
         }
 
     }

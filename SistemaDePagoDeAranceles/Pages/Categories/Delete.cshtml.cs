@@ -33,8 +33,13 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
             {
                 return RedirectToPage("./Index");
             }
+            var result = _repository.GetAll();
+            if (result.IsFailure)
+            {
+                return RedirectToPage("./NotFound");
+            }
 
-            var list = _repository.GetAll().ToList();
+            var list = result.Value;
             Category = list.FirstOrDefault(c => c.Id == realId);
 
             if (Category == null)
