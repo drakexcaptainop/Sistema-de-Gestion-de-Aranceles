@@ -35,4 +35,8 @@ public class CategoryRepository : IDbRepository<Category>
         string query = "UPDATE category SET name = @Name, description = @Description, base_amount = @BaseAmount, last_update = CURRENT_TIMESTAMP, created_by = @CreatedBy WHERE id = @Id";
         return _dbConnectionManager.ExecuteParameterizedNonQuery<Category>(query, model);
     }
+    public IEnumerable<Category> Search(string property)
+    {
+        throw new NotImplementedException();
+    }
 }
