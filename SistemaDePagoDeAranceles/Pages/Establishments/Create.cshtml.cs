@@ -1,24 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SistemaDePagoDeAranceles.Factory;
-using SistemaDePagoDeAranceles.Models;
-using SistemaDePagoDeAranceles.Respository;
+using SistemaDePagoDeAranceles.Domain.Models;
+using SistemaDePagoDeAranceles.Application.Services;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
+using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 
 namespace SistemaDePagoDeAranceles.Pages.Establishments
 {
     public class CreateModel : PageModel
     {
-        private readonly IDbRespository<Establishment> _repository;
-        private readonly IDbRespository<PersonInCharge> _personRepository;
+        private readonly IRepositoryService<Establishment> _repository;
+        private readonly IRepositoryService<PersonInCharge> _personRepository;
 
         [BindProperty]
         public Establishment Establishment { get; set; } = new();
         public List<PersonInCharge> PersonsInCharge { get; set; } = new();
 
-        public CreateModel(IRepositoryFactory<Establishment> factory, IRepositoryFactory<PersonInCharge> personFactory)
+        public CreateModel(IRepositoryServiceFactory<Establishment> factory, IRepositoryServiceFactory<PersonInCharge> personFactory)
         {
-            _repository = factory.CreateRepository();
-            _personRepository = personFactory.CreateRepository();
+            _repository = factory.CreateRepositoryService();
+            _personRepository = personFactory.CreateRepositoryService();
         }
 
         public void OnGet()

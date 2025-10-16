@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SistemaDePagoDeAranceles.Models;
+using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
@@ -15,7 +15,7 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
         {
             _repository = factory.CreateRepositoryService();
         }
-
+        
         [BindProperty]
         public Category Category { get; set; } = new();
 

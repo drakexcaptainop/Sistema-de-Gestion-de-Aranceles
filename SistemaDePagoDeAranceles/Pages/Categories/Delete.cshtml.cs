@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SistemaDePagoDeAranceles.Models;
+using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Respository;
 using SistemaDePagoDeAranceles.Application.Services.Factory;

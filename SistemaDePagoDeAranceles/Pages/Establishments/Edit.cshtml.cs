@@ -1,23 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Application.Services;
-using SistemaDePagoDeAranceles.Factory;
-using SistemaDePagoDeAranceles.Models;
-using SistemaDePagoDeAranceles.Respository;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
+using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 
 namespace SistemaDePagoDeAranceles.Pages.Establishments
 {
     public class EditModel : PageModel
     {
-        private readonly IDbRespository<Establishment> _repository;
+        private readonly IRepositoryService<Establishment> _repository;
         private readonly IdProtector _idProtector;
         
         [BindProperty]
         public Establishment Establishment { get; set; } = new();
 
-        public EditModel(IRepositoryFactory<Establishment> factory, IdProtector idProtector)
+        public EditModel(IRepositoryServiceFactory<Establishment> factory, IdProtector idProtector)
         {
-            _repository = factory.CreateRepository();
+            _repository = factory.CreateRepositoryService();
             _idProtector = idProtector;
         }
 

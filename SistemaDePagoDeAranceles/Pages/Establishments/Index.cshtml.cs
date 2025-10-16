@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Application.Services;
-using SistemaDePagoDeAranceles.Factory;
-using SistemaDePagoDeAranceles.Models;
-using SistemaDePagoDeAranceles.Respository;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
+using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 
 namespace SistemaDePagoDeAranceles.Pages.Establishments
 {
     public class IndexModel : PageModel
     {
-        private readonly IDbRespository<Establishment> _repository;
+        private readonly IRepositoryService<Establishment> _repository;
         private readonly IdProtector _idProtector;
 
         [BindProperty]
@@ -17,9 +18,9 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public List<Establishment> Establishments { get; set; } = new();
 
-        public IndexModel(IRepositoryFactory<Establishment> factory, IdProtector idProtector)
+        public IndexModel(IRepositoryServiceFactory<Establishment> factory, IdProtector idProtector)
         {
-            _repository = factory.CreateRepository();
+            _repository = factory.CreateRepositoryService();
             _idProtector =  idProtector;
         }
 
