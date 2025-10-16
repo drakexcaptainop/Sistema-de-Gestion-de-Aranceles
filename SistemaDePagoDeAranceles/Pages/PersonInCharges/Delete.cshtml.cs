@@ -12,18 +12,30 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
     public class DeleteModel : PageModel
     {
         private readonly IRepositoryService<PersonInCharge> _repository;
+        private readonly IdProtector _idProtector;
 
         [BindProperty]
         public PersonInCharge Person { get; set; } = new();
 
-        public DeleteModel(IRepositoryServiceFactory<PersonInCharge> factory)
+        public DeleteModel(IRepositoryServiceFactory<PersonInCharge> factory, IdProtector idProtector)
         {
             _repository = factory.CreateRepositoryService();
+            _idProtector = idProtector;
         }
 
-        public IActionResult OnGet(int id)
+        public IActionResult OnGet(string id)
         {
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == id);
+            int realId;
+            try
+            {
+                realId = _idProtector.UnprotectInt(id);
+            }
+            catch
+            {
+                return RedirectToPage("./Index");
+            }
+
+            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == realId);
             if (entity == null)
                 return RedirectToPage("./Index");
 

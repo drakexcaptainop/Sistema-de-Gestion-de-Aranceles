@@ -11,18 +11,30 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
     public class DeleteModel : PageModel
     {
         private readonly IRepositoryService<Establishment> _repository;
+        private readonly IdProtector _idProtector;
 
         [BindProperty]
         public Establishment Establishment { get; set; } = new();
 
-        public DeleteModel(IRepositoryServiceFactory<Establishment> factory)
+        public DeleteModel(IRepositoryServiceFactory<Establishment> factory, IdProtector idProtector)
         {
             _repository = factory.CreateRepositoryService();
+            _idProtector = idProtector;
         }
 
-        public IActionResult OnGet(int id)
+        public IActionResult OnGet(string id)
         {
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == id);
+            int realId;
+            try
+            {
+                realId = _idProtector.UnprotectInt(id);
+            }
+            catch
+            {
+                return RedirectToPage("./Index");
+            }
+
+            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == realId);
             if (entity == null)
                 return RedirectToPage("Index");
 
