@@ -22,7 +22,6 @@ namespace SistemaDePagoDeAranceles.Pages.Users
         public InputModel Input { get; set; } = new();
         
         public string? GeneratedUsername { get; set; }
-        public string? GeneratedPassword { get; set; }
 
         public class InputModel
         {
@@ -70,11 +69,9 @@ namespace SistemaDePagoDeAranceles.Pages.Users
             }
 
             GeneratedUsername = usern;
-            GeneratedPassword = passw;
             
-            // Log generated credentials
-            _logger.LogInformation("New user created: {Username} / {Password}", usern, passw);
-            Console.WriteLine($"New user created: {usern} / {passw}");
+            // Log that email was sent (password is sent via email, not shown)
+            _logger.LogInformation("New user created: {Username}. Credentials sent to: {Email}", usern, Input.Email);
             
             return Page();
         }

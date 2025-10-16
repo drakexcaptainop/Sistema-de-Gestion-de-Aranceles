@@ -76,6 +76,9 @@ builder.Services.AddScoped<IUserRepositoryService>(sp =>
 // ==========================
 // Session + HttpContextAccessor
 
+// Register Email Service
+builder.Services.AddScoped<SistemaDePagoDeAranceles.Domain.Ports.ServicePorts.IEmailService, SistemaDePagoDeAranceles.Application.Services.EmailService>();
+
 // Register IAuthService so page models can resolve IAuthService
 builder.Services.AddScoped<SistemaDePagoDeAranceles.Domain.Ports.ServicePorts.IAuthService, SistemaDePagoDeAranceles.Application.Services.AuthService>();
 // Add authentication (cookie) and authorization

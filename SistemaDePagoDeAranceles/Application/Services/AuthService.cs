@@ -9,6 +9,7 @@ namespace SistemaDePagoDeAranceles.Application.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepositoryService _userService;
+        private readonly IEmailService _emailService;
 
         // Role mapping between application role names and DB integer codes
         private static readonly Dictionary<string, int> RoleToCode = new()
@@ -19,9 +20,10 @@ namespace SistemaDePagoDeAranceles.Application.Services
 
         private static readonly Dictionary<int, string> CodeToRole = RoleToCode.ToDictionary(kv => kv.Value, kv => kv.Key);
 
-        public AuthService(IUserRepositoryService userService)
+        public AuthService(IUserRepositoryService userService, IEmailService emailService)
         {
             _userService = userService;
+            _emailService = emailService;
         }
 
         public (bool ok, int? userId, string? role, string? error) ValidateLogin(string username, string plainPassword)
@@ -78,6 +80,21 @@ namespace SistemaDePagoDeAranceles.Application.Services
 
             var inserted = _userService.Insert(user);
             if (inserted <= 0) return (false, null, null, "No se pudo insertar el usuario.");
+            
+            // Send email with credentials (async fire-and-forget)
+            _ = Task.Run(async () => 
+            {
+                try
+                {
+                    await _emailService.SendNewUserCredentialsAsync(email, candidate, firstName, pwd);
+                }
+                catch (Exception ex)
+                {
+                    // Log error but don't fail user creation
+                    System.Console.WriteLine($"Failed to send email: {ex.Message}");
+                }
+            });
+            
             return (true, candidate, pwd, null);
         }
 

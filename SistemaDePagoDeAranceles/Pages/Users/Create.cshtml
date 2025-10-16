@@ -6,13 +6,17 @@
 
 <h2 class="mb-4">@ViewData["Title"]</h2>
 
-@if (Model.GeneratedUsername != null && Model.GeneratedPassword != null)
+@if (Model.GeneratedUsername != null)
 {
     <div class="alert alert-success">
-        <h4>¡Usuario creado exitosamente!</h4>
+        <h4><i class="bi bi-check-circle"></i> ¡Usuario creado exitosamente!</h4>
         <p><strong>Usuario:</strong> @Model.GeneratedUsername</p>
-        <p><strong>Contraseña:</strong> @Model.GeneratedPassword</p>
-        <p class="mb-0"><small>⚠️ Guarde estas credenciales en un lugar seguro. No se podrán recuperar.</small></p>
+        <div class="alert alert-info mt-3">
+            <i class="bi bi-envelope-check"></i> 
+            <strong>Correo enviado:</strong> Se ha enviado un correo electrónico a <strong>@Model.Input.Email</strong> 
+            con las credenciales de acceso y la contraseña generada.
+        </div>
+        <p class="mb-0"><small>⚠️ Si el usuario no recibe el correo, verifique la carpeta de spam o contacte al administrador del sistema.</small></p>
     </div>
     <a asp-page="Index" class="btn btn-primary">Volver a la lista</a>
 }
