@@ -6,7 +6,7 @@ using SistemaDePagoDeAranceles.Infrastructure.Database;
 
 namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
 {
-    public class UserRepository : IDbRepository<User>
+    public class UserRepository : IDbRepository<User>, SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts.IUserRepository
     {
         private readonly MySqlConnectionManager _dbConnectionManager;
         public UserRepository(MySqlConnectionManager dbConnectionManager)

@@ -5,7 +5,6 @@ using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 using SistemaDePagoDeAranceles.Domain.Ports.ServicePorts;
-using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Infrastructure.Database;
 using SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters;
 
@@ -70,9 +69,27 @@ builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServic
 // ==========================
 // Session + HttpContextAccessor
 
-// TODO: register your existing services, factories, and IDbConnectionManager here
-// builder.Services.AddScoped<IDbConnectionManager, MySqlConnectionManager>();
-// builder.Services.AddScoped<IUserRepository, UserRepository>();
+// Register IUserRepository and IAuthService so page models can resolve IAuthService
+builder.Services.AddSingleton<SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts.IUserRepository, SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters.UserRepository>();
+builder.Services.AddScoped<SistemaDePagoDeAranceles.Domain.Ports.ServicePorts.IAuthService, SistemaDePagoDeAranceles.Application.Services.AuthService>();
+// Add authentication (cookie) and authorization
+builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login";
+        options.AccessDeniedPath = "/Login";
+        options.ExpireTimeSpan = System.TimeSpan.FromHours(8);
+    });
+builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
+// Session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = System.TimeSpan.FromHours(8);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 // ==========================
 //  APP PIPELINE
@@ -85,10 +102,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
+app.UseSession();
 app.UseAuthorization();
 
 app.MapRazorPages();

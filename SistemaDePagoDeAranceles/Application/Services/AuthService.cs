@@ -11,6 +11,15 @@ namespace SistemaDePagoDeAranceles.Application.Services
         private readonly IDbRepository<User> _userRepo;
         private readonly IUserRepository _userQuery;
 
+        // Role mapping between application role names and DB integer codes
+        private static readonly Dictionary<string, int> RoleToCode = new()
+        {
+            { "Admin", 1 },
+            { "Contador", 2 }
+        };
+
+        private static readonly Dictionary<int, string> CodeToRole = RoleToCode.ToDictionary(kv => kv.Value, kv => kv.Key);
+
         public AuthService(IDbRepository<User> userRepo, IUserRepository userQuery)
         {
             _userRepo = userRepo;
@@ -26,7 +35,13 @@ namespace SistemaDePagoDeAranceles.Application.Services
             if (!string.Equals(user.PasswordHash, givenHash, System.StringComparison.OrdinalIgnoreCase))
                 return (false, null, "Contraseña incorrecta.");
 
-            return (true, user.Role, null);
+            // DB may store role as numeric code; convert it to application role name if necessary
+            var roleValue = user.Role;
+            if (int.TryParse(roleValue, out var code) && CodeToRole.ContainsKey(code))
+            {
+                roleValue = CodeToRole[code];
+            }
+            return (true, roleValue, null);
         }
 
         public (bool ok, string? generatedUsername, string? generatedPassword, string? error) RegisterUser(string firstName, string lastName, string email, string role, int createdBy)
@@ -47,6 +62,8 @@ namespace SistemaDePagoDeAranceles.Application.Services
             // Generate random password (10 chars)
             var pwd = GeneratePassword(10);
 
+            // Map application role name to DB code (DB expects integer role); store as string representation of code
+            var roleCode = RoleToCode.ContainsKey(role) ? RoleToCode[role] : 0;
             var user = new User
             {
                 Username = candidate,
@@ -54,7 +71,7 @@ namespace SistemaDePagoDeAranceles.Application.Services
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,
-                Role = role,
+                Role = roleCode.ToString(),
                 CreatedBy = createdBy,
                 CreatedDate = System.DateTime.UtcNow,
                 LastUpdate = System.DateTime.UtcNow,

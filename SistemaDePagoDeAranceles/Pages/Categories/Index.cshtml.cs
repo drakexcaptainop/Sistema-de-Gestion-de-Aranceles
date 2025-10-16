@@ -4,8 +4,6 @@ using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
-using SistemaDePagoDeAranceles.Factory;
-
 namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class IndexModel : PageModel

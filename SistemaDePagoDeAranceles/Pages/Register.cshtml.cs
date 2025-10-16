@@ -10,8 +10,9 @@ namespace SistemaDePagoDeAranceles.Pages
     public class RegisterModel : PageModel
     {
         private readonly IAuthService _auth;
+        private readonly ILogger<RegisterModel> _logger;
 
-        public RegisterModel(IAuthService auth) { _auth = auth; }
+        public RegisterModel(IAuthService auth, ILogger<RegisterModel> logger) { _auth = auth; _logger = logger; }
 
         [BindProperty] public InputModel Input { get; set; } = new();
         public string? GeneratedUsername { get; set; }
@@ -22,7 +23,7 @@ namespace SistemaDePagoDeAranceles.Pages
             [Required] public string FirstName { get; set; } = string.Empty;
             [Required] public string LastName { get; set; } = string.Empty;
             [Required, EmailAddress] public string Email { get; set; } = string.Empty;
-            [Required] public string Role { get; set; } = "Contador"; // Admin | Contador
+            [Required] public string Role { get; set; } = "Contador";
         }
 
         public void OnGet() {}
@@ -37,6 +38,9 @@ namespace SistemaDePagoDeAranceles.Pages
 
             GeneratedUsername = usern;
             GeneratedPassword = passw;
+            // Print generated credentials to console and log for now; later replace with an email sender
+            _logger.LogInformation("New user created: {Username} / {Password}", usern, passw);
+            System.Console.WriteLine($"New user created: {usern} / {passw}");
             TempData["NewUser"] = $"Usuario: {usern} / Contraseña: {passw}";
             return RedirectToPage("/Register");
         }
