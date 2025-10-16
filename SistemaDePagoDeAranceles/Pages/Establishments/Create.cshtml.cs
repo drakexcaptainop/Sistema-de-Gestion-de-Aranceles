@@ -41,18 +41,21 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             
             if (!ModelState.IsValid)
             {
-                var result1 = _repository.Insert(Establishment);
-                Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Establishment)}");
-                Console.WriteLine($"[DEBUG] Resultado de inserción: {result1}");
+                PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
                 return Page();
             }
+            
+            Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Establishment)}");
             var result = _repository.Insert(Establishment);
+            Console.WriteLine($"[DEBUG] Resultado de inserción: {result}");
 
             if (result > 0)
             {
                 return RedirectToPage("./Index");
             }
+            
             ModelState.AddModelError(string.Empty, "Error al registrar el establecimiento.");
+            PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
             return Page();
         }
 

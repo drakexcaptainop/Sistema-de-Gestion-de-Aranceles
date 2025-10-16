@@ -40,6 +40,11 @@
         </div>
 
         <div class="col-md-6">
+            <label asp-for="Establishment.SanitaryLicenseExpiry" class="form-label">Fecha de Vencimiento de Licencia Sanitaria</label>
+            <input asp-for="Establishment.SanitaryLicenseExpiry" type="date" class="form-control" />
+        </div>
+
+        <div class="col-md-6">
             <label asp-for="Establishment.EstablishmentType" class="form-label">Tipo de Establecimiento</label>
             <select asp-for="Establishment.EstablishmentType" class="form-select">
                 <option value="">Seleccionar tipo</option>

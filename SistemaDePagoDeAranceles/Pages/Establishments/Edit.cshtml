@@ -36,9 +36,14 @@
             <input asp-for="Establishment.Address" class="form-control" />
         </div>
         
-        <div class="col-md-6" style="display: none">
+        <div class="col-md-6">
             <label asp-for="Establishment.SanitaryLicense" class="form-label">Licencia Sanitaria</label>
             <input asp-for="Establishment.SanitaryLicense" class="form-control" />
+        </div>
+        
+        <div class="col-md-6">
+            <label asp-for="Establishment.SanitaryLicenseExpiry" class="form-label">Fecha de Vencimiento de Licencia Sanitaria</label>
+            <input asp-for="Establishment.SanitaryLicenseExpiry" type="date" class="form-control" />
         </div>
         
         <div class="col-md-6" style="display: none">

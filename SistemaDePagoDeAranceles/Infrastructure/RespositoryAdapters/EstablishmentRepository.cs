@@ -14,8 +14,8 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
         }
         public int Delete(Establishment model)
         {
-            string query = "UPDATE category SET last_update = CURRENT_TIMESTAMP, active = FALSE WHERE id = @Id";
-            return _dbConnectionManager.ExecuteParameterizedNonQuery<Establishment>(query, model);
+            string query = "UPDATE establishment SET last_update = CURRENT_TIMESTAMP, status = FALSE WHERE id = @Id";
+            return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
         }
 
         public IEnumerable<Establishment> GetAll()
@@ -34,9 +34,9 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     establishment_type         AS EstablishmentType,
                     person_in_charge_id        AS PersonInChargeId,
                     created_by                 AS CreatedBy,
-                    created_date               AS CreatedDate,
+                    created_date               AS RegisterDate,
                     last_update                AS LastUpdate,
-                    status                     AS Status
+                    status                     AS Active
                 FROM establishment
                 WHERE status = TRUE
                 ORDER BY id DESC;";
@@ -78,7 +78,7 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     @CreatedBy,
                     CURRENT_TIMESTAMP,
                     CURRENT_TIMESTAMP,
-                    @Status
+                    TRUE
                 );";
             return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
         }
@@ -97,8 +97,7 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     email                   = @Email,
                     establishment_type      = @EstablishmentType,
                     person_in_charge_id     = @PersonInChargeId,
-                    -- status is included so you can re-enable if needed; remove if you prefer not to expose it here
-                    status                  = @Status,
+                    status                  = @Active,
                     last_update             = CURRENT_TIMESTAMP
                 WHERE id = @Id;";
             return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);

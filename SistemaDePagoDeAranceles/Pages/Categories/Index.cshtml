@@ -33,7 +33,7 @@
             <td>@item.RegisterDate.ToString("dd/MM/yyyy")</td>
             <td>
                 <a asp-page="Edit" asp-route-id="@(Model.Protect(item.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
-                <a asp-page="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                <a asp-page="Delete" asp-route-id="@(Model.Protect(item.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
             </td>
         </tr>
     }
