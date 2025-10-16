@@ -10,19 +10,19 @@ public class PersonInChargeRepository : BaseDbRepository<PersonInCharge>
     }
     public override int Delete(PersonInCharge model)
     {
-        string query = "UPDATE person_in_charge SET last_update = CURRENT_TIMESTAMP, active = FALSE WHERE id = @Id";
+        string query = "UPDATE person_in_charge SET last_update = CURRENT_TIMESTAMP, status = FALSE WHERE id = @Id";
         return sqlConnectionManager.ExecuteParameterizedNonQuery<PersonInCharge>(query, model);
     }
 
     public override IEnumerable<PersonInCharge> GetAll()
     {
-        string query = "SELECT id as Id, first_name as FirstName, last_name as LastName, email as Email, phone as Phone, ci as Ci, register_date as RegisterDate, last_update as UpdateDate, active as Status, created_by as CreatedBy FROM person_in_charge WHERE active = 1";
+        string query = "SELECT id as Id, first_name as FirstName, last_name as LastName, email as Email, phone as Phone, ci as Ci, register_date as RegisterDate, last_update as UpdateDate, status as Status, created_by as CreatedBy FROM person_in_charge WHERE status = 1";
         return sqlConnectionManager.ExecuteQuery<PersonInCharge>(query);
     }
 
     public override int Insert(PersonInCharge model)
     {
-        string query = "INSERT INTO person_in_charge (first_name, last_name, email, phone, ci, register_date, last_update, active, created_by) VALUES (@FirstName, @LastName, @Email, @Phone, @Ci, @RegisterDate, @UpdateDate, @Status, @CreatedBy)";
+        string query = "INSERT INTO person_in_charge (first_name, last_name, email, phone, ci, register_date, last_update, status, created_by) VALUES (@FirstName, @LastName, @Email, @Phone, @Ci, @RegisterDate, @UpdateDate, @Status, @CreatedBy)";
         return sqlConnectionManager.ExecuteParameterizedNonQuery<PersonInCharge>(query, model);
     }
 

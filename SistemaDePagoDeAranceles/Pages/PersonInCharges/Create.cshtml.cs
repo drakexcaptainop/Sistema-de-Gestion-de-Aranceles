@@ -31,7 +31,7 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
                 return Page();
             }
 
-            Person.RegisterDate = DateTime.Now;
+            Person.CreatedDate = DateTime.Now;
             Person.UpdateDate = DateTime.Now;
             Person.Status = true;
             Person.CreatedBy = 1;

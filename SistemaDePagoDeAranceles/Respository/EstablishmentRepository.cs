@@ -31,7 +31,7 @@ public class EstablishmentRepository : BaseDbRepository<Establishment>
     public override int Update(Establishment model)
     {
         string query = "UPDATE establishment SET name = @Name, tax_id = @TaxId, sanitary_license = @SanitaryLicense, address = @Address, phone = @Phone, email = @Email, establishment_type = @EstablishmentType, person_in_charge_id = @PersonInChargeId, last_update = CURRENT_TIMESTAMP, created_by = @CreatedBy WHERE id = @Id";
-        return sqlConnectionManager.ExecuteParameterizedNonQuery<Establishment>(query, model);
+        return sqlConnectionManager.ExecuteParameterizedNonQuery(query, model);
     }
 
     public override IEnumerable<Establishment> Search(string property)
