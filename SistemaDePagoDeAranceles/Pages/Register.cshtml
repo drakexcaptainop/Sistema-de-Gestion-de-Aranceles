@@ -1,0 +1,39 @@
+@page
+@model SistemaDePagoDeAranceles.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Registrar usuario";
+}
+<div class="container mt-5" style="max-width:640px">
+    <h2 class="mb-4">Registrar usuario</h2>
+    @if (TempData["NewUser"] != null) {
+        <div class="alert alert-success">@TempData["NewUser"]</div>
+    }
+    <form method="post">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input asp-for="Input.FirstName" class="form-control"/>
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Apellido</label>
+                <input asp-for="Input.LastName" class="form-control"/>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+            <div class="col-md-8">
+                <label class="form-label">Email</label>
+                <input asp-for="Input.Email" class="form-control"/>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Rol</label>
+                <select asp-for="Input.Role" class="form-select">
+                    <option value="Admin">Admin</option>
+                    <option value="Contador">Contador</option>
+                </select>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+        </div>
+        <button class="btn btn-success mt-3">Crear usuario</button>
+    </form>
+</div>

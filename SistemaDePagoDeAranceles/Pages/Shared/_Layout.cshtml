@@ -2,6 +2,15 @@
     var title = ViewData["Title"] ?? "Sistema de Pagos de Aranceles";
 }
 
+@* @using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var ses = HttpContextAccessor.HttpContext?.Session;
+    bool esAdmin = ses?.GetInt32("Admin") != null;
+    bool esContador = ses?.GetInt32("Contador") != null;
+    bool isLogged = esAdmin || esContador;
+} *@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

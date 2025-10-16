@@ -129,5 +129,19 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 ORDER BY id DESC;";
             return _dbConnectionManager.ExecuteParameterizedQuery<User>(query, probe);
         }
+
+        public User? GetByUsername(string username)
+        {
+            const string sql = @"
+                SELECT id AS Id, username AS Username, password_hash AS PasswordHash,
+                       first_name AS FirstName, last_name AS LastName, email AS Email,
+                       role AS Role, created_by AS CreatedBy, created_date AS CreatedDate,
+                       last_update AS LastUpdate, status AS Status
+                FROM `user`
+                WHERE username = @Username
+                LIMIT 1;";
+            var probe = new User { Username = username };
+            return _dbConnectionManager.ExecuteParameterizedQuery<User>(sql, probe).FirstOrDefault();
+        }
     }
 }

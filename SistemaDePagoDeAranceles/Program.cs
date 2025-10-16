@@ -1,10 +1,11 @@
-using SistemaDePagoDeAranceles.Application.Services;
-using SistemaDePagoDeAranceles.Application.Services.Factory;
-using SistemaDePagoDeAranceles.Factory;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
-using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
+using SistemaDePagoDeAranceles.Application.Services;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Domain.Models;
+using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
+using SistemaDePagoDeAranceles.Domain.Ports.ServicePorts;
+using SistemaDePagoDeAranceles.Factory;
 using SistemaDePagoDeAranceles.Infrastructure.Database;
 using SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters;
 
@@ -63,6 +64,15 @@ builder.Services.AddScoped<IRepositoryServiceFactory<Fee>, FeeRepositoryServiceC
 
 builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
+
+// ==========================
+// 🔹 Authentication CONFIG
+// ==========================
+// Session + HttpContextAccessor
+
+// TODO: register your existing services, factories, and IDbConnectionManager here
+// builder.Services.AddScoped<IDbConnectionManager, MySqlConnectionManager>();
+// builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // ==========================
 //  APP PIPELINE
