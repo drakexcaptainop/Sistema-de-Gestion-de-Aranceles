@@ -5,6 +5,7 @@ using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
+using SistemaDePagoDeAranceles.Application.Helpers;
 
 namespace SistemaDePagoDeAranceles.Pages.Establishments
 {
@@ -50,6 +51,8 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
                 Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Establishment)}");
                 return Page();
             }
+            Establishment.LastUpdate = DateTime.Now;
+            var editorId = User.GetUserId();
             _repository.Update(Establishment);
 
             return RedirectToPage("./Index");

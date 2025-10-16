@@ -26,14 +26,14 @@ namespace SistemaDePagoDeAranceles.Application.Services
             _userQuery = userQuery;
         }
 
-        public (bool ok, string? role, string? error) ValidateLogin(string username, string plainPassword)
+        public (bool ok, int? userId, string? role, string? error) ValidateLogin(string username, string plainPassword)
         {
             var user = _userQuery.GetByUsername(username);
-            if (user is null || !user.Status) return (false, null, "Usuario no encontrado o inactivo.");
+            if (user is null || !user.Status) return (false, null, null, "Usuario no encontrado o inactivo.");
 
             var givenHash = Md5Hex(plainPassword);
             if (!string.Equals(user.PasswordHash, givenHash, System.StringComparison.OrdinalIgnoreCase))
-                return (false, null, "Contraseña incorrecta.");
+                return (false, null, null, "Contraseña incorrecta.");
 
             // DB may store role as numeric code; convert it to application role name if necessary
             var roleValue = user.Role;
@@ -41,7 +41,7 @@ namespace SistemaDePagoDeAranceles.Application.Services
             {
                 roleValue = CodeToRole[code];
             }
-            return (true, roleValue, null);
+            return (true, user.Id, roleValue, null);
         }
 
         public (bool ok, string? generatedUsername, string? generatedPassword, string? error) RegisterUser(string firstName, string lastName, string email, string role, int createdBy)

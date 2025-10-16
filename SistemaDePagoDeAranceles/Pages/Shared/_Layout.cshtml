@@ -1,15 +1,9 @@
 ﻿@{
     var title = ViewData["Title"] ?? "Sistema de Pagos de Aranceles";
+    bool isAuthenticated = User?.Identity?.IsAuthenticated == true;
+    bool isAdmin = User?.IsInRole("Admin") == true;
+    bool isContador = User?.IsInRole("Contador") == true;
 }
-
-@* @using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor HttpContextAccessor
-@{
-    var ses = HttpContextAccessor.HttpContext?.Session;
-    bool esAdmin = ses?.GetInt32("Admin") != null;
-    bool esContador = ses?.GetInt32("Contador") != null;
-    bool isLogged = esAdmin || esContador;
-} *@
 
 <!DOCTYPE html>
 <html lang="es">
@@ -54,39 +48,62 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link active" asp-page="/Login">
-                                <i class="bi breadcrumb-item">Log In</i>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link active" asp-page="/Register">
-                                <i class="bi breadcrumb-item">Resgistro</i>
-                            </a>
-                        </li>
+                        @if (!isAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Login">
+                                    <i class="bi breadcrumb-item"></i> Login
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Logout">
+                                    <i class="bi breadcrumb-item"></i> Logout
+                                </a>
+                            </li>
+                        }
 
                         <li class="nav-item mt-3">
                             <span class="text-muted small ps-3">Gestión</span>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Establishments/Index">
-                                <i class="bi bi-building"></i> Establecimientos
-                            </a>
-                        </li>
+                        @* Management links shown according to role *@
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Establishments/Index">
+                                    <i class="bi bi-building"></i> Establecimientos
+                                </a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/PersonInCharges/Index">
-                                <i class="bi bi-person-badge"></i> Encargados de Establecimiento
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/PersonInCharges/Index">
+                                    <i class="bi bi-person-badge"></i> Encargados de Establecimiento
+                                </a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Categories/Index">
-                                <i class="bi bi-tags"></i> Categorías
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Categories/Index">
+                                    <i class="bi bi-tags"></i> Categorías
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Register">
+                                    <i class="bi"></i> Registrar usuario
+                                </a>
+                            </li>
+                        }
+                        else if (isContador)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Establishments/Index">
+                                    <i class="bi bi-building"></i> Establecimientos
+                                </a>
+                            </li>
+                        }
 
                     </ul>
                 </div>

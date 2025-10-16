@@ -25,7 +25,10 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
         {
             Category.RegisterDate = DateTime.Now;
             Category.LastUpdate = DateTime.Now;
-            Category.CreatedBy = 1;
+            // use authenticated user's id as CreatedBy
+            var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedCreatorId))
+                Category.CreatedBy = parsedCreatorId;
             Category.Active = true;
             if (!ModelState.IsValid)
             {

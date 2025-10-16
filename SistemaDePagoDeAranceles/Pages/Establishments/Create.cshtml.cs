@@ -34,7 +34,10 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             Establishment.LastUpdate = DateTime.Now;
             Establishment.BusinessName = "business name example";
             Establishment.Active = true;
-            Establishment.CreatedBy = 1;
+            // use authenticated user's id as CreatedBy
+            var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedCreatorId))
+                Establishment.CreatedBy = parsedCreatorId;
             
             if (!ModelState.IsValid)
             {

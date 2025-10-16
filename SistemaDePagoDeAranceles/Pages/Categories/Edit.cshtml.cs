@@ -4,6 +4,7 @@ using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using SistemaDePagoDeAranceles.Application.Services;
+using SistemaDePagoDeAranceles.Application.Helpers;
 
 
 namespace SistemaDePagoDeAranceles.Pages.Categories
@@ -51,6 +52,7 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
                 return Page();
             }
 
+            Category.LastUpdate = DateTime.Now;
             _repository.Update(Category);
 
             return RedirectToPage("./Index");

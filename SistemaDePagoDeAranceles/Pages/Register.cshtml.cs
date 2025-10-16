@@ -31,7 +31,10 @@ namespace SistemaDePagoDeAranceles.Pages
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid) return Page();
-            int adminId = 1; // TODO: replace with the logged-in Admin user id if available
+            // Get the id of the admin creating this user from the authenticated principal
+            int adminId = 0;
+            var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedId)) adminId = parsedId;
 
             var (ok, usern, passw, err) = _auth.RegisterUser(Input.FirstName, Input.LastName, Input.Email, Input.Role, adminId);
             if (!ok) { ModelState.AddModelError(string.Empty, err ?? "No se pudo registrar."); return Page(); }
