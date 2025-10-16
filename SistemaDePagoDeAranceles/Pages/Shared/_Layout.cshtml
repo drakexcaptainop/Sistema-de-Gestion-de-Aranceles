@@ -23,7 +23,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
         <div class="container-fluid">
             <!-- 🔹 Logo + título -->
-            <a class="navbar-brand d-flex align-items-center fw-bold" asp-page="/Index">
+            <a class="navbar-brand fw-bold d-flex align-items-center fw-bold" asp-page="/Index">
                 <img src="@Url.Content("/budget.png")" alt="Logo" class="me-2" style="height:40px; width:auto;">
                 Pagos de Aranceles
             </a>
@@ -38,70 +38,66 @@
         <div class="row">
 
             <!-- SIDEBAR -->
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-white sidebar shadow-sm border-end">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-white border-end min-vh-100">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
-                            <a class="nav-link active" asp-page="/Index">
-                                <i class="bi bi-house-door"></i> Inicio
+                            <a class="nav-link active text-primary fw-semibold" asp-page="/Index">
+                                <i class="bi bi-house-door me-2"></i> Inicio
                             </a>
                         </li>
 
                         @if (!isAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-page="/Login">
-                                    <i class="bi breadcrumb-item"></i> Iniciar Sesion
+                                <a class="nav-link text-dark" asp-page="/Login">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i> Iniciar Sesion
                                 </a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-page="/Logout">
-                                    <i class="bi breadcrumb-item"></i> Cerrar Sesion
+                                <a class="nav-link text-dark" asp-page="/Logout">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
                                 </a>
                             </li>
                         }
 
                         <li class="nav-item mt-3">
-                            <span class="text-muted small ps-3">Gestión</span>
+                            <span class="text-secondary small ps-3 text-uppercase">Gestión</span>
                         </li>
 
                         @* Management links shown according to role *@
                         @if (isAdmin)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-page="/Establishments/Index">
-                                    <i class="bi bi-building"></i> Establecimientos
+                                <a class="nav-link text-dark" asp-page="/Establishments/Index">
+                                    <i class="bi bi-building me-2"></i> Establecimientos
                                 </a>
                             </li>
-
                             <li class="nav-item">
-                                <a class="nav-link" asp-page="/PersonInCharges/Index">
-                                    <i class="bi bi-person-badge"></i> Encargados de Establecimiento
+                                <a class="nav-link text-dark" asp-page="/PersonInCharges/Index">
+                                    <i class="bi bi-person-badge me-2"></i> Encargados
                                 </a>
                             </li>
-
                             <li class="nav-item">
-                                <a class="nav-link" asp-page="/Categories/Index">
-                                    <i class="bi bi-tags"></i> Categorías
+                                <a class="nav-link text-dark" asp-page="/Categories/Index">
+                                    <i class="bi bi-tags me-2"></i> Categorías
                                 </a>
                             </li>
-
                             <li class="nav-item">
-                                <a class="nav-link" asp-page="/Users/Index">
-                                    <i class="bi bi-people"></i> Usuarios
+                                <a class="nav-link text-dark" asp-page="/Users/Index">
+                                    <i class="bi bi-people me-2"></i> Usuarios
                                 </a>
                             </li>
-
                         }
                         else if (isContador)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-page="/Establishments/Index">
-                                    <i class="bi bi-building"></i> Establecimientos
+                                <a class="nav-link text-dark" asp-page="/Establishments/Index">
+                                    <i class="bi bi-building me-2"></i> Establecimientos
                                 </a>
                             </li>
                         }
@@ -123,8 +119,7 @@
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    @RenderSection("Scripts", required: false)
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    @RenderSection("Scripts", required: false)  
 </body>
 </html>

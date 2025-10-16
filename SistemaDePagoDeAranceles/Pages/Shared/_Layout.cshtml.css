@@ -7,6 +7,33 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 2px solid #d1d1d1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.navbar a {
+    color: #1b1b1b;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #1b6ec2;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    color: #1b1b1b !important;
+}
+
+
+body {
+    margin-bottom: 80px;
+}
+
 a {
   color: #0077cc;
 }

@@ -8,7 +8,7 @@
 }
 
 <h2 class="mb-4">@ViewData["Title"]</h2>
-
+<hr class="border-top border-2 border-secondary opacity-50 mb-4">
 @if (isAdmin)
 {
     <a asp-page="Create" class="btn btn-primary mb-3">
@@ -22,10 +22,13 @@
 else
 {
     <form method="post" asp-page-handler="Search" class="space-y-2">
-        <input asp-for="SearchTerm"
-               class="form-control"
-               placeholder="Buscar Establecimientos por el Nombre" />
-        <button type="submit" class="btn btn-primary">Buscar</button>
+        <div class="input-group">
+            <input asp-for="SearchTerm"
+                   class="form-control"
+                   placeholder="Buscar Establecimientos por el Nombre" />
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            <a asp-page="Index" class="btn btn-secondary">Limpiar</a>
+        </div>
     </form>
 
     <br>
