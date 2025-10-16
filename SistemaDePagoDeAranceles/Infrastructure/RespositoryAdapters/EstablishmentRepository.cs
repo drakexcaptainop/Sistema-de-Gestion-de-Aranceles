@@ -14,8 +14,8 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
         }
         public int Delete(Establishment model)
         {
-            string query = "UPDATE category SET last_update = CURRENT_TIMESTAMP, active = FALSE WHERE id = @Id";
-            return _dbConnectionManager.ExecuteParameterizedNonQuery<Establishment>(query, model);
+            string query = "UPDATE category SET last_update = CURRENT_TIMESTAMP, status = FALSE WHERE id = @Id";
+            return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
         }
 
         public IEnumerable<Establishment> GetAll()
