@@ -32,7 +32,7 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
             }
             catch
             {
-                return RedirectToPage("./Error");
+                return RedirectToPage("../Error");
             }
 
             var result = _repository.GetAll();

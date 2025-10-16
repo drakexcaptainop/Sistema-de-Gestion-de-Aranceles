@@ -39,16 +39,14 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
         {
             Establishment.RegisterDate = DateTime.Now;
             Establishment.LastUpdate = DateTime.Now;
-            Establishment.BusinessName = "business name example";
+            Establishment.BusinessName = ".";
             Establishment.Active = true;
-            // use authenticated user's id as CreatedBy
             var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedCreatorId))
                 Establishment.CreatedBy = parsedCreatorId;
             
             if (!ModelState.IsValid)
             {
-                //PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
                 return RedirectToPage();
             }
             
@@ -65,7 +63,6 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             {
                 ModelState.AddModelError(string.Empty, error);
             }
-            //PersonsInCharge = _personRepository.GetAll().Where(personInCharge => personInCharge.Status).ToList();
             return RedirectToPage();
         }
 

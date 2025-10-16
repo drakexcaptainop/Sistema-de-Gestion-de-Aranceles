@@ -133,7 +133,7 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     created_by                 AS CreatedBy,
                     created_date               AS CreatedDate,
                     last_update                AS LastUpdate,
-                    status                     AS Status
+                    status                     AS Active
                 FROM establishment
                 WHERE status = TRUE AND (
                     (@Name IS NOT NULL AND name              LIKE CONCAT('%', @Name, '%')) OR
