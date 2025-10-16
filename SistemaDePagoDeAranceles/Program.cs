@@ -77,7 +77,8 @@ builder.Services.AddScoped<IUserRepositoryService>(sp =>
 // Session + HttpContextAccessor
 
 // Register Email Service
-builder.Services.AddScoped<SistemaDePagoDeAranceles.Domain.Ports.ServicePorts.IEmailService, SistemaDePagoDeAranceles.Application.Services.EmailService>();
+builder.Services.AddScoped<SistemaDePagoDeAranceles.Application.Services.EmailService>();
+builder.Services.AddScoped<IEmailService,SistemaDePagoDeAranceles.Infrastructure.EmailAdapters.SmtpEmailAdapter>();
 
 // Register IAuthService so page models can resolve IAuthService
 builder.Services.AddScoped<SistemaDePagoDeAranceles.Domain.Ports.ServicePorts.IAuthService, SistemaDePagoDeAranceles.Application.Services.AuthService>();
@@ -98,8 +99,7 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = System.TimeSpan.FromHours(8);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
-});
-
+}); 
 // ==========================
 //  APP PIPELINE
 // ==========================
