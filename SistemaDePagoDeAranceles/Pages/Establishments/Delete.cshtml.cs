@@ -31,12 +31,12 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             }
             catch
             {
-                return RedirectToPage("./Error");
+                return RedirectToPage("../Error");
             }
             
             var entity = _repository.GetAll().FirstOrDefault(e => e.Id == realId);
             if (entity == null)
-                return RedirectToPage("Index");
+                return RedirectToPage("./Index");
 
             Establishment = entity;
             return Page();
@@ -44,7 +44,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public IActionResult OnPost()
         {
-            _repository.Delete(Establishment);  
+            _repository.Delete(Establishment);
             return RedirectToPage("./Index");
         }
     }

@@ -14,7 +14,7 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
         }
         public int Delete(Establishment model)
         {
-            string query = "UPDATE category SET last_update = CURRENT_TIMESTAMP, status = FALSE WHERE id = @Id";
+            string query = "UPDATE establishment SET last_update = CURRENT_TIMESTAMP, status = FALSE WHERE id = @Id";
             return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
         }
 
@@ -93,7 +93,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     email                   = @Email,
                     establishment_type      = @EstablishmentType,
                     person_in_charge_id     = @PersonInChargeId,
-                    -- status is included so you can re-enable if needed; remove if you prefer not to expose it here
                     status                  = @Status,
                     last_update             = CURRENT_TIMESTAMP
                 WHERE id = @Id;";

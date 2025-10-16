@@ -1,23 +1,43 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
+using System.Linq;
 
-namespace SistemaDePagoDeAranceles.Infrastructure.Database;
-
-public static class DbParameterHelper
+namespace SistemaDePagoDeAranceles.Infrastructure.Database
 {
-    public static MySqlCommand PopulateCommandParameters<T>(string query, T model)
+    public static class DbParameterHelper
     {
-        var parameters = Regex.Matches(query, @"@\w+");
-        MySqlCommand command = new(query);
-        PropertyInfo[] modelProperties = typeof(T).GetProperties();
-        foreach (Match param in parameters)
+        public static MySqlCommand PopulateCommandParameters<T>(string query, T model)
         {
-            string paramName = param.Value;
-            string modelPropName = paramName[1..];
-            PropertyInfo property = modelProperties.Where(p => p.Name == modelPropName).First();
-            command.Parameters.Add(new MySqlParameter(paramName, DBNull.Value)).Value = property.GetValue(model);
+            var parameters = Regex.Matches(query, @"@\w+")
+                .Cast<Match>()
+                .Select(m => m.Value)
+                .Distinct()
+                .ToList();
+
+            MySqlCommand command = new(query);
+
+            if (model == null)
+                return command;
+
+            PropertyInfo[] modelProperties = typeof(T).GetProperties();
+
+            foreach (string paramName in parameters)
+            {
+                string modelPropName = paramName[1..];
+                var property = modelProperties.FirstOrDefault(p => p.Name == modelPropName);
+
+                if (property != null)
+                {
+                    object value = property.GetValue(model) ?? DBNull.Value;
+                    command.Parameters.Add(new MySqlParameter(paramName, value));
+                }
+                else
+                {
+                }
+            }
+
+            return command;
         }
-        return command;
     }
 }
