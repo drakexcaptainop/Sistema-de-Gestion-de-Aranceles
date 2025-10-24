@@ -17,8 +17,6 @@
         <th>Nombre</th>
         <th>Descripción</th>
         <th>Monto Base</th>
-        <th>Activo</th>
-        <th>Fecha de Registro</th>
         <th></th>
     </tr>
     </thead>
@@ -29,8 +27,6 @@
             <td>@item.Name</td>
             <td>@item.Description</td>
             <td>@item.BaseAmount</td>
-            <td>@(item.Status ? "Sí" : "No")</td>
-            <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
             <td>
                 <a asp-page="Edit" asp-route-id="@(Model.Protect(item.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
                 <a asp-page="Delete" asp-route-id="@(Model.Protect(item.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
