@@ -11,13 +11,13 @@
 </p>
 
 <table class="table table-striped">
-    <thead>
+    <thead class="table-primary">
     <tr>
         <th>Nombre</th>
         <th>Correo</th>
         <th>Teléfono</th>
         <th>CI</th>
-        <th>Activo</th>
+        <th>Dirección</th>
         <th>Acciones</th>
     </tr>
     </thead>
@@ -29,7 +29,7 @@
             <td>@p.Email</td>
             <td>@p.Phone</td>
             <td>@p.Ci</td>
-            <td>@(p.Status ? "Si" : "No")</td>
+            <td>@p.Address</td>
             <td>
                 <a asp-page="Edit" asp-route-id="@(Model.Protect(p.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
                 <a asp-page="Delete" asp-route-id="@(Model.Protect(p.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
