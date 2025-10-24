@@ -24,6 +24,7 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
         public void OnGet()
         {
             ResultGetAllPersonInCharge = _repository.GetAll();
+            Persons = ResultGetAllPersonInCharge.Value?.ToList() ?? new List<PersonInCharge>();
         }
 
         public string Protect(int id) => _idProtector.ProtectInt(id);

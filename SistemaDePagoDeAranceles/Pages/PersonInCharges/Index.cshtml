@@ -17,24 +17,33 @@
         <th>Correo</th>
         <th>Teléfono</th>
         <th>CI</th>
-        <th>Dirección</th>
         <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var p in Model.Persons)
+    
+    @if (Model.Persons.Any())
+    {
+        @foreach (var p in Model.Persons)
+        {
+            <tr>
+                <td>@p.FirstName @p.LastName</td>
+                <td>@p.Email</td>
+                <td>@p.Phone</td>
+                <td>@p.Ci</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@(Model.Protect(p.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
+                    <a asp-page="Delete" asp-route-id="@(Model.Protect(p.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    }
+    else
     {
         <tr>
-            <td>@p.FirstName @p.LastName</td>
-            <td>@p.Email</td>
-            <td>@p.Phone</td>
-            <td>@p.Ci</td>
-            <td>@p.Address</td>
-            <td>
-                <a asp-page="Edit" asp-route-id="@(Model.Protect(p.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
-                <a asp-page="Delete" asp-route-id="@(Model.Protect(p.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
-            </td>
+            <td colspan="5" class="text-center text-muted">No hay personas registradas.</td>
         </tr>
     }
+    
     </tbody>
 </table>

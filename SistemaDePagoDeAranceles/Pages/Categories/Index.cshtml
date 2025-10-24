@@ -21,17 +21,27 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.Categories)
+    @if (Model.Categories.Any())
+    {
+        @foreach (var item in Model.Categories)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.BaseAmount</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@(Model.Protect(item.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
+                    <a asp-page="Delete" asp-route-id="@(Model.Protect(item.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    }
+    else
     {
         <tr>
-            <td>@item.Name</td>
-            <td>@item.Description</td>
-            <td>@item.BaseAmount</td>
-            <td>
-                <a asp-page="Edit" asp-route-id="@(Model.Protect(item.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
-                <a asp-page="Delete" asp-route-id="@(Model.Protect(item.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
-            </td>
+            <td colspan="5" class="text-center text-muted">No hay categorías registradas.</td>
         </tr>
     }
+    
     </tbody>
 </table>
