@@ -37,6 +37,8 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public IActionResult OnPost()
         {
+            Establishment.Status = true;
+            
             var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedCreatorId))
                 Establishment.CreatedBy = parsedCreatorId;
