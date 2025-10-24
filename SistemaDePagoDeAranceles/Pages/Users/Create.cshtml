@@ -1,0 +1,67 @@
+@page
+@model SistemaDePagoDeAranceles.Pages.Users.CreateModel
+@{
+    ViewData["Title"] = "Crear Usuario";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+@if (Model.GeneratedUsername != null)
+{
+    <div class="alert alert-success">
+        <h4><i class="bi bi-check-circle"></i> ¡Usuario creado exitosamente!</h4>
+        <p><strong>Usuario:</strong> @Model.GeneratedUsername</p>
+        <div class="alert alert-info mt-3">
+            <i class="bi bi-envelope-check"></i> 
+            <strong>Correo enviado:</strong> Se ha enviado un correo electrónico a <strong>@Model.Input.Email</strong> 
+            con las credenciales de acceso y la contraseña generada.
+        </div>
+        <p class="mb-0"><small>⚠️ Si el usuario no recibe el correo, verifique la carpeta de spam o contacte al administrador del sistema.</small></p>
+    </div>
+    <a asp-page="Index" class="btn btn-primary">Volver a la lista</a>
+}
+else
+{
+    <form method="post" class="card shadow-sm p-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label asp-for="Input.FirstName" class="form-label">Nombre</label>
+                <input asp-for="Input.FirstName" class="form-control" required />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Input.LastName" class="form-label">Apellido</label>
+                <input asp-for="Input.LastName" class="form-control" required />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Input.Email" class="form-label">Correo Electrónico</label>
+                <input asp-for="Input.Email" type="email" class="form-control" required />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Input.Role" class="form-label">Rol</label>
+                <select asp-for="Input.Role" class="form-select" required>
+                    <option value="">Seleccionar rol</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Contador">Contador</option>
+                </select>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success">Crear Usuario</button>
+            <a asp-page="Index" class="btn btn-secondary ms-2">Cancelar</a>
+        </div>
+    </form>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

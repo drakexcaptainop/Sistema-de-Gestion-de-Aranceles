@@ -4,6 +4,8 @@ using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using SistemaDePagoDeAranceles.Application.Services;
+using SistemaDePagoDeAranceles.Application.Helpers;
+using SistemaDePagoDeAranceles.Domain.Common;
 
 
 namespace SistemaDePagoDeAranceles.Pages.Categories
@@ -12,7 +14,7 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
     {
         private readonly IRepositoryService<Category> _repository;
         private readonly IdProtector _idProtector;
-
+        public Result<Category> GetAllResult { get; set; }
         public EditModel(IRepositoryServiceFactory<Category> factory, IdProtector idProtector)
         {
             _repository = factory.CreateRepositoryService();
@@ -31,10 +33,17 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
             }
             catch
             {
-                return RedirectToPage("./Error");
+                return RedirectToPage("../Error");
             }
 
-            var list = _repository.GetAll().ToList();
+            var result = _repository.GetAll();
+
+            if (result.IsFailure)
+            {   
+                return NotFound(result.Errors.FirstOrDefault());
+            }
+            
+            var list = result.Value;
             Category = list.FirstOrDefault(c => c.Id == realId);
 
             if (Category == null)
@@ -52,9 +61,17 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
                 return Page();
             }
 
-            _repository.Update(Category);
-
-            return RedirectToPage("./Index");
+            Category.LastUpdate = DateTime.Now;
+            var result = _repository.Update(Category);
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
     }
 }

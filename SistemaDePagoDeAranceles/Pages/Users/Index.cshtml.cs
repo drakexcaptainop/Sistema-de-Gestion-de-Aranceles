@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Domain.Models;
@@ -5,41 +6,41 @@ using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using SistemaDePagoDeAranceles.Domain.Common;
-using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 
-namespace SistemaDePagoDeAranceles.Pages.Establishments
+namespace SistemaDePagoDeAranceles.Pages.Users
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
-        private readonly IRepositoryService<Establishment> _repository;
+        private readonly IRepositoryService<User> _repository;
         private readonly IdProtector _idProtector;
 
         [BindProperty]
         public string SearchTerm { get; set; }
 
-        public List<Establishment> Establishments { get; set; } = new();
-        public Result<IEnumerable<Establishment>> EstablishmentsGetAllResult { get; set; } 
+        public List<User> Users { get; set; } = new();
+        public Result<IEnumerable<User>> ResultGetAllUser { get; set; }
 
-        public IndexModel(IRepositoryServiceFactory<Establishment> factory, IdProtector idProtector)
+        public IndexModel(IRepositoryServiceFactory<User> factory, IdProtector idProtector)
         {
             _repository = factory.CreateRepositoryService();
-            _idProtector =  idProtector;
+            _idProtector = idProtector;
         }
 
         public void OnGet()
         {
-            EstablishmentsGetAllResult = _repository.GetAll();
+            ResultGetAllUser = _repository.GetAll();
         }
 
-        public void OnPost()
+        public void OnPostSearch()
         {
             if (string.IsNullOrWhiteSpace(SearchTerm))
             {
-                EstablishmentsGetAllResult = _repository.GetAll();
+                ResultGetAllUser = _repository.GetAll();
             }
             else
             {
-                EstablishmentsGetAllResult = _repository.Search(SearchTerm);
+                ResultGetAllUser = _repository.Search(SearchTerm);
             }
         }
 

@@ -34,10 +34,21 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
             Person.CreatedDate = DateTime.Now;
             Person.UpdateDate = DateTime.Now;
             Person.Status = true;
-            Person.CreatedBy = 1;
+            // use authenticated user's id as CreatedBy
+            var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedCreatorId))
+                Person.CreatedBy = parsedCreatorId;
 
-            _repository.Insert(Person);
-            return RedirectToPage("./Index");
+            var result = _repository.Insert(Person);
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
     }
 }

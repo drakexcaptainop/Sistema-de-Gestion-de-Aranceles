@@ -1,22 +1,23 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
-using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 
-namespace SistemaDePagoDeAranceles.Pages.Establishments
+namespace SistemaDePagoDeAranceles.Pages.Users
 {
-    public class DeleteModel : PageModel
+    [Authorize(Roles = "Admin")]
+    public class EditModel : PageModel
     {
-        private readonly IRepositoryService<Establishment> _repository;
+        private readonly IRepositoryService<User> _repository;
         private readonly IdProtector _idProtector;
 
         [BindProperty]
-        public Establishment Establishment { get; set; } = new();
+        public new User User { get; set; } = new();
 
-        public DeleteModel(IRepositoryServiceFactory<Establishment> factory, IdProtector idProtector)
+        public EditModel(IRepositoryServiceFactory<User> factory, IdProtector idProtector)
         {
             _repository = factory.CreateRepositoryService();
             _idProtector = idProtector;
@@ -35,31 +36,37 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             }
 
             var result = _repository.GetAll();
-
             if (result.IsFailure)
             {
-                return NotFound(result.Errors.FirstOrDefault());
+                return NotFound();
             }
-
-            var entity = result.Value.FirstOrDefault(e => e.Id == realId);
+            var entity = result.Value.FirstOrDefault(u => u.Id == realId);
             if (entity == null)
-                return RedirectToPage("Index");
+                return RedirectToPage("./Index");
 
-            Establishment = entity;
+            User = entity;
             return Page();
         }
 
         public IActionResult OnPost()
         {
-            var result = _repository.Delete(Establishment);
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            User.LastUpdate = DateTime.UtcNow;
+            var result = _repository.Update(User);
             if (result.IsSuccess)
             {
+                TempData["SuccessMessage"] = "Usuario actualizado exitosamente.";
                 return RedirectToPage("./Index");
             }
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error);
             }
+            TempData["ErrorMessage"] = "Error al actualizar el usuario.";
             return Page();
         }
     }

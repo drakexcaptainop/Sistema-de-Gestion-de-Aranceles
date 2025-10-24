@@ -5,6 +5,7 @@ using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
+using SistemaDePagoDeAranceles.Application.Helpers;
 
 namespace SistemaDePagoDeAranceles.Pages.Establishments
 {
@@ -31,10 +32,16 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
             }
             catch
             {
-                return RedirectToPage("./Error");
+                return RedirectToPage("../Error");
             }
 
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == realId);
+            var result = _repository.GetAll();
+            if (result.IsFailure)
+            {
+                return RedirectToPage("Index");
+            }
+
+            var entity = result.Value.FirstOrDefault(e => e.Id == realId);
             if (entity == null)
                 return RedirectToPage("./Index");
 
@@ -50,9 +57,20 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
                 Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Establishment)}");
                 return Page();
             }
-            _repository.Update(Establishment);
+            Establishment.LastUpdate = DateTime.Now;
+            var editorId = User.GetUserId();
+            var result = _repository.Update(Establishment);
 
-            return RedirectToPage("./Index");
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
     }
 }
