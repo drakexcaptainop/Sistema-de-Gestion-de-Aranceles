@@ -3,42 +3,47 @@
 @{
     ViewData["Title"] = "Encargados";
 }
+
 <h1>Lista de Encargados</h1>
+
 <p>
     <a asp-page="Create" class="btn btn-primary">Nuevo Encargado</a>
 </p>
-@if (Model.ResultGetAllPersonInCharge.IsFailure)
-{
-    <h2>No se encontraron registros</h2>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Teléfono</th>
-            <th>CI</th>
-            <th>Activo</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var p in Model.ResultGetAllPersonInCharge.Value.Where(p => p.Status))
+
+<table class="table table-striped">
+    <thead class="table-primary">
+    <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>CI</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+    @if (Model.Persons.Any())
+    {
+        @foreach (var p in Model.Persons)
         {
             <tr>
                 <td>@p.FirstName @p.LastName</td>
                 <td>@p.Email</td>
                 <td>@p.Phone</td>
                 <td>@p.Ci</td>
-                <td>@(p.Status ? "Si" : "No")</td>
                 <td>
                     <a asp-page="Edit" asp-route-id="@(Model.Protect(p.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
                     <a asp-page="Delete" asp-route-id="@(Model.Protect(p.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
                 </td>
             </tr>
         }
-        </tbody>
-    </table>
-}
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" class="text-center text-muted">No hay personas registradas.</td>
+        </tr>
+    }
+    
+    </tbody>
+</table>

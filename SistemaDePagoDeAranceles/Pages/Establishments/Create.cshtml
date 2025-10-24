@@ -6,38 +6,32 @@
 }
 
 <h2 class="mb-4">@ViewData["Title"]</h2>
-@if (Model.ResultGetAllPersonInCharge.IsFailure)
-{
-    <h2 class="mb-4"> No se encontraror encarcagos registrados, registre un encargado para continuar. </h2>
-    <a asp-page="/PersonInCharges/Create" class="btn btn-secondary ms-2">Registrar Encargado</a>
-}
-else
-{
-    <form method="post" class="card shadow-sm p-4">
-    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+<form method="post" class="card shadow-sm p-4">
     <div class="row g-3">
         <div class="col-md-6">
-                <label asp-for="Establishment.Name" class="form-label">Nombre</label>
+            <label asp-for="Establishment.Name" class="form-label">Nombre</label>
             <input asp-for="Establishment.Name" class="form-control" required />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.TaxId" class="form-label">Codigo de Impuesto</label>
-            <input asp-for="Establishment.TaxId" class="form-control" />
+            @* Codigo de impuesto *@
+            <label asp-for="Establishment.TaxId" class="form-label">NIT</label>
+            <input asp-for="Establishment.TaxId" class="form-control"/>
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Email" class="form-label">Correo Electronico</label>
+            <label asp-for="Establishment.Email" class="form-label">Correo Electrónico</label>
             <input asp-for="Establishment.Email" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Phone" class="form-label">Telefono celular</label>
+            <label asp-for="Establishment.Phone" class="form-label">Teléfono celular</label>
             <input asp-for="Establishment.Phone" class="form-control" />
         </div>
 
         <div class="col-md-6">
-            <label asp-for="Establishment.Address" class="form-label">Direccion</label>
+            <label asp-for="Establishment.Address" class="form-label">Dirección</label>
             <input asp-for="Establishment.Address" class="form-control" />
         </div>
         
@@ -47,29 +41,24 @@ else
         </div>
         
         <div class="col-md-6">
-            <label asp-for="Establishment.SanitaryLicenseExpiry" class="form-label">Fecha de expiracion de licencia</label>
+            <label asp-for="Establishment.SanitaryLicenseExpiry" class="form-label">Fecha de expiración de licencia</label>
             <input asp-for="Establishment.SanitaryLicenseExpiry" class="form-control" type="date"/>
-        </div>
-
-        <div class="col-md-6">
-            <label asp-for="Establishment.SanitaryLicenseExpiry" class="form-label">Fecha de Vencimiento de Licencia Sanitaria</label>
-            <input asp-for="Establishment.SanitaryLicenseExpiry" type="date" class="form-control" />
         </div>
 
         <div class="col-md-6">
             <label asp-for="Establishment.EstablishmentType" class="form-label">Tipo de Establecimiento</label>
             <select asp-for="Establishment.EstablishmentType" class="form-select">
                 <option value="">Seleccionar tipo</option>
-                <option value="RESTAURANT">RESTAURANTE</option>
+                <option value="RESTAURANT">RESTAURANT</option>
                 <option value="BAR">BAR</option>
                 <option value="CAFETERIA">CAFETERIA</option>
-                <option value="FAST_FOOD">COMIDA RAPIDA</option>
-                <option value="OTHER">OTRO</option>
+                <option value="FAST_FOOD">FAST_FOOD</option>
+                <option value="OTHER">OTHER</option>
             </select>
         </div>
 
         <div class="col-md-6">
-            <label class="form-label">Persona a Cargo</label>
+            <label class="form-label">Person in Charge</label>
             <select asp-for="Establishment.PersonInChargeId" class="form-select">
                 @foreach (var person in Model.PersonsInCharge)
                 {
@@ -89,6 +78,3 @@ else
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-}
-
-

@@ -29,6 +29,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
         public void OnGet()
         {
             EstablishmentsGetAllResult = _repository.GetAll();
+            Establishments = EstablishmentsGetAllResult.Value?.ToList() ?? new List<Establishment>();
         }
 
         public void OnPost()

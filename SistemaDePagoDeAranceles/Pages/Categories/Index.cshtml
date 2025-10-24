@@ -11,23 +11,19 @@
 <a asp-page="Create" class="btn btn-primary mb-3">
     <i class="bi bi-plus-circle"></i> Nueva Categoría
 </a>
-@if (Model.CategoriesResult.IsFailure)
-{
-    <h2> @Model.CategoriesResult.Errors.FirstOrDefault() </h2>   
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Monto Base</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model.CategoriesResult.Value.Where(c => c.Status))
+<table class="table table-striped">
+    <thead class="table-primary">
+    <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Monto Base</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.Categories.Any())
+    {
+        @foreach (var item in Model.Categories)
         {
             <tr>
                 <td>@item.Name</td>
@@ -39,6 +35,13 @@ else
                 </td>
             </tr>
         }
-        </tbody>
-    </table> 
-}
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" class="text-center text-muted">No hay categorías registradas.</td>
+        </tr>
+    }
+    
+    </tbody>
+</table>
