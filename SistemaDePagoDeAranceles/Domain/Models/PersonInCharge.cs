@@ -25,8 +25,7 @@ public class PersonInCharge
     [StringLength(100, MinimumLength = 5, ErrorMessage = "El CI es invalido")]
     public string Ci { get; set; }
     public string Address { get; set; }
-
-    public DateTime RegisterDate { get; set; }
+    public DateTime CreatedDate { get; set; }
     public DateTime UpdateDate { get; set; }
     public bool Status { get; set; }
     public int CreatedBy { get; set; }

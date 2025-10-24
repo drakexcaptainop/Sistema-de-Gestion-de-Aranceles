@@ -42,7 +42,7 @@ else
         </thead>
         <tbody>
 
-        @foreach (var e in Model.EstablishmentsGetAllResult.Value.Where(e => e.Active))
+        @foreach (var e in Model.EstablishmentsGetAllResult.Value.Where(e => e.Status))
             {
                 <tr>
                     <td>@e.Name</td>

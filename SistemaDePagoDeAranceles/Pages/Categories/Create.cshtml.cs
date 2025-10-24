@@ -23,7 +23,7 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public IActionResult OnPost()
         {
-            Category.RegisterDate = DateTime.Now;
+            Category.CreatedDate = DateTime.Now;
             Category.LastUpdate = DateTime.Now;
             // use authenticated user's id as CreatedBy
             var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;

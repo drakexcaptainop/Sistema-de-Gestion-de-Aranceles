@@ -16,7 +16,7 @@ public class Category
     [Range(0, 100000, ErrorMessage = "El monto base debe ser positivo y menor a 100000")]
     public decimal BaseAmount { get; set; }
 
-    public DateTime RegisterDate { get; set; }
+    public DateTime CreatedDate { get; set; }
     public DateTime LastUpdate { get; set; }
     public bool Status { get; set; }
     public int CreatedBy { get; set; }

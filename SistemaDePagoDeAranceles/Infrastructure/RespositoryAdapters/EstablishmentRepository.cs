@@ -24,7 +24,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 SELECT
                     id                         AS Id,
                     name                       AS Name,
-                    business_name              AS BusinessName,
                     tax_id                     AS TaxId,
                     sanitary_license           AS SanitaryLicense,
                     sanitary_license_expiry    AS SanitaryLicenseExpiry,
@@ -34,9 +33,9 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     establishment_type         AS EstablishmentType,
                     person_in_charge_id        AS PersonInChargeId,
                     created_by                 AS CreatedBy,
-                    created_date               AS RegisterDate,
+                    created_date               AS CreatedDate,
                     last_update                AS LastUpdate,
-                    status                     AS Active
+                    status                     AS Status
                 FROM establishment
                 WHERE status = TRUE
                 ORDER BY id DESC;";
@@ -49,7 +48,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 INSERT INTO establishment
                 (
                     name,
-                    business_name,
                     tax_id,
                     sanitary_license,
                     sanitary_license_expiry,
@@ -66,7 +64,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 VALUES
                 (
                     @Name,
-                    @BusinessName,
                     @TaxId,
                     @SanitaryLicense,
                     @SanitaryLicenseExpiry,
@@ -78,7 +75,7 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     @CreatedBy,
                     CURRENT_TIMESTAMP,
                     CURRENT_TIMESTAMP,
-                    TRUE
+                    @Status
                 );";
             return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
         }
@@ -88,7 +85,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 UPDATE establishment
                 SET
                     name                    = @Name,
-                    business_name           = @BusinessName,
                     tax_id                  = @TaxId,
                     sanitary_license        = @SanitaryLicense,
                     sanitary_license_expiry = @SanitaryLicenseExpiry,
@@ -97,7 +93,7 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     email                   = @Email,
                     establishment_type      = @EstablishmentType,
                     person_in_charge_id     = @PersonInChargeId,
-                    status                  = @Active,
+                    status                  = @Status,
                     last_update             = CURRENT_TIMESTAMP
                 WHERE id = @Id;";
             return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
@@ -108,7 +104,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
             var probe = new Establishment
             {
                 Name = property,
-                BusinessName = property,
                 TaxId = property,
                 SanitaryLicense = property,
                 Address = property,
@@ -121,7 +116,6 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                 SELECT
                     id                         AS Id,
                     name                       AS Name,
-                    business_name              AS BusinessName,
                     tax_id                     AS TaxId,
                     sanitary_license           AS SanitaryLicense,
                     sanitary_license_expiry    AS SanitaryLicenseExpiry,
@@ -133,11 +127,10 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     created_by                 AS CreatedBy,
                     created_date               AS CreatedDate,
                     last_update                AS LastUpdate,
-                    status                     AS Active
+                    status                     AS Status
                 FROM establishment
                 WHERE status = TRUE AND (
                     (@Name IS NOT NULL AND name              LIKE CONCAT('%', @Name, '%')) OR
-                    (@BusinessName IS NOT NULL AND business_name   LIKE CONCAT('%', @BusinessName, '%')) OR
                     (@TaxId IS NOT NULL AND tax_id           LIKE CONCAT('%', @TaxId, '%')) OR
                     (@SanitaryLicense IS NOT NULL AND sanitary_license LIKE CONCAT('%', @SanitaryLicense, '%')) OR
                     (@Address IS NOT NULL AND address        LIKE CONCAT('%', @Address, '%')) OR

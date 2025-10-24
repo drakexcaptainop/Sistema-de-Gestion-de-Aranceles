@@ -9,8 +9,7 @@ public class Establishment
     [Required(ErrorMessage = "El nombre es obligatorio")]
     [StringLength(100, MinimumLength = 3,ErrorMessage = "El nombre no debe exceder los 100 caracteres")]
     public string Name { get; set; }
-    public string? BusinessName { get; set; }
-
+    
     [StringLength(20)]
     public string TaxId { get; set; }
 
@@ -36,8 +35,8 @@ public class Establishment
     public int PersonInChargeId { get; set; }
 
     // Audit
-    public DateTime RegisterDate { get; set; }
+    public DateTime CreatedDate { get; set; }
     public DateTime LastUpdate { get; set; }
-    public bool Active { get; set; }
+    public bool Status { get; set; }
     public int CreatedBy { get; set; }
 }
