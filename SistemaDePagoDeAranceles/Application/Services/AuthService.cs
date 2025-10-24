@@ -26,14 +26,14 @@ namespace SistemaDePagoDeAranceles.Application.Services
             _emailService = emailService;
         }
 
-        public (bool ok, int? userId, string? role, string? error) ValidateLogin(string username, string plainPassword)
+        public (bool ok, int? userId, string? role, string? error, bool isFirstLogin) ValidateLogin(string username, string plainPassword)
         {
             var user = _userService.GetByUsername(username);
-            if (user is null || !user.Status) return (false, null, null, "Usuario no encontrado o inactivo.");
+            if (user is null || !user.Status) return (false, null, null, "Usuario no encontrado o inactivo.", false);
 
             var givenHash = Md5Hex(plainPassword);
             if (!string.Equals(user.PasswordHash, givenHash, System.StringComparison.OrdinalIgnoreCase))
-                return (false, null, null, "Contraseña incorrecta.");
+                return (false, null, null, "Contraseña incorrecta.", false);
 
             // DB may store role as numeric code; convert it to application role name if necessary
             var roleValue = user.Role;
@@ -41,16 +41,15 @@ namespace SistemaDePagoDeAranceles.Application.Services
             {
                 roleValue = CodeToRole[code];
             }
-            return (true, user.Id, roleValue, null);
+            return (true, user.Id, roleValue, null, user.FirstLogin == 0);
         }
 
         public (bool ok, string? generatedUsername, string? generatedPassword, string? error) RegisterUser(string firstName, string lastName, string email, string role, int createdBy)
         {
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(email))
                 return (false, null, null, "Faltan datos obligatorios.");
-
-            // Generate username: first.last (lower) + optional numeric suffix if exists
-            var baseUser = (firstName + "." + lastName).ToLower().Replace(" ", "");
+            
+            var baseUser = email.Split('@')[0].ToLower().Replace(" ", "");
             var candidate = baseUser;
             int suffix = 1;
             while (_userService.GetByUsername(candidate) != null)
@@ -75,7 +74,8 @@ namespace SistemaDePagoDeAranceles.Application.Services
                 CreatedBy = createdBy,
                 CreatedDate = System.DateTime.UtcNow,
                 LastUpdate = System.DateTime.UtcNow,
-                Status = true
+                Status = true,
+                FirstLogin = 0  // Set FirstLogin to 0 for new users
             };
 
             var result = _userService.Insert(user);
@@ -112,14 +112,38 @@ namespace SistemaDePagoDeAranceles.Application.Services
             return sb.ToString();
         }
 
-        public static string Md5Hex(string input)
+        public User? GetUserById(int userId)
+        {
+            var result = _userService.GetById(userId);
+            return result.IsSuccess ? result.Value : null;
+        }
+
+        public async Task<(bool ok, string? error)> ChangePasswordFirstLogin(int userId, string newPassword)
+        {
+            var user = _userService.GetById(userId).Value;
+            if (user == null)
+                return (false, "Usuario no encontrado.");
+
+            if (user.FirstLogin != 0)
+                return (false, "Este usuario ya ha cambiado su contraseña inicial.");
+
+            user.PasswordHash = Md5Hex(newPassword);
+            user.FirstLogin = 1;
+            user.LastUpdate = DateTime.UtcNow;
+
+            var result = _userService.Update(user);
+            if (!result.IsSuccess)
+                return (false, string.Join("; ", result.Errors));
+
+            return (true, null);
+        }
+
+        private static string Md5Hex(string input)
         {
             using var md5 = MD5.Create();
-            var data = Encoding.UTF8.GetBytes(input);
-            var hash = md5.ComputeHash(data);
-            var sb = new StringBuilder(hash.Length * 2);
-            foreach (var b in hash) sb.Append(b.ToString("x2"));
-            return sb.ToString();
+            var inputBytes = Encoding.ASCII.GetBytes(input);
+            var hashBytes = md5.ComputeHash(inputBytes);
+            return Convert.ToHexString(hashBytes);
         }
     }
 }

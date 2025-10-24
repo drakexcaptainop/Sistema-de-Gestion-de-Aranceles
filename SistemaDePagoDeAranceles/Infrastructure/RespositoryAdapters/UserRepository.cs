@@ -38,7 +38,8 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     created_by    AS CreatedBy,
                     created_date  AS CreatedDate,
                     last_update   AS LastUpdate,
-                    status        AS Status
+                    status        AS Status,
+                    first_login   AS FirstLogin
                 FROM user
                 WHERE status = TRUE
                 ORDER BY id DESC;";
@@ -59,7 +60,8 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     created_by,
                     created_date,
                     last_update,
-                    status
+                    status,
+                    first_login
                 )
                 VALUES
                 (
@@ -72,7 +74,8 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     @CreatedBy,
                     CURRENT_TIMESTAMP,
                     CURRENT_TIMESTAMP,
-                    @Status
+                    @Status,
+                    @FirstLogin
                 );";
             return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
         }
@@ -86,10 +89,11 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     first_name    = @FirstName,
                     last_name     = @LastName,
                     email         = @Email,
-                    role          = @Role,
+                    role         = @Role,
                     created_by    = @CreatedBy,
                     last_update   = CURRENT_TIMESTAMP,
-                    status        = @Status
+                    status       = @Status,
+                    first_login  = @FirstLogin
                 WHERE id = @Id;";
             return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
         }
@@ -117,7 +121,8 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     created_by    AS CreatedBy,
                     created_date  AS CreatedDate,
                     last_update   AS LastUpdate,
-                    status        AS Status
+                    status        AS Status,
+                    first_login   AS FirstLogin
                 FROM user
                 WHERE status = TRUE AND (
                     (@Username IS NOT NULL AND username LIKE CONCAT('%', @Username, '%')) OR
@@ -130,13 +135,37 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
             return _dbConnectionManager.ExecuteParameterizedQuery<User>(query, probe);
         }
 
+        public User? GetById(int id)
+        {
+            string query = @"
+                SELECT
+                    id            AS Id,
+                    username      AS Username,
+                    password_hash AS PasswordHash,
+                    first_name    AS FirstName,
+                    last_name     AS LastName,
+                    email         AS Email,
+                    role          AS Role,
+                    created_by    AS CreatedBy,
+                    created_date  AS CreatedDate,
+                    last_update   AS LastUpdate,
+                    status        AS Status,
+                    first_login   AS FirstLogin
+                FROM user
+                WHERE id = @Id AND status = TRUE
+                LIMIT 1;";
+
+            var model = new User { Id = id };
+            return _dbConnectionManager.ExecuteParameterizedQuery<User>(query, model).FirstOrDefault();
+        }
+
         public User? GetByUsername(string username)
         {
             const string sql = @"
                 SELECT id AS Id, username AS Username, password_hash AS PasswordHash,
                        first_name AS FirstName, last_name AS LastName, email AS Email,
                        role AS Role, created_by AS CreatedBy, created_date AS CreatedDate,
-                       last_update AS LastUpdate, status AS Status
+                       last_update AS LastUpdate, status AS Status, first_login AS FirstLogin
                 FROM `user`
                 WHERE username = @Username
                 LIMIT 1;";

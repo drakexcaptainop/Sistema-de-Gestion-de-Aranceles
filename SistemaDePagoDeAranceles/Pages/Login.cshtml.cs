@@ -36,30 +36,54 @@ namespace SistemaDePagoDeAranceles.Pages
         {
             if (!ModelState.IsValid) return Page();
 
-            var (ok, userId, role, error) = _auth.ValidateLogin(Input.Username, Input.Password);
-            if (!ok) { ModelState.AddModelError(string.Empty, error ?? "Credenciales inválidas."); return Page(); }
-
-            // Claims (role for [Authorize(Roles="Admin")] etc.). Include NameIdentifier claim with user id.
-            var claims = new List<Claim>
+            try
             {
-                new (ClaimTypes.Name, Input.Username),
-                new (ClaimTypes.NameIdentifier, userId?.ToString() ?? string.Empty),
-                new (ClaimTypes.Role, role ?? "User")
-            };
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
+                var (ok, userId, role, error, isFirstLogin) = _auth.ValidateLogin(Input.Username, Input.Password);
+                if (!ok || userId == null) 
+                { 
+                    ModelState.AddModelError(string.Empty, error ?? "Credenciales inválidas."); 
+                    return Page(); 
+                }
 
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                principal,
-                new AuthenticationProperties { IsPersistent = Input.RememberMe });
+                // Claims (role for [Authorize(Roles="Admin")] etc.). Include NameIdentifier claim with user id.
+                var claims = new List<Claim>
+                {
+                    new (ClaimTypes.Name, Input.Username),
+                    new (ClaimTypes.NameIdentifier, userId.ToString()),
+                    new (ClaimTypes.Role, role ?? "User")
+                };
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
 
-            // Session usage removed — layout reads roles from claims
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    principal,
+                    new AuthenticationProperties { IsPersistent = Input.RememberMe });
 
-            if (!string.IsNullOrWhiteSpace(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
-                return LocalRedirect(ReturnUrl);
+                System.Console.WriteLine($"Login successful. FirstLogin: {isFirstLogin}, Role: {role}, UserId: {userId}");
+                
+                if (isFirstLogin)
+                {
+                    System.Console.WriteLine("Redirecting to ChangePassword");
+                    return RedirectToPage("/ChangePassword");
+                }
 
-            return RedirectToPage("/Index");
+                if (!string.IsNullOrWhiteSpace(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+                {
+                    System.Console.WriteLine($"Redirecting to ReturnUrl: {ReturnUrl}");
+                    return LocalRedirect(ReturnUrl);
+                }
+
+                System.Console.WriteLine("Redirecting to Index");
+                return RedirectToPage("/Index");
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine($"Login error: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "Error durante el inicio de sesión.");
+                return Page();
+            }
+
         }
     }
 }

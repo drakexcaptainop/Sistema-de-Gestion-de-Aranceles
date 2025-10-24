@@ -78,11 +78,11 @@ builder.Services.AddScoped<IUserRepositoryService>(sp =>
 // Session + HttpContextAccessor
 
 // Register Email Service
-builder.Services.AddScoped<SistemaDePagoDeAranceles.Domain.Ports.ServicePorts.IEmailService, SmtpEmailAdapter>();
+builder.Services.AddScoped<IEmailService, SmtpEmailAdapter>();
 builder.Services.AddScoped<EmailService>();
 
-// Register IAuthService so page models can resolve IAuthService
-builder.Services.AddScoped<SistemaDePagoDeAranceles.Domain.Ports.ServicePorts.IAuthService, SistemaDePagoDeAranceles.Application.Services.AuthService>();
+// Register AuthService
+builder.Services.AddScoped<IAuthService, AuthService>();
 // Add authentication (cookie) and authorization
 builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
