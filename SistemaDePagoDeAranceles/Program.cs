@@ -1,11 +1,13 @@
-using SistemaDePagoDeAranceles.Application.Services;
-using SistemaDePagoDeAranceles.Application.Services.Factory;
-using SistemaDePagoDeAranceles.Factory;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
-using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
+using SistemaDePagoDeAranceles.Application.Services;
+using SistemaDePagoDeAranceles.Application.Services.Factory;
+using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using SistemaDePagoDeAranceles.Domain.Models;
+using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
+using SistemaDePagoDeAranceles.Domain.Ports.ServicePorts;
 using SistemaDePagoDeAranceles.Infrastructure.Database;
+using SistemaDePagoDeAranceles.Infrastructure.EmailAdapters;
 using SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters;
 
 
@@ -62,7 +64,43 @@ builder.Services.AddScoped<IRepositoryServiceFactory<Fee>, FeeRepositoryServiceC
 // ==========================
 
 builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
+builder.Services.AddSingleton<SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts.IUserRepository, SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters.UserRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
+builder.Services.AddScoped<IUserRepositoryService>(sp => 
+{
+    var factory = sp.GetRequiredService<IRepositoryServiceFactory<User>>();
+    return (IUserRepositoryService)factory.CreateRepositoryService();
+});
+
+// ==========================
+// 🔹 Authentication CONFIG
+// ==========================
+// Session + HttpContextAccessor
+
+// Register Email Service
+builder.Services.AddScoped<IEmailService, SmtpEmailAdapter>();
+builder.Services.AddScoped<EmailService>();
+
+// Register AuthService
+builder.Services.AddScoped<IAuthService, AuthService>();
+// Add authentication (cookie) and authorization
+builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login";
+        options.AccessDeniedPath = "/Login";
+        options.ExpireTimeSpan = System.TimeSpan.FromHours(8);
+    });
+builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
+// Session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = System.TimeSpan.FromHours(8);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 // ==========================
 //  APP PIPELINE
@@ -75,10 +113,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
+app.UseSession();
 app.UseAuthorization();
 
 app.MapRazorPages();

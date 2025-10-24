@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaDePagoDeAranceles.Domain.Models;
-using SistemaDePagoDeAranceles.Factory;
-using SistemaDePagoDeAranceles.Respository;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
-using System.Linq;
 using SistemaDePagoDeAranceles.Application.Services;
+using System.Linq;
 
 namespace SistemaDePagoDeAranceles.Pages.Categories
 {
@@ -33,23 +31,35 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
             }
             catch
             {
-                return RedirectToPage("../Error");
-            }
-            
-            var entity = _repository.GetAll().FirstOrDefault(c => c.Id == realId);
-            if (entity == null)
-            {
                 return RedirectToPage("./Index");
             }
+            var result = _repository.GetAll();
+            if (result.IsFailure)
+            {
+                return RedirectToPage("./NotFound");
+            }
 
-            Category = entity;
+            var list = result.Value;
+            Category = list.FirstOrDefault(c => c.Id == realId);
+
+            if (Category == null)
+                return RedirectToPage("./Index");
+
             return Page();
         }
 
         public IActionResult OnPost()
         {
-            _repository.Delete(Category);
-            return RedirectToPage("./Index");
+            var result = _repository.Delete(Category);
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
     }
 }

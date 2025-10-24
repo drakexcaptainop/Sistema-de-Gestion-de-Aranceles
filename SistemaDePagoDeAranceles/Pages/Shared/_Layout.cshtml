@@ -1,5 +1,8 @@
 ﻿@{
     var title = ViewData["Title"] ?? "Sistema de Pagos de Aranceles";
+    bool isAuthenticated = User?.Identity?.IsAuthenticated == true;
+    bool isAdmin = User?.IsInRole("Admin") == true;
+    bool isContador = User?.IsInRole("Contador") == true;
 }
 
 <!DOCTYPE html>
@@ -20,10 +23,20 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
         <div class="container-fluid">
             <!-- 🔹 Logo + título -->
-            <a class="navbar-brand d-flex align-items-center fw-bold" asp-page="/Index">
-                <img src="@Url.Content("/budget.png")" alt="Logo" class="me-2" style="height:40px; width:auto;">
-                Pagos de Aranceles
-            </a>
+            @if (ViewData["HideSidebar"] != null && (bool)ViewData["HideSidebar"])
+            {
+                <div class="navbar-brand d-flex align-items-center fw-bold">
+                    <img src="@Url.Content("/budget.png")" alt="Logo" class="me-2" style="height:40px; width:auto;">
+                    Pagos de Aranceles
+                </div>
+            }
+            else
+            {
+                <a class="navbar-brand d-flex align-items-center fw-bold" asp-page="/Index">
+                    <img src="@Url.Content("/budget.png")" alt="Logo" class="me-2" style="height:40px; width:auto;">
+                    Pagos de Aranceles
+                </a>
+            }
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
@@ -35,6 +48,8 @@
         <div class="row">
 
             <!-- SIDEBAR -->
+            @if (ViewData["HideSidebar"] == null || !(bool)ViewData["HideSidebar"])
+            {
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-white sidebar shadow-sm border-end">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
@@ -45,46 +60,71 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link active" asp-page="/Login">
-                                <i class="bi breadcrumb-item">Log In</i>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link active" asp-page="/Registrar">
-                                <i class="bi breadcrumb-item">Resgistro</i>
-                            </a>
-                        </li>
+                        @if (!isAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Login">
+                                    <i class="bi breadcrumb-item"></i> Iniciar Sesion
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Logout">
+                                    <i class="bi breadcrumb-item"></i> Cerrar Sesion
+                                </a>
+                            </li>
+                        }
 
                         <li class="nav-item mt-3">
                             <span class="text-muted small ps-3">Gestión</span>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Establishments/Index">
-                                <i class="bi bi-building"></i> Establecimientos
-                            </a>
-                        </li>
+                        @* Management links shown according to role *@
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Establishments/Index">
+                                    <i class="bi bi-building"></i> Establecimientos
+                                </a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/PersonInCharges/Index">
-                                <i class="bi bi-person-badge"></i> Encargados de Establecimiento
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/PersonInCharges/Index">
+                                    <i class="bi bi-person-badge"></i> Encargados de Establecimiento
+                                </a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Categories/Index">
-                                <i class="bi bi-tags"></i> Categorías
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Categories/Index">
+                                    <i class="bi bi-tags"></i> Categorías
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Users/Index">
+                                    <i class="bi bi-people"></i> Usuarios
+                                </a>
+                            </li>
+
+                        }
+                        else if (isContador)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Establishments/Index">
+                                    <i class="bi bi-building"></i> Establecimientos
+                                </a>
+                            </li>
+                        }
 
                     </ul>
                 </div>
             </nav>
+            }
 
             <!-- CONTENIDO PRINCIPAL -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <main class="@(ViewData["HideSidebar"] != null && (bool)ViewData["HideSidebar"] ? "col-12" : "col-md-9 ms-sm-auto col-lg-10") px-md-4 py-4">
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
                         @RenderBody()

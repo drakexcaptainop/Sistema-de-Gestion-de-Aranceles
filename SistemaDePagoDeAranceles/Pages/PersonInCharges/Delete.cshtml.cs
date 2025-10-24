@@ -32,10 +32,15 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
             }
             catch
             {
-                return RedirectToPage("../Error");
+                return RedirectToPage("./Index");
             }
-            
-            var entity = _repository.GetAll().FirstOrDefault(e => e.Id == realId);
+
+            var result = _repository.GetAll();
+            if (result.IsFailure)
+            {
+                NotFound(result.Errors.FirstOrDefault());
+            }
+            var entity = result.Value.FirstOrDefault(e => e.Id == realId);
             if (entity == null)
                 return RedirectToPage("./Index");
 
@@ -44,8 +49,16 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
         }
         public IActionResult OnPost()
         {
-            _repository.Delete(Person);
-            return RedirectToPage("./Index");
+            var result = _repository.Delete(Person);
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("./Index");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return Page();
         }
 
     }

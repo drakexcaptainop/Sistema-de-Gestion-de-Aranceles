@@ -1,0 +1,52 @@
+@page "{id?}"
+@model SistemaDePagoDeAranceles.Pages.Users.DeleteModel
+@{
+    ViewData["Title"] = "Eliminar Usuario";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<div class="alert alert-warning">
+    <h4>¿Estás seguro de que deseas eliminar este usuario?</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Usuario:</dt>
+        <dd class="col-sm-9">@Model.User.Username</dd>
+
+        <dt class="col-sm-3">Nombre Completo:</dt>
+        <dd class="col-sm-9">@Model.User.FirstName @Model.User.LastName</dd>
+
+        <dt class="col-sm-3">Email:</dt>
+        <dd class="col-sm-9">@Model.User.Email</dd>
+
+        <dt class="col-sm-3">Rol:</dt>
+        <dd class="col-sm-9">
+            @if (Model.User.Role == "1")
+            {
+                <span class="badge bg-danger">Admin</span>
+            }
+            else if (Model.User.Role == "2")
+            {
+                <span class="badge bg-info">Contador</span>
+            }
+            else
+            {
+                <span>@Model.User.Role</span>
+            }
+        </dd>
+
+        <dt class="col-sm-3">Fecha de Creación:</dt>
+        <dd class="col-sm-9">@Model.User.CreatedDate.ToString("dd/MM/yyyy HH:mm")</dd>
+    </dl>
+    
+    <p class="text-danger">
+        <strong>Nota:</strong> Esta acción marcará el usuario como inactivo en el sistema. 
+        El usuario no podrá iniciar sesión pero sus datos se mantendrán en el sistema.
+    </p>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="User.Id" />
+    <button type="submit" class="btn btn-danger">Eliminar Usuario</button>
+    <a asp-page="Index" class="btn btn-secondary ms-2">Cancelar</a>
+</form>
