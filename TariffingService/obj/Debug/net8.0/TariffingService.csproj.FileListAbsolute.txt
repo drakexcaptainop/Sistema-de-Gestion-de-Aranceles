@@ -1,0 +1,17 @@
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\bin\Debug\net8.0\TariffingService.deps.json
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\bin\Debug\net8.0\TariffingService.dll
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\bin\Debug\net8.0\TariffingService.pdb
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\bin\Debug\net8.0\Common.dll
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\bin\Debug\net8.0\EstablishmentService.dll
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\bin\Debug\net8.0\Common.pdb
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\bin\Debug\net8.0\EstablishmentService.pdb
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\TariffingService.csproj.AssemblyReference.cache
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\TariffingService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\TariffingService.AssemblyInfoInputs.cache
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\TariffingService.AssemblyInfo.cs
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\TariffingService.csproj.CoreCompileInputs.cache
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\Tariffin.D6B9B31E.Up2Date
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\TariffingService.dll
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\refint\TariffingService.dll
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\TariffingService.pdb
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\ref\TariffingService.dll
