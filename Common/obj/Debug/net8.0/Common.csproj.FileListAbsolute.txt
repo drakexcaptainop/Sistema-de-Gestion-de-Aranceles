@@ -10,3 +10,4 @@ C:\Users\jb\source\repos\SistemaDePagoAranceles\Common\obj\Debug\net8.0\Common.d
 C:\Users\jb\source\repos\SistemaDePagoAranceles\Common\obj\Debug\net8.0\refint\Common.dll
 C:\Users\jb\source\repos\SistemaDePagoAranceles\Common\obj\Debug\net8.0\Common.pdb
 C:\Users\jb\source\repos\SistemaDePagoAranceles\Common\obj\Debug\net8.0\ref\Common.dll
+C:\Users\jb\source\repos\SistemaDePagoAranceles\Common\obj\Debug\net8.0\Common.sourcelink.json

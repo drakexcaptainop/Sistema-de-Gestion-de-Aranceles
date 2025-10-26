@@ -59,3 +59,4 @@ C:\Users\jb\source\repos\SistemaDePagoAranceles\UIHost\bin\Debug\net8.0\Common.p
 C:\Users\jb\source\repos\SistemaDePagoAranceles\UIHost\bin\Debug\net8.0\TariffingService.pdb
 C:\Users\jb\source\repos\SistemaDePagoAranceles\UIHost\bin\Debug\net8.0\EstablishmentService.pdb
 C:\Users\jb\source\repos\SistemaDePagoAranceles\UIHost\obj\Debug\net8.0\UIHost.csproj.Up2Date
+C:\Users\jb\source\repos\SistemaDePagoAranceles\UIHost\obj\Debug\net8.0\UIHost.sourcelink.json

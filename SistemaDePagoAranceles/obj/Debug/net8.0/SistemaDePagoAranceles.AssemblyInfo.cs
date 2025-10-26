@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SistemaDePagoAranceles")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+050e72b23fbaa504219293acf70682eb75c473a1")]
 [assembly: System.Reflection.AssemblyProductAttribute("SistemaDePagoAranceles")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SistemaDePagoAranceles")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

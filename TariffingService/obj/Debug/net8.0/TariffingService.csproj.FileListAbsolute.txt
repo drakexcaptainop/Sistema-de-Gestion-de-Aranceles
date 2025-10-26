@@ -15,3 +15,4 @@ C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.
 C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\refint\TariffingService.dll
 C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\TariffingService.pdb
 C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\ref\TariffingService.dll
+C:\Users\jb\source\repos\SistemaDePagoAranceles\TariffingService\obj\Debug\net8.0\TariffingService.sourcelink.json

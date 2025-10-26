@@ -229,6 +229,9 @@
         }
       },
       "EstablishmentService/1.0.0": {
+        "dependencies": {
+          "Common": "1.0.0"
+        },
         "runtime": {
           "EstablishmentService.dll": {
             "assemblyVersion": "1.0.0.0",
