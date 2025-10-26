@@ -9,7 +9,7 @@ using Common.Application.CommonRepositoryServices;
 
 namespace UserManagementService.Application.RepositoryServices;
 
-public class UserRepositoryService : TEST_BaseRepositoryService<User>, IUserRepositoryService
+public class UserRepositoryService : BaseRepositoryService<User>, IUserRepositoryService
 {
     private readonly IUserRepository _userRepository;
     

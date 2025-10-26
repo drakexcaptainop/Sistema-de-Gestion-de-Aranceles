@@ -3,6 +3,8 @@ using UserManagementService.Domain.Models;
 using UserManagementService.Domain.Ports;
 using Common.Infrastructure.Persistence.Database;
 
+
+
 namespace UserManagementService.Infrastructure.Adapters
 {
     public class UserRepository : IUserRepository

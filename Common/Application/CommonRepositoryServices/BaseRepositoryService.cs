@@ -4,10 +4,10 @@ using Common.Domain.Patterns;
 
 namespace Common.Application.CommonRepositoryServices;
 
-public abstract class TEST_BaseRepositoryService<T> : ISharedRepositoryService<T>
+public abstract class BaseRepositoryService<T> : ISharedRepositoryService<T>
 {
     protected readonly ISharedDbRepository<T> _repository;
-    public TEST_BaseRepositoryService(ISharedDbRepository<T> repository)
+    public BaseRepositoryService(ISharedDbRepository<T> repository)
     {
         _repository = repository;
     }
