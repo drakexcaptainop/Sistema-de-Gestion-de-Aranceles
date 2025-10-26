@@ -1,7 +1,15 @@
 using Common.Infrastructure.Persistence.Database;
-using TariffingService.Infrastructure.Adapters;
 using Common.Domain.SharedPorts;
+
+using TariffingService.Infrastructure.Adapters;
 using TariffingService.Domain.Models;
+using TariffingService.Domain.RepositoryPorts;
+
+
+using EstablishmentService.Infrastructure.Adapters;
+using EstablishmentService.Domain.Models;
+using EstablishmentService.Domain.RepositoryPorts;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +19,11 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<MySqlConnectionManager>(new MySqlConnectionManager(
     builder.Configuration.GetConnectionString("MySqlConnection")));
+
+
+
 builder.Services.AddSingleton<ISharedDbRepository<Category>, CategoryRepository>();
+builder.Services.AddSingleton<ISharedDbRepository<Establishment>, EstablishmentRepository>();
 
 var app = builder.Build();
 

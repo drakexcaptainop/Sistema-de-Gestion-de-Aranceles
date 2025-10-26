@@ -38,3 +38,37 @@
 
     </tbody>
 </table>
+
+
+<table class="table table-hover align-middle">
+    <thead class="table-primary">
+        <tr>
+            <th>Nombre</th>
+            <th>NIT</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Tipo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Establishments.Any())
+        {
+            @foreach (var e in Model.Establishments)
+            {
+                <tr>
+                    <td>@e.Name</td>
+                    <td>@e.TaxId</td>
+                    <td>@e.Phone</td>
+                    <td>@e.Email</td>
+                    <td>@e.EstablishmentType</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="9" class="text-center text-muted">No hay establecimientos registrados.</td>
+            </tr>
+        }
+    </tbody>
+</table>

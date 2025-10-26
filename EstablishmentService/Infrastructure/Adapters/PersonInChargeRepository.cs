@@ -1,11 +1,12 @@
 ﻿using Common.Infrastructure.Persistence.Database;
 using Common.Domain.SharedPorts;
 using EstablishmentService.Domain.Models;
+using EstablishmentService.Domain.RepositoryPorts;
 
 
 namespace EstablishmentService.Infrastructure.Adapters
 {
-    public class PersonInChargeRepository : ISharedDbRepository<PersonInCharge>
+    public class PersonInChargeRepository : IPersonInChargeRepository
     {
         private readonly MySqlConnectionManager _dbConnectionManager;
         public PersonInChargeRepository(MySqlConnectionManager dbConnectionManager)

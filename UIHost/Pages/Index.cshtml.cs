@@ -4,24 +4,29 @@ using Common.Infrastructure.Persistence.Database;
 using TariffingService.Infrastructure.Adapters;
 using Common.Domain.SharedPorts;
 using TariffingService.Domain.Models;
+using TariffingService.Domain.RepositoryPorts;
+using EstablishmentService.Domain.Models;
+using EstablishmentService.Domain.RepositoryPorts;
 
 namespace UIHost.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ISharedDbRepository<Category> _categoryRepository;
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IEstablishmentRepository _establismentRespository;
         public IEnumerable<Category> Categories;
+        public IEnumerable<Establishment> Establishments;
 
-        public IndexModel(ILogger<IndexModel> logger, ISharedDbRepository<Category> sharedDbRepository)
+        public IndexModel(ISharedDbRepository<Establishment> establishmentRepo, ISharedDbRepository<Category> categoryRepo)
         {
-            _logger = logger;
-            _categoryRepository = sharedDbRepository;
+            _categoryRepository = (ICategoryRepository)categoryRepo;
+            _establismentRespository = (IEstablishmentRepository)establishmentRepo;
         }
 
         public void OnGet()
         {
             Categories = _categoryRepository.GetAll();
+            Establishments = _establismentRespository.GetAll();
         }
     }
 }

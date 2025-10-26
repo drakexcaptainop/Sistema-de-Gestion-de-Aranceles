@@ -1,10 +1,11 @@
 ﻿using Common.Domain.SharedPorts;
 using TariffingService.Domain.Models;
 using Common.Infrastructure.Persistence.Database;
+using TariffingService.Domain.RepositoryPorts;
 
 namespace TariffingService.Infrastructure.Adapters;
 
-public class FeeRepository : ISharedDbRepository<Fee>
+public class FeeRepository : IFeeRepository
 {
     private readonly MySqlConnectionManager _dbConnectionManager;
     public FeeRepository(MySqlConnectionManager dbConnectionManager)

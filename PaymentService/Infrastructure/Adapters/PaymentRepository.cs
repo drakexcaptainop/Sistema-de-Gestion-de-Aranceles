@@ -2,10 +2,11 @@
 using Common.Domain.SharedPorts;
 using Common.Infrastructure.Persistence.Database;
 using PaymentService.Domain.Models;
+using PaymentService.Domain.RepositoryPorts;
 
 namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
 {
-    public class PaymentRepository : ISharedDbRepository<Payment>
+    public class PaymentRepository : IPaymentRespository
     {
         private readonly MySqlConnectionManager _dbConnectionManager;
         public PaymentRepository(MySqlConnectionManager dbConnectionManager)

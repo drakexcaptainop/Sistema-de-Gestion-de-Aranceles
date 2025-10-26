@@ -2,10 +2,11 @@
 using Common.Infrastructure.Persistence.Database;
 using Common.Domain.SharedPorts;
 using EstablishmentService.Domain.Models;
+using EstablishmentService.Domain.RepositoryPorts;
 
 namespace EstablishmentService.Infrastructure.Adapters
 {
-    public class EstablishmentRepository : ISharedDbRepository<Establishment>
+    public class EstablishmentRepository : IEstablishmentRepository
     {
         private readonly MySqlConnectionManager _dbConnectionManager;
         public EstablishmentRepository(MySqlConnectionManager dbConnectionManager)

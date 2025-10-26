@@ -3,11 +3,12 @@
 using Common.Domain.SharedPorts;
 using TariffingService.Domain.Models;
 using Common.Infrastructure.Persistence.Database;
+using TariffingService.Domain.RepositoryPorts;
 
 
 namespace TariffingService.Infrastructure.Adapters;
 
-public class CategoryRepository : ISharedDbRepository<Category>
+public class CategoryRepository : ICategoryRepository
 {
     private readonly MySqlConnectionManager _dbConnectionManager;
     public CategoryRepository(MySqlConnectionManager dbConnectionManager)
