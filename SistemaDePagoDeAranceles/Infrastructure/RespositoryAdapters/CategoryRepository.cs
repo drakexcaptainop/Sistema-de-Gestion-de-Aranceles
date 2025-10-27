@@ -2,7 +2,6 @@ using SistemaDePagoDeAranceles.Domain.Ports;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
 using SistemaDePagoDeAranceles.Infrastructure.Database;
 using SistemaDePagoDeAranceles.Domain.Models;
-using SistemaDePagoDeAranceles.Infrastructure.Database;
 
 
 namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters;

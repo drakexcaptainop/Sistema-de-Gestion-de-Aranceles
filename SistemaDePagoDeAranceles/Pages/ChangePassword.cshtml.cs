@@ -16,56 +16,70 @@ namespace SistemaDePagoDeAranceles.Pages
         }
 
         [BindProperty]
+        [Required(ErrorMessage = "La contraseña actual es requerida")]
+        [DataType(DataType.Password)]
+        public string CurrentPassword { get; set; } = string.Empty;
+
+        [BindProperty]
         [Required(ErrorMessage = "La nueva contraseña es requerida")]
         [DataType(DataType.Password)]
         [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
-        public string NewPassword { get; set; }
+        public string NewPassword { get; set; } = string.Empty;
 
         [BindProperty]
         [Required(ErrorMessage = "Debe confirmar la contraseña")]
         [DataType(DataType.Password)]
         [Compare("NewPassword", ErrorMessage = "Las contraseñas no coinciden")]
-        public string ConfirmPassword { get; set; }
+        public string ConfirmPassword { get; set; } = string.Empty;
+        public bool IsFirstLogin { get; private set; }
 
         public IActionResult OnGet()
         {
             var userId = User.GetUserId();
-            if (userId == null)
-            {
-                return RedirectToPage("/Login");
-            }
+            if (userId == null) return RedirectToPage("/Login");
 
             var user = _authService.GetUserById(userId.Value);
-            if (user == null || user.FirstLogin != 0)
-            {
-                return RedirectToPage("/Index");
-            }
+            if (user == null) return RedirectToPage("/Login");
 
-            ViewData["HideSidebar"] = true;
+            IsFirstLogin = (user.FirstLogin == 0);
+
+            ViewData["HideSidebar"] = IsFirstLogin;
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            if (!ModelState.IsValid) return Page();
 
             var userId = User.GetUserId();
-            if (userId == null)
+            if (userId == null) return RedirectToPage("/Login");
+
+            var user = _authService.GetUserById(userId.Value);
+            if (user == null) return RedirectToPage("/Login");
+
+            (bool ok, string? error) result;
+
+            if (user.FirstLogin == 0)
             {
-                return RedirectToPage("/Login");
+                result = await _authService.ChangePasswordFirstLogin(userId.Value, CurrentPassword, NewPassword);
+            }
+            else
+            {
+                result = await _authService.ChangePassword(userId.Value, CurrentPassword, NewPassword);
             }
 
-            var result = await _authService.ChangePasswordFirstLogin(userId.Value, NewPassword);
             if (!result.ok)
             {
-                ModelState.AddModelError(string.Empty, result.error ?? "Error al cambiar la contraseña");
+                if (result.error?.Contains("actual", StringComparison.OrdinalIgnoreCase) == true)
+                    ModelState.AddModelError(nameof(CurrentPassword), result.error);
+                else
+                    ModelState.AddModelError(string.Empty, result.error ?? "Error al cambiar la contraseña");
                 return Page();
             }
 
             return RedirectToPage("/Index");
         }
+
     }
 }
