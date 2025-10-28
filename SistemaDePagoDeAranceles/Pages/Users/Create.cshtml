@@ -4,64 +4,113 @@
     ViewData["Title"] = "Crear Usuario";
 }
 
-<h2 class="mb-4">@ViewData["Title"]</h2>
+<!-- HEADER con divisor -->
+<div class="mb-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <div>
+            <h2 class="mb-1 fw-bold text-dark">
+                <i class="bi bi-person-plus-fill text-primary me-2"></i>@ViewData["Title"]
+            </h2>
+            <p class="text-muted mb-0 small">Completa el formulario para crear un nuevo usuario en el sistema</p>
+        </div>
+        <a asp-page="Index" class="btn btn-outline-secondary px-4">
+            <i class="bi bi-arrow-left me-2"></i>Volver
+        </a>
+    </div>
+    <hr class="border-2 opacity-25">
+</div>
 
 @if (Model.GeneratedUsername != null)
 {
-    <div class="alert alert-success">
-        <h4><i class="bi bi-check-circle"></i> ¡Usuario creado exitosamente!</h4>
-        <p><strong>Usuario:</strong> @Model.GeneratedUsername</p>
-        <div class="alert alert-info mt-3">
-            <i class="bi bi-envelope-check"></i> 
-            <strong>Correo enviado:</strong> Se ha enviado un correo electrónico a <strong>@Model.Input.Email</strong> 
-            con las credenciales de acceso y la contraseña generada.
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="alert alert-success shadow-sm border-0" role="alert">
+                <h4 class="alert-heading">
+                    <i class="bi bi-check-circle-fill me-2"></i>¡Usuario creado exitosamente!
+                </h4>
+                <p class="mb-3">
+                    <strong>Usuario generado:</strong> <span class="badge bg-success-subtle text-success fs-6">@Model.GeneratedUsername</span>
+                </p>
+                <div class="alert alert-info border-0 mt-3 mb-3">
+                    <i class="bi bi-envelope-check-fill me-2"></i>
+                    <strong>Correo enviado:</strong> Se ha enviado un correo electrónico a <strong>@Model.Input.Email</strong>
+                    con las credenciales de acceso y la contraseña generada.
+                </div>
+                <hr class="my-3">
+                <p class="mb-0 small">
+                    <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                    Si el usuario no recibe el correo, verifique la carpeta de spam o contacte al administrador del sistema.
+                </p>
+            </div>
+            <div class="text-center">
+                <a asp-page="Index" class="btn btn-primary btn-lg px-5">
+                    <i class="bi bi-list-ul me-2"></i>Volver a la lista
+                </a>
+            </div>
         </div>
-        <p class="mb-0"><small>⚠️ Si el usuario no recibe el correo, verifique la carpeta de spam o contacte al administrador del sistema.</small></p>
     </div>
-    <a asp-page="Index" class="btn btn-primary">Volver a la lista</a>
 }
 else
 {
-    <form method="post" class="card shadow-sm p-4">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        
-        <div class="row g-3">
-            <div class="col-md-6">
-                <label asp-for="Input.FirstName" class="form-label">Nombre</label>
-                <input asp-for="Input.FirstName" class="form-control" required />
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <form method="post" class="card shadow border-0">
+                <div class="card-body p-4 p-md-5">
 
-            <div class="col-md-6">
-                <label asp-for="Input.LastName" class="form-label">Apellido</label>
-                <input asp-for="Input.LastName" class="form-control" required />
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0" role="alert"></div>
 
-            <div class="col-md-6">
-                <label asp-for="Input.Email" class="form-label">Correo Electrónico</label>
-                <input asp-for="Input.Email" type="email" class="form-control" required />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label asp-for="Input.FirstName" class="form-label fw-semibold">
+                                <i class="bi bi-person me-1 text-primary"></i>Nombres
+                            </label>
+                            <input asp-for="Input.FirstName" class="form-control" placeholder="Ingrese el nombre" required />
+                            <span asp-validation-for="Input.FirstName" class="text-danger d-block mt-2 fw-semibold" style="font-size: 0.9rem;"></span>
+                        </div>
 
-            <div class="col-md-6">
-                <label asp-for="Input.Role" class="form-label">Rol</label>
-                <select asp-for="Input.Role" class="form-select" required>
-                    <option value="">Seleccionar rol</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Contador">Contador</option>
-                </select>
-                <span asp-validation-for="Input.Role" class="text-danger"></span>
-            </div>
+                        <div class="col-md-6">
+                            <label asp-for="Input.LastName" class="form-label fw-semibold">
+                                <i class="bi bi-person me-1 text-primary"></i>Apellidos
+                            </label>
+                            <input asp-for="Input.LastName" class="form-control" placeholder="Ingrese el apellido" required />
+                            <span asp-validation-for="Input.LastName" class="text-danger d-block mt-2 fw-semibold" style="font-size: 0.9rem;"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Input.Email" class="form-label fw-semibold">
+                                <i class="bi bi-envelope me-1 text-primary"></i>Correo Electrónico
+                            </label>
+                            <input asp-for="Input.Email" type="email" class="form-control" placeholder="correo@ejemplo.com" required />
+                            <span asp-validation-for="Input.Email" class="text-danger d-block mt-2 fw-semibold" style="font-size: 0.9rem;"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Input.Role" class="form-label fw-semibold">
+                                <i class="bi bi-shield-check me-1 text-primary"></i>Rol
+                            </label>
+                            <select asp-for="Input.Role" class="form-select" required>
+                                <option value="" selected>Seleccionar rol</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Contador">Contador</option>
+                            </select>
+                            <span asp-validation-for="Input.Role" class="text-danger d-block mt-2 fw-semibold" style="font-size: 0.9rem;"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 justify-content-end mt-5 pt-4 border-top">
+                        <a asp-page="Index" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-x-circle me-2"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-success px-5">
+                            <i class="bi bi-check-circle me-2"></i>Crear Usuario
+                        </button>
+                    </div>
+
+                </div>
+            </form>
         </div>
-
-        <div class="mt-4">
-            <button type="submit" class="btn btn-success">Crear Usuario</button>
-            <a asp-page="Index" class="btn btn-secondary ms-2">Cancelar</a>
-        </div>
-    </form>
+    </div>
 }
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

@@ -5,7 +5,7 @@ namespace SistemaDePagoDeAranceles.Domain.Rules
     public static class PasswordValidator
     {
         private static readonly Regex Strong = new(
-            @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{6,}$",
+            @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$",
             RegexOptions.Compiled
         );
 
@@ -15,7 +15,7 @@ namespace SistemaDePagoDeAranceles.Domain.Rules
                 return (false, "La contraseña no puede estar vacía.");
 
             if (!Strong.IsMatch(password))
-                return (false, "La contraseña debe tener al menos 6 caracteres e incluir al menos una mayúscula, una minúscula, un número y un carácter especial.");
+                return (false, "La contraseña debe tener al menos 8 caracteres e incluir al menos una mayúscula, una minúscula, un número y un carácter especial.");
 
             return (true, null);
         }

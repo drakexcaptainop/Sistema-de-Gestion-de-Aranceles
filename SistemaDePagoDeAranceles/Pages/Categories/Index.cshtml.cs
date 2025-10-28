@@ -1,18 +1,23 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SistemaDePagoDeAranceles.Domain.Models;
 using SistemaDePagoDeAranceles.Application.Services;
 using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using SistemaDePagoDeAranceles.Domain.Common;
-using SistemaDePagoDeAranceles.Domain.Models;
-using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
+
 namespace SistemaDePagoDeAranceles.Pages.Categories
 {
     public class IndexModel : PageModel
     {
         private readonly IRepositoryService<Category> _repository;
         private readonly IdProtector _idProtector;
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchTerm { get; set; }
+
         public List<Category> Categories { get; set; } = new();
-        public Result<IEnumerable<Category>> CategoriesResult { get; set; }
 
         public IndexModel(IRepositoryServiceFactory<Category> factory, IdProtector idProtector)
         {
@@ -22,11 +27,32 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public void OnGet()
         {
-            CategoriesResult = _repository.GetAll();
-            Categories = CategoriesResult.Value?.ToList() ?? new List<Category>();
+            LoadCategories();
+        }
+
+        public void OnPostSearch()
+        {
+            LoadCategories();
+        }
+
+        private void LoadCategories()
+        {
+            Result<IEnumerable<Category>> result;
+
+            if (string.IsNullOrWhiteSpace(SearchTerm))
+            {
+                result = _repository.GetAll();
+            }
+            else
+            {
+                result = _repository.Search(SearchTerm);
+            }
+
+            Categories = result.IsSuccess && result.Value != null
+                ? result.Value.ToList()
+                : new List<Category>();
         }
 
         public string Protect(int id) => _idProtector.ProtectInt(id);
-
     }
 }

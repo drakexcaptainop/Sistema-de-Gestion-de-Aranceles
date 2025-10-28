@@ -13,7 +13,8 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
     {
         private readonly IRepositoryService<Establishment> _repository;
         private readonly IdProtector _idProtector;
-        
+        public List<PersonInCharge> PersonsInCharge { get; set; }
+
         [BindProperty]
         public Establishment Establishment { get; set; } = new();
 
@@ -25,6 +26,8 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public IActionResult OnGet(string id)
         {
+
+
             int realId;
             try
             {

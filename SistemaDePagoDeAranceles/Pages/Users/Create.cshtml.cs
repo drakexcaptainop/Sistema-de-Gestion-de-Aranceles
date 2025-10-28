@@ -25,19 +25,27 @@ namespace SistemaDePagoDeAranceles.Pages.Users
 
         public class InputModel
         {
-            [Required(ErrorMessage = "El nombre es obligatorio")]
+            [Required(ErrorMessage = "El nombre es obligatorio.")]
+            [StringLength(50, MinimumLength = 3, ErrorMessage = "El nombre debe tener entre 3 y 50 caracteres.")]
+            [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$", ErrorMessage = "El nombre solo puede contener letras y espacios.")]
             public string FirstName { get; set; } = string.Empty;
-            
-            [Required(ErrorMessage = "El apellido es obligatorio")]
+
+            [Required(ErrorMessage = "El apellido es obligatorio.")]
+            [StringLength(50, MinimumLength = 3, ErrorMessage = "El apellido debe tener entre 3 y 50 caracteres.")]
+            [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$", ErrorMessage = "El apellido solo puede contener letras y espacios.")]
             public string LastName { get; set; } = string.Empty;
-            
-            [Required(ErrorMessage = "El email es obligatorio")]
-            [EmailAddress(ErrorMessage = "Email inválido")]
+
+            [Required(ErrorMessage = "El correo electrónico es obligatorio.")]
+            [StringLength(100, ErrorMessage = "El correo no puede exceder 100 caracteres.")]
+            [EmailAddress(ErrorMessage = "Correo electrónico inválido.")]
+            [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]{2,})+$",
+                ErrorMessage = "El correo electrónico debe contener al menos un punto (.) en el dominio.")]
             public string Email { get; set; } = string.Empty;
-            
-            [Required(ErrorMessage = "El rol es obligatorio")]
+
+            [Required(ErrorMessage = "El rol es obligatorio.")]
             public string Role { get; set; } = "Contador";
         }
+
 
         public void OnGet() { }
 

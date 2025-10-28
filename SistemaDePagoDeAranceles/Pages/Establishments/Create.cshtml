@@ -17,7 +17,7 @@
         <div class="col-md-6">
             @* Codigo de impuesto *@
             <label asp-for="Establishment.TaxId" class="form-label">NIT</label>
-            <input asp-for="Establishment.TaxId" class="form-control"/>
+            <input asp-for="Establishment.TaxId" class="form-control" />
         </div>
 
         <div class="col-md-6">
@@ -34,15 +34,15 @@
             <label asp-for="Establishment.Address" class="form-label">Dirección</label>
             <input asp-for="Establishment.Address" class="form-control" />
         </div>
-        
+
         <div class="col-md-6">
             <label asp-for="Establishment.SanitaryLicense" class="form-label">Licencia Sanitaria</label>
             <input asp-for="Establishment.SanitaryLicense" class="form-control" />
         </div>
-        
+
         <div class="col-md-6">
             <label asp-for="Establishment.SanitaryLicenseExpiry" class="form-label">Fecha de expiración de licencia</label>
-            <input asp-for="Establishment.SanitaryLicenseExpiry" class="form-control" type="date"/>
+            <input asp-for="Establishment.SanitaryLicenseExpiry" class="form-control" type="date" />
         </div>
 
         <div class="col-md-6">
@@ -62,8 +62,8 @@
             <select asp-for="Establishment.PersonInChargeId" class="form-select">
                 @foreach (var person in Model.PersonsInCharge)
                 {
-                    <option value="@person.Id">@String.Concat(person.FirstName, " ",person.LastName) </option>
-				}
+                    <option value="@person.Id">@String.Concat(person.FirstName, " ", person.LastName) </option>
+                }
             </select>
         </div>
 

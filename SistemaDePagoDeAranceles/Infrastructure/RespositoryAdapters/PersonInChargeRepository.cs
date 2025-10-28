@@ -68,7 +68,7 @@ namespace SistemaDePagoDeAranceles.Infrastructure.RespositoryAdapters
                     @CreatedBy,
                     CURRENT_TIMESTAMP,
                     CURRENT_TIMESTAMP,
-                    @Status
+                    1
                 );";
             return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
         }

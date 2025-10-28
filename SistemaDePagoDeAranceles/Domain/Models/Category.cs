@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SistemaDePagoDeAranceles.Domain.Models;
 
@@ -6,14 +7,18 @@ public class Category
 {
     public int Id { get; set; }
 
-    [StringLength(50, MinimumLength = 3,ErrorMessage = "Nombre Invalido")]
+    [Required(ErrorMessage = "El nombre es obligatorio.")]
+    [StringLength(50, MinimumLength = 3,ErrorMessage = "El nombre puede tener entre 3 a 50 caracteres.")]
+    [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$", ErrorMessage = "El nombre solo puede contener letras y espacios.")]
     public string Name { get; set; }
-    
-    [StringLength(50, MinimumLength = 3 ,ErrorMessage = "Descripcion invalida")]
+
+    [StringLength(200, MinimumLength = 3, ErrorMessage = "La descripción debe tener entre 3 y 200 caracteres.")]
+    [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s.,]+$", ErrorMessage = "La descripción solo puede contener letras, números, espacios, puntos y comas.")]
     public string Description { get; set; }
 
-    [Required(ErrorMessage = "El monto base es obligatorio")]
-    [Range(0, 100000, ErrorMessage = "El monto base debe ser positivo y menor a 100000")]
+    [Required(ErrorMessage = "El monto base es obligatorio.")]
+    [Range(0, 100000, ErrorMessage = "El monto base debe ser positivo y menor a 100000.")]
+    [RegularExpression(@"^[-+]?\d*.?\d*$", ErrorMessage = "El monto debe ser mayor a 0.")]
     public decimal BaseAmount { get; set; }
 
     public DateTime CreatedDate { get; set; }
