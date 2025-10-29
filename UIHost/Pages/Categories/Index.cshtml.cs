@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using UIHost.Security;
 using Common.Domain.Patterns;
 using Common.Domain.SharedPorts;
+using Microsoft.AspNetCore.Mvc;
 using TariffingService.Domain.Models;
 
 namespace UIHost.Pages.Categories
@@ -11,8 +12,13 @@ namespace UIHost.Pages.Categories
     {
         private readonly IRepositoryService<Category> _repository;
         private readonly IdProtector _idProtector;
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchTerm { get; set; }
+
+        public Result<IEnumerable<Category>> ResultCategoryGetAll { get; set; }
+
         public List<Category> Categories { get; set; } = new();
-        public Result<IEnumerable<Category>> CategoriesResult { get; set; }
 
         public IndexModel(IRepositoryServiceFactory<Category> factory, IdProtector idProtector)
         {
@@ -22,11 +28,15 @@ namespace UIHost.Pages.Categories
 
         public void OnGet()
         {
-            CategoriesResult = _repository.GetAll();
-            Categories = CategoriesResult.Value?.ToList() ?? new List<Category>();
+            ResultCategoryGetAll = _repository.GetAll();
+            Categories = ResultCategoryGetAll.Value?.ToList() ?? new List<Category>();
         }
 
+        public void OnPostSearch()
+        {
+            ResultCategoryGetAll = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
+            Categories = ResultCategoryGetAll.Value?.ToList() ?? new List<Category>();
+        }
         public string Protect(int id) => _idProtector.ProtectInt(id);
-
     }
 }

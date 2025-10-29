@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using EstablishmentService.Domain.Models;
 using Common.Domain.Patterns;
 using Common.Domain.SharedPorts;
-
+using Microsoft.AspNetCore.Mvc;
 using UIHost.Security;
 
 namespace UIHost.Pages.PersonInCharges
@@ -12,6 +12,9 @@ namespace UIHost.Pages.PersonInCharges
     {
         private readonly IRepositoryService<PersonInCharge> _repository;
         private readonly IdProtector _idProtector;
+
+        [BindProperty]
+        public string SearchTerm { get; set; }
         public List<PersonInCharge> Persons { get; set; } = new();
         public Result<IEnumerable<PersonInCharge>> ResultGetAllPersonInCharge { get; set; }
 
@@ -24,6 +27,12 @@ namespace UIHost.Pages.PersonInCharges
         public void OnGet()
         {
             ResultGetAllPersonInCharge = _repository.GetAll();
+            Persons = ResultGetAllPersonInCharge.Value?.ToList() ?? new List<PersonInCharge>();
+        }
+
+        public void OnPost()
+        {
+            ResultGetAllPersonInCharge = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
             Persons = ResultGetAllPersonInCharge.Value?.ToList() ?? new List<PersonInCharge>();
         }
 

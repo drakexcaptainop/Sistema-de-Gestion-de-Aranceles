@@ -15,7 +15,7 @@ namespace UIHost.Pages.Establishments
         [BindProperty]
         public Establishment Establishment { get; set; } = new();
         public List<PersonInCharge> PersonsInCharge { get; set; } = new();
-        
+
         public Result<IEnumerable<PersonInCharge>> ResultGetAllPersonInCharge { get; set; }
 
         public CreateModel(IRepositoryServiceFactory<Establishment> factory, IRepositoryServiceFactory<PersonInCharge> personFactory)
@@ -35,12 +35,10 @@ namespace UIHost.Pages.Establishments
 
         public IActionResult OnPost()
         {
-            Establishment.Status = true;
-            
             var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedCreatorId))
                 Establishment.CreatedBy = parsedCreatorId;
-            
+
             if (!ModelState.IsValid)
             {
                 ResultGetAllPersonInCharge = _personRepository.GetAll();
@@ -50,7 +48,7 @@ namespace UIHost.Pages.Establishments
                 }
                 return Page();
             }
-            
+
             Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Establishment)}");
             var result = _repository.Insert(Establishment);
             Console.WriteLine($"[DEBUG] Resultado de inserción: {System.Text.Json.JsonSerializer.Serialize(result)}");

@@ -1,14 +1,24 @@
 @page
-@model IndexModel
+@model UIHost.Pages.Users.IndexModel
 @{
     ViewData["Title"] = "Gestión de Usuarios";
 }
 
-<h2 class="mb-4">@ViewData["Title"]</h2>
-
-<a asp-page="Create" class="btn btn-primary mb-3">
-    <i class="bi bi-plus-circle"></i> Nuevo Usuario
-</a>
+<!-- HEADER -->
+<div class="mb-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <div>
+            <h2 class="mb-1 fw-bold text-dark">
+                <i class="bi bi-people-fill text-primary me-2"></i>@ViewData["Title"]
+            </h2>
+            <p class="text-muted mb-0 small">Administra y gestiona los usuarios del sistema</p>
+        </div>
+        <a asp-page="Create" class="btn btn-primary px-4">
+            <i class="bi bi-plus-circle me-2"></i>Nuevo Usuario
+        </a>
+    </div>
+    <hr class="border-2 opacity-25">
+</div>
 
 <form method="post" asp-page-handler="Search" class="mb-3">
     <div class="input-group">
@@ -33,7 +43,6 @@
     </tr>
     </thead>
     <tbody>
-
         @foreach (var user in Model.ResultGetAllUser.Value.Where(u => u.Status))
         {
             <tr>
@@ -66,11 +75,16 @@
                 </td>
                 <td>@user.CreatedDate.ToString("dd/MM/yyyy")</td>
                 <td>
-                    <a asp-page="Edit" asp-route-id="@(Model.Protect(user.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
-                    <a asp-page="Delete" asp-route-id="@(Model.Protect(user.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    <div class="btn-group" role="group">
+                        <a asp-page="Edit" asp-route-id="@(Model.Protect(user.Id))" class="btn btn-sm btn-outline-warning">
+                            <i class="bi bi-pencil-square me-1"></i>Editar
+                        </a>
+						<a asp-page="Delete" asp-route-id="@(Model.Protect(user.Id))" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash3 me-1"></i>Eliminar
+                        </a>
+					</div>
                 </td>
             </tr>
         }
-  
     </tbody>
 </table>
