@@ -8,7 +8,7 @@ using Common.Domain.SharedPorts;
 
 namespace PaymentService.Domain.RepositoryPorts
 {
-    public interface IPaymentRespository : ISharedDbRepository<Payment>
+    public interface IPaymentRespository : IDbRepository<Payment>
     {
     }
 }

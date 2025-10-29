@@ -3,19 +3,20 @@ using Common.Domain.ServicePorts;
 using Common.Domain.SharedPorts;
 using Common.Infrastructure.EmailAdapters;
 using Common.Infrastructure.Persistence.Database;
+using EstablishmentService.Application.ServiceFactory;
 using EstablishmentService.Domain.Models;
-using EstablishmentService.Domain.RepositoryPorts;
 using EstablishmentService.Infrastructure.Adapters;
-using Microsoft.Extensions.DependencyInjection;
+using TariffingService.Application.ServiceFactory;
 using TariffingService.Domain.Models;
-using TariffingService.Domain.RepositoryPorts;
 using TariffingService.Infrastructure.Adapters;
 using UIHost.Security;
 using UserManagementService.Application.IdentityServices;
 using UserManagementService.Application.RepositoryServices;
+using UserManagementService.Application.ServiceFactory;
 using UserManagementService.Domain.Models;
 using UserManagementService.Domain.Ports;
 using UserManagementService.Infrastructure.Adapters;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,11 +32,30 @@ builder.Services.AddDataProtection();
 builder.Services.AddSingleton<IdProtector>();
 
 
-builder.Services.AddSingleton<ISharedDbRepository<Category>, CategoryRepository>();
-builder.Services.AddSingleton<ISharedDbRepository<Establishment>, EstablishmentRepository>();
-builder.Services.AddSingleton<ISharedDbRepository<User>, UserRepository>();
-builder.Services.AddSingleton< IUserRepository, UserRepository>();
-builder.Services.AddSingleton<IUserRepositoryService, UserRepositoryService>();
+builder.Services.AddSingleton<IDbRepository<Category>, CategoryRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<Category>, CategoryRespositoryServiceCreator>();
+
+// ==========================
+//  PERSON IN CHARGE CONFIG
+// ==========================
+
+builder.Services.AddSingleton<IDbRepository<PersonInCharge>, PersonInChargeRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<PersonInCharge>, PersonInChargeRepositoryServiceCreator>();
+
+// ==========================
+//  ESTABLISHMENT CONFIG
+// ==========================
+
+builder.Services.AddSingleton<IDbRepository<Establishment>, EstablishmentRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<Establishment>, EstablishmentRepositoryServiceCreator>();
+
+
+builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
+builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
+builder.Services.AddScoped<IUserRepositoryService, UserRepositoryService>();
+
+
 
 var _configuration = builder.Configuration;
 var smtpHost = _configuration["Email:SmtpHost"];

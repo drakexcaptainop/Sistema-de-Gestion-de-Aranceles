@@ -13,7 +13,7 @@ public class UserRepositoryService : BaseRepositoryService<User>, IUserRepositor
 {
     private readonly IUserRepository _userRepository;
     
-    public UserRepositoryService(ISharedDbRepository<User> repository, IUserRepository userRepository) : base(repository)
+    public UserRepositoryService(IDbRepository<User> repository, IUserRepository userRepository) : base(repository)
     {
         _userRepository = userRepository;
     }

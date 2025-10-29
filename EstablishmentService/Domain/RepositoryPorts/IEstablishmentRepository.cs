@@ -8,7 +8,7 @@ using EstablishmentService.Domain.Models;
 
 namespace EstablishmentService.Domain.RepositoryPorts
 {
-    public interface IEstablishmentRepository : ISharedDbRepository<Establishment>
+    public interface IEstablishmentRepository : IDbRepository<Establishment>
     {
     }
 }

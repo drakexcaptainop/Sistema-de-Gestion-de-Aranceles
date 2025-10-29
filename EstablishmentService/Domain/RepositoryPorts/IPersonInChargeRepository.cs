@@ -8,7 +8,7 @@ using Common.Domain.SharedPorts;
 
 namespace EstablishmentService.Domain.RepositoryPorts
 {
-    internal interface IPersonInChargeRepository : ISharedDbRepository<PersonInCharge>
+    internal interface IPersonInChargeRepository : IDbRepository<PersonInCharge>
     {
     }
 }

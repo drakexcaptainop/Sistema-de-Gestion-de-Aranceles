@@ -8,7 +8,7 @@ using Common.Domain.SharedPorts;
 
 namespace TariffingService.Domain.RepositoryPorts
 {
-    public interface IFeeRepository : ISharedDbRepository<Fee>
+    public interface IFeeRepository : IDbRepository<Fee>
     {
     }
 }

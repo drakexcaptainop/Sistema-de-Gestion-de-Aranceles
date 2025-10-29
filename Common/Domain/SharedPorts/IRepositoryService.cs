@@ -2,7 +2,7 @@ using Common.Domain.Patterns;
 
 namespace Common.Domain.SharedPorts;
 
-public interface ISharedRepositoryService<TModel>
+public interface IRepositoryService<TModel>
 {
     public Result<IEnumerable<TModel>> GetAll();
     public Result<TModel> Insert(TModel model);

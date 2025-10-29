@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common.Domain.SharedPorts
 {
-    public interface ISharedDbRepository<T>
+    public interface IDbRepository<T>
     {
         public IEnumerable<T> GetAll();
         public int Insert(T model);

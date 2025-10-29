@@ -9,7 +9,7 @@ using Common.Domain.Patterns;
 
 namespace UserManagementService.Application.RepositoryServices
 {
-    public interface IUserRepositoryService : ISharedRepositoryService<User>
+    public interface IUserRepositoryService : IRepositoryService<User>
     {
         User? GetByUsername(string username);
         Result<User> GetById(int id);

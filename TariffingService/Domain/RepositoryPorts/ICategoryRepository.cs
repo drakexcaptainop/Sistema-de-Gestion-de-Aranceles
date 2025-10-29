@@ -8,7 +8,7 @@ using Common.Domain.SharedPorts;
 
 namespace TariffingService.Domain.RepositoryPorts
 {
-    public interface ICategoryRepository : ISharedDbRepository<Category>
+    public interface ICategoryRepository : IDbRepository<Category>
     {
     }
 }

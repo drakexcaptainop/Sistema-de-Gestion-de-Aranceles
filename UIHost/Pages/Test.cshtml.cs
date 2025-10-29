@@ -17,7 +17,7 @@ namespace UIHost.Pages
         public IEnumerable<Category> Categories;
         public IEnumerable<Establishment> Establishments;
 
-        public TestModel(ISharedDbRepository<Establishment> establishmentRepo, ISharedDbRepository<Category> categoryRepo)
+        public TestModel(IDbRepository<Establishment> establishmentRepo, IDbRepository<Category> categoryRepo)
         {
             _categoryRepository = (ICategoryRepository)categoryRepo;
             _establismentRespository = (IEstablishmentRepository)establishmentRepo;
