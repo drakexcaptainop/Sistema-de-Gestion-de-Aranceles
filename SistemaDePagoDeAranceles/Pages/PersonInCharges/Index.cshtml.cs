@@ -5,6 +5,7 @@ using SistemaDePagoDeAranceles.Application.Services.Factory;
 using SistemaDePagoDeAranceles.Application.Services.RepositoryServices;
 using SistemaDePagoDeAranceles.Domain.Common;
 using SistemaDePagoDeAranceles.Domain.Ports.RepositoryPorts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
 {
@@ -12,6 +13,9 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
     {
         private readonly IRepositoryService<PersonInCharge> _repository;
         private readonly IdProtector _idProtector;
+
+        [BindProperty]
+        public string SearchTerm { get; set; }
         public List<PersonInCharge> Persons { get; set; } = new();
         public Result<IEnumerable<PersonInCharge>> ResultGetAllPersonInCharge { get; set; }
 
@@ -24,6 +28,12 @@ namespace SistemaDePagoDeAranceles.Pages.PersonInCharges
         public void OnGet()
         {
             ResultGetAllPersonInCharge = _repository.GetAll();
+            Persons = ResultGetAllPersonInCharge.Value?.ToList() ?? new List<PersonInCharge>();
+        }
+
+        public void OnPost()
+        {
+            ResultGetAllPersonInCharge = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
             Persons = ResultGetAllPersonInCharge.Value?.ToList() ?? new List<PersonInCharge>();
         }
 

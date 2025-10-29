@@ -19,7 +19,7 @@ public class PersonInCharge
     [Required(ErrorMessage = "El correo electrónico es obligatorio.")]
     [StringLength(100, ErrorMessage = "El correo no puede exceder 100 caracteres.")]
     [EmailAddress(ErrorMessage = "El correo electrónico es inválido.")]
-    [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+[a-zA-Z-.]{2,}$", ErrorMessage = "El correo electrónico debe contener un punto (.) en el dominio.")]
+    [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$", ErrorMessage = "El correo electrónico debe contener un punto (.) en el dominio.")]
     public string Email { get; set; }
 
     [Required(ErrorMessage = "El teléfono es obligatorio.")]

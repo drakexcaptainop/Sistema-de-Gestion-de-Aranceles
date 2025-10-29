@@ -4,7 +4,7 @@
     ViewData["Title"] = "Gestión de Usuarios";
 }
 
-<!-- HEADER con divisor -->
+<!-- HEADER -->
 <div class="mb-4">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
         <div>
@@ -75,8 +75,14 @@
                 </td>
                 <td>@user.CreatedDate.ToString("dd/MM/yyyy")</td>
                 <td>
-                    <a asp-page="Edit" asp-route-id="@(Model.Protect(user.Id))" class="btn btn-sm btn-outline-warning">Editar</a>
-                    <a asp-page="Delete" asp-route-id="@(Model.Protect(user.Id))" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    <div class="btn-group" role="group">
+                        <a asp-page="Edit" asp-route-id="@(Model.Protect(user.Id))" class="btn btn-sm btn-outline-warning">
+                            <i class="bi bi-pencil-square me-1"></i>Editar
+                        </a>
+						<a asp-page="Delete" asp-route-id="@(Model.Protect(user.Id))" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash3 me-1"></i>Eliminar
+                        </a>
+					</div>
                 </td>
             </tr>
         }

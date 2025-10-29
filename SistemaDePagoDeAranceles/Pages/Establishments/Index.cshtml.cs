@@ -18,7 +18,7 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
         public string SearchTerm { get; set; }
 
         public List<Establishment> Establishments { get; set; } = new();
-        public Result<IEnumerable<Establishment>> EstablishmentsGetAllResult { get; set; } 
+        public Result<IEnumerable<Establishment>> ResultEstablishmentsGetAll { get; set; } 
 
         public IndexModel(IRepositoryServiceFactory<Establishment> factory, IdProtector idProtector)
         {
@@ -28,20 +28,14 @@ namespace SistemaDePagoDeAranceles.Pages.Establishments
 
         public void OnGet()
         {
-            EstablishmentsGetAllResult = _repository.GetAll();
-            Establishments = EstablishmentsGetAllResult.Value?.ToList() ?? new List<Establishment>();
+            ResultEstablishmentsGetAll = _repository.GetAll();
+            Establishments = ResultEstablishmentsGetAll.Value?.ToList() ?? new List<Establishment>();
         }
 
         public void OnPost()
         {
-            if (string.IsNullOrWhiteSpace(SearchTerm))
-            {
-                EstablishmentsGetAllResult = _repository.GetAll();
-            }
-            else
-            {
-                EstablishmentsGetAllResult = _repository.Search(SearchTerm);
-            }
+            ResultEstablishmentsGetAll = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
+            Establishments = ResultEstablishmentsGetAll.Value?.ToList() ?? new List<Establishment>();
         }
 
         public string Protect(int id) => _idProtector.ProtectInt(id);

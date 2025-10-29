@@ -17,6 +17,8 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
         [BindProperty(SupportsGet = true)]
         public string SearchTerm { get; set; }
 
+        public Result<IEnumerable<Category>> ResultCategoryGetAll { get; set; }
+
         public List<Category> Categories { get; set; } = new();
 
         public IndexModel(IRepositoryServiceFactory<Category> factory, IdProtector idProtector)
@@ -27,32 +29,15 @@ namespace SistemaDePagoDeAranceles.Pages.Categories
 
         public void OnGet()
         {
-            LoadCategories();
+            ResultCategoryGetAll = _repository.GetAll();
+            Categories = ResultCategoryGetAll.Value?.ToList() ?? new List<Category>();
         }
 
         public void OnPostSearch()
         {
-            LoadCategories();
+            ResultCategoryGetAll = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
+            Categories = ResultCategoryGetAll.Value?.ToList() ?? new List<Category>();
         }
-
-        private void LoadCategories()
-        {
-            Result<IEnumerable<Category>> result;
-
-            if (string.IsNullOrWhiteSpace(SearchTerm))
-            {
-                result = _repository.GetAll();
-            }
-            else
-            {
-                result = _repository.Search(SearchTerm);
-            }
-
-            Categories = result.IsSuccess && result.Value != null
-                ? result.Value.ToList()
-                : new List<Category>();
-        }
-
         public string Protect(int id) => _idProtector.ProtectInt(id);
     }
 }
