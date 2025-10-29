@@ -1,10 +1,11 @@
-﻿using System.Security.Cryptography;
+﻿using System.Globalization;
+using System.Security.Cryptography;
 using System.Text;
-using UserManagementService.Domain.Ports;
-using UserManagementService.Domain.Models;
-using Common.Domain.Patterns;
 using Common.Application.EmailServices;
 using UserManagementService.Application.RepositoryServices;
+using UserManagementService.Domain.Models;
+using UserManagementService.Domain.Ports;
+using UserManagementService.Domain.Rules;
 
 namespace UserManagementService.Application.IdentityServices
 {
@@ -50,21 +51,58 @@ namespace UserManagementService.Application.IdentityServices
         {
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(email))
                 return (false, null, null, "Faltan datos obligatorios.");
-            
-            var baseUser = email.Split('@')[0].ToLower().Replace(" ", "");
+
+            static string RemoveDiacritics(string text)
+            {
+                if (string.IsNullOrWhiteSpace(text)) return string.Empty;
+                var normalized = text.Normalize(NormalizationForm.FormD);
+                var sb = new StringBuilder();
+                foreach (var c in normalized)
+                {
+                    var uc = CharUnicodeInfo.GetUnicodeCategory(c);
+                    if (uc != UnicodeCategory.NonSpacingMark) sb.Append(c);
+                }
+                return sb.ToString().Normalize(NormalizationForm.FormC);
+            }
+
+            static string SlugifyLetters(string text)
+            {
+                text = RemoveDiacritics(text).ToLowerInvariant();
+                var sb = new StringBuilder(text.Length);
+                foreach (var ch in text)
+                {
+                    if (ch is >= 'a' and <= 'z') sb.Append(ch);
+                }
+                return sb.ToString();
+            }
+
+            var firstSlug = SlugifyLetters(firstName?.Trim() ?? "");
+            var lastSlug = SlugifyLetters(lastName?.Trim() ?? "");
+
+            string baseUser;
+            if (!string.IsNullOrEmpty(firstSlug) && !string.IsNullOrEmpty(lastSlug))
+            {
+                baseUser = $"{firstSlug.Substring(0, 1)}_{lastSlug}";
+            }
+            else
+            {
+                var local = (email ?? "").Split('@')[0];
+                baseUser = SlugifyLetters(local);
+                if (string.IsNullOrEmpty(baseUser)) baseUser = "user";
+            }
+
             var candidate = baseUser;
-            int suffix = 1;
+            int suffix = 2; 
             while (_userService.GetByUsername(candidate) != null)
             {
                 candidate = baseUser + suffix.ToString();
                 suffix++;
             }
-
-            // Generate random password (10 chars)
+ 
             var pwd = GeneratePassword(10);
 
-            // Map application role name to DB code (DB expects integer role); store as string representation of code
             var roleCode = RoleToCode.ContainsKey(role) ? RoleToCode[role] : 0;
+
             var user = new User
             {
                 Username = candidate,
@@ -77,14 +115,13 @@ namespace UserManagementService.Application.IdentityServices
                 CreatedDate = System.DateTime.UtcNow,
                 LastUpdate = System.DateTime.UtcNow,
                 Status = true,
-                FirstLogin = 0  // Set FirstLogin to 0 for new users
+                FirstLogin = 0
             };
 
             var result = _userService.Insert(user);
             if (!result.IsSuccess) return (false, null, null, string.Join("; ", result.Errors));
-            
-            // Send email with credentials (async fire-and-forget)
-            _ = Task.Run(async () => 
+
+            _ = Task.Run(async () =>
             {
                 try
                 {
@@ -92,13 +129,13 @@ namespace UserManagementService.Application.IdentityServices
                 }
                 catch (Exception ex)
                 {
-                    // Log error but don't fail user creation
                     System.Console.WriteLine($"Failed to send email: {ex.Message}");
                 }
             });
-            
+
             return (true, candidate, pwd, null);
         }
+
 
         private static string GeneratePassword(int length)
         {
@@ -120,25 +157,73 @@ namespace UserManagementService.Application.IdentityServices
             return result.IsSuccess ? result.Value : null;
         }
 
-        public async Task<(bool ok, string? error)> ChangePasswordFirstLogin(int userId, string newPassword)
+        public async Task<(bool ok, string? error)> ChangePasswordFirstLogin(int userId, string currentPassword, string newPassword)
         {
-            var user = _userService.GetById(userId).Value;
-            if (user == null)
+            var userResult = _userService.GetById(userId);
+            if (!userResult.IsSuccess || userResult.Value is null)
                 return (false, "Usuario no encontrado.");
+
+            var user = userResult.Value;
 
             if (user.FirstLogin != 0)
                 return (false, "Este usuario ya ha cambiado su contraseña inicial.");
 
-            user.PasswordHash = Md5Hex(newPassword);
+            var currentHash = Md5Hex(currentPassword);
+            if (!string.Equals(user.PasswordHash, currentHash, StringComparison.OrdinalIgnoreCase))
+                return (false, "La contraseña actual no es correcta.");
+
+            var pwCheck = PasswordValidator.Validate(newPassword);
+            if (!pwCheck.ok)
+                return (false, pwCheck.error);
+            var newHash = Md5Hex(newPassword);
+            if (string.Equals(user.PasswordHash, newHash, StringComparison.OrdinalIgnoreCase))
+                return (false, "La nueva contraseña debe ser diferente a la actual.");
+            user.PasswordHash = newHash;
             user.FirstLogin = 1;
             user.LastUpdate = DateTime.UtcNow;
 
-            var result = _userService.Update(user);
-            if (!result.IsSuccess)
-                return (false, string.Join("; ", result.Errors));
+            var update = _userService.Update(user);
+            if (!update.IsSuccess)
+                return (false, string.Join("; ", update.Errors));
 
             return (true, null);
         }
+
+        public async Task<(bool ok, string? error)> ChangePassword(int userId, string currentPassword, string newPassword)
+        {
+            var userResult = _userService.GetById(userId);
+            if (!userResult.IsSuccess || userResult.Value is null)
+                return (false, "Usuario no encontrado.");
+
+            var user = userResult.Value;
+
+            // 1) Verificar contraseña actual
+            var currentHash = Md5Hex(currentPassword);
+            if (!string.Equals(user.PasswordHash, currentHash, StringComparison.OrdinalIgnoreCase))
+                return (false, "La contraseña actual no es correcta.");
+
+            // 2) Reglas de complejidad
+            var pwCheck = PasswordValidator.Validate(newPassword);
+            if (!pwCheck.ok)
+                return (false, pwCheck.error);
+
+            // 3) Evitar misma contraseña
+            var newHash = Md5Hex(newPassword);
+            if (string.Equals(user.PasswordHash, newHash, StringComparison.OrdinalIgnoreCase))
+                return (false, "La nueva contraseña debe ser diferente a la actual.");
+
+            // 4) Persistir (NO tocar FirstLogin aquí)
+            user.PasswordHash = newHash;
+            user.LastUpdate = DateTime.UtcNow;
+
+            var update = _userService.Update(user);
+            if (!update.IsSuccess)
+                return (false, string.Join("; ", update.Errors));
+
+            return (true, null);
+        }
+
+
 
         private static string Md5Hex(string input)
         {

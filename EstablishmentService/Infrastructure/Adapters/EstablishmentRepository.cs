@@ -76,7 +76,7 @@ namespace EstablishmentService.Infrastructure.Adapters
                     @CreatedBy,
                     CURRENT_TIMESTAMP,
                     CURRENT_TIMESTAMP,
-                    @Status
+                    1
                 );";
             return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
         }
