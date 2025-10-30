@@ -17,6 +17,7 @@ using UserManagementService.Domain.Models;
 using UserManagementService.Domain.Ports;
 using UserManagementService.Infrastructure.Adapters;
 using ReportService.Application;
+using ReportService.Infrastructure.RepositoryAdapters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,7 +62,8 @@ builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServic
 builder.Services.AddScoped<IUserRepositoryService, UserRepositoryService>();
 
 // 🔹 Report service registration
-
+builder.Services.AddScoped<EstablishmentReportService>();
+builder.Services.AddScoped<EstablishmentWithPersonDtoRepository>();
 
 
 var _configuration = builder.Configuration;
