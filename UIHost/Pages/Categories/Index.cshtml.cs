@@ -29,13 +29,11 @@ namespace UIHost.Pages.Categories
         public void OnGet()
         {
             ResultCategoryGetAll = _repository.GetAll();
-            Categories = ResultCategoryGetAll.Value?.ToList() ?? new List<Category>();
         }
 
         public void OnPostSearch()
         {
             ResultCategoryGetAll = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
-            Categories = ResultCategoryGetAll.Value?.ToList() ?? new List<Category>();
         }
         public string Protect(int id) => _idProtector.ProtectInt(id);
     }
