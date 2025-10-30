@@ -17,6 +17,11 @@ public class MySqlConnectionManager
         using MySqlCommand command = DbParameterHelper.PopulateCommandParameters(query, model);
         return ExecuteCommand<T>(command);
     }
+    public IEnumerable<TOut> ExecuteParameterizedQuery<TOut, TParam>(string query, TParam model) where TOut : new()
+    {
+        using MySqlCommand command = DbParameterHelper.PopulateCommandParameters(query, model);
+        return ExecuteCommand<TOut>(command);
+    }
 
     public IEnumerable<T> ExecuteQuery<T>(string query) where T : new()
     {

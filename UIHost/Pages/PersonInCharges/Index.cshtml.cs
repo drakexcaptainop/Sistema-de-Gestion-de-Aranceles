@@ -48,7 +48,7 @@ namespace UIHost.Pages.PersonInCharges
 
             string createdBy = User.Identity?.Name ?? "Usuario desconocido";
 
-            var report = reportService.GenerateEstablishmentPersonInChargeReport(createdBy);
+            var report = reportService.GenerateEstablishmentPersonInChargeReport(createdBy, null, null);
 
             if (report == null || report.Result == null)
             {

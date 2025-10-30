@@ -29,6 +29,7 @@ namespace UIHost.Pages.Fees
         public void OnGet()
         {
             ResultFeeGetAll = _repository.GetAll();
+            if(ResultFeeGetAll.IsFailure) return;
             var categoryList = _categoryRepository.GetAll();
 
             foreach (var fee in ResultFeeGetAll.Value)

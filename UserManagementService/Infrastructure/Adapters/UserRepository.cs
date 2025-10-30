@@ -166,7 +166,7 @@ namespace UserManagementService.Infrastructure.Adapters
                 SELECT id AS Id, username AS Username, password_hash AS PasswordHash,
                        first_name AS FirstName, last_name AS LastName, email AS Email,
                        role AS Role, created_by AS CreatedBy, created_date AS CreatedDate,
-                       last_update AS LastUpdate, status AS Status, first_login AS FirstLogin
+                       last_update AS LastUpdate, status AS Status
                 FROM `user`
                 WHERE username = @Username
                 LIMIT 1;";

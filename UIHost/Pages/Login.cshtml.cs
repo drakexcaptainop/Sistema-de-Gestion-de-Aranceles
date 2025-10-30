@@ -35,10 +35,7 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!ModelState.IsValid) return Page();
-
-        try
-        {
+        
             var (ok, userId, role, error, isFirstLogin) = _auth.ValidateLogin(Input.Username, Input.Password);
             if (!ok || userId == null) 
             { 
@@ -77,13 +74,6 @@ public class LoginModel : PageModel
 
             System.Console.WriteLine("Redirecting to Index");
             return RedirectToPage("/Index");
-        }
-        catch (Exception ex)
-        {
-            System.Console.WriteLine($"Login error: {ex.Message}");
-            ModelState.AddModelError(string.Empty, "Error durante el inicio de sesión.");
-            return Page();
-        }
 
     }
 }

@@ -19,9 +19,9 @@ public class EstablishmentReportService
         _establishmentWithPersonDtoRepository = establishmentWithPersonDtoRepository; 
     }
 
-    public Report GenerateEstablishmentPersonInChargeReport(string exportedBy)
+    public Report GenerateEstablishmentPersonInChargeReport(string exportedBy, DateTime? startDate, string? type)
     {
-        IEnumerable<EstablishmentWithPersonDto> establishmentWithPersonDtos =_establishmentWithPersonDtoRepository.GetAll();
+        IEnumerable<EstablishmentWithPersonDto> establishmentWithPersonDtos =_establishmentWithPersonDtoRepository.GetAllWithFilters(startDate, type);
         var groupedData = establishmentWithPersonDtos.Select(g =>
         {
             return (g.Encargado, g.Ci, g.Establecimiento, g.Licencia, g.Direccion);
