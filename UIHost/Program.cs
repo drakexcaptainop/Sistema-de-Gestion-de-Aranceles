@@ -17,9 +17,6 @@ using UserManagementService.Domain.Models;
 using UserManagementService.Domain.Ports;
 using UserManagementService.Infrastructure.Adapters;
 using ReportService.Application;
-using QuestPDF.Infrastructure;
-
-QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
