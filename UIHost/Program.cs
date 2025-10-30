@@ -69,6 +69,9 @@ builder.Services.AddScoped<IUserRepositoryService, UserRepositoryService>();
 builder.Services.AddScoped<EstablishmentReportService>();
 builder.Services.AddScoped<EstablishmentWithPersonDtoRepository>();
 
+builder.Services.AddScoped<FeeReportService>();
+builder.Services.AddScoped<EstablishmentWithPersonDtoRepository>();
+
 
 var _configuration = builder.Configuration;
 var smtpHost = _configuration["Email:SmtpHost"];
