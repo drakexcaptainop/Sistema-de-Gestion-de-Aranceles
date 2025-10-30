@@ -29,7 +29,8 @@
         <a asp-page="Index" class="btn btn-secondary">Limpiar</a>
     </div>
 </form>
-
+@if(Model.ResultEstablishmentsGetAll.IsSuccess)
+{
 <div class="table-responsive">
     <table class="table table-hover align-middle">
         <thead class="table-primary">
@@ -43,9 +44,7 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.Establishments.Any())
-            {
-                @foreach (var e in Model.Establishments)
+                @foreach (var e in Model.ResultEstablishmentsGetAll.Value)
                 {
                     <tr>
                         <td class="fw-semibold">@e.Name</td>
@@ -77,19 +76,19 @@
                         </td>
                     </tr>
                 }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="6" class="text-center py-5">
-                        <div class="text-muted">
-                            <i class="bi bi-building display-4 d-block mb-3 opacity-25"></i>
-                            <p class="mb-0">No hay establecimientos registrados.</p>
-                            <small>Comienza creando un nuevo establecimiento</small>
-                        </div>
-                    </td>
-                </tr>
-            }
         </tbody>
     </table>
 </div>
+}
+else
+{
+<tr>
+    <td colspan="6" class="text-center py-5">
+        <div class="text-muted">
+            <i class="bi bi-building display-4 d-block mb-3 opacity-25"></i>
+            <p class="mb-0">No hay establecimientos registrados.</p>
+            <small>Comienza creando un nuevo establecimiento</small>
+        </div>
+    </td>
+</tr>
+}

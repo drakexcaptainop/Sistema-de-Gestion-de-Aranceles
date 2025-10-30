@@ -9,7 +9,7 @@ namespace UIHost.Pages
         public async Task OnGet()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            HttpContext.Session.Clear();
+            //HttpContext.Session.Clear();
             Response.Redirect("/Login");
         }
     }

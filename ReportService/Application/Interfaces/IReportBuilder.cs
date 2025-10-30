@@ -6,7 +6,7 @@ public interface IReportBuilder
 {
     void BuildLogo();
     void BuildTitle(String title);
-    void BuildData(List<String> data);
+    void BuildData(List<(string Encargado, string Ci, string Establecimiento, string Licencia, string Direccion)> data);
     void BuildChart();
     void BuildFooter();
     Report GetReport();

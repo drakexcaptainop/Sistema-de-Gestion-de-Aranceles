@@ -16,8 +16,7 @@ using UserManagementService.Application.ServiceFactory;
 using UserManagementService.Domain.Models;
 using UserManagementService.Domain.Ports;
 using UserManagementService.Infrastructure.Adapters;
-
-
+using ReportService.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +26,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<MySqlConnectionManager>(new MySqlConnectionManager(
     builder.Configuration.GetConnectionString("MySqlConnection")));
 
-
 builder.Services.AddDataProtection();
 builder.Services.AddSingleton<IdProtector>();
-
 
 builder.Services.AddSingleton<IDbRepository<Category>, CategoryRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<Category>, CategoryRespositoryServiceCreator>();
@@ -38,14 +35,12 @@ builder.Services.AddScoped<IRepositoryServiceFactory<Category>, CategoryResposit
 // ==========================
 //  PERSON IN CHARGE CONFIG
 // ==========================
-
 builder.Services.AddSingleton<IDbRepository<PersonInCharge>, PersonInChargeRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<PersonInCharge>, PersonInChargeRepositoryServiceCreator>();
 
 // ==========================
 //  ESTABLISHMENT CONFIG
 // ==========================
-
 builder.Services.AddSingleton<IDbRepository<Establishment>, EstablishmentRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<Establishment>, EstablishmentRepositoryServiceCreator>();
 
@@ -61,11 +56,17 @@ builder.Services.AddScoped<IRepositoryServiceFactory<Fee>, FeeRepositoryServiceC
 // ==========================
 
 builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
+
 builder.Services.AddScoped<IUserRepositoryService, UserRepositoryService>();
 
-
+// 🔹 Report service registration
+builder.Services.AddScoped<EstablishmentReportService>(sp =>
+{
+    var estRepo = sp.GetRequiredService<IDbRepository<Establishment>>();
+    var personRepo = sp.GetRequiredService<IDbRepository<PersonInCharge>>();
+    return new EstablishmentReportService(estRepo, personRepo);
+});
 
 var _configuration = builder.Configuration;
 var smtpHost = _configuration["Email:SmtpHost"];
@@ -90,24 +91,26 @@ var adapter = new SmtpEmailAdapter(
         FromEmail = fromEmail,
         FromName = fromName
     }, logger
-    );
+);
 
-builder.Services.AddScoped<IEmailService, SmtpEmailAdapter>( sp=>adapter );
+builder.Services.AddScoped<IEmailService, SmtpEmailAdapter>(sp => adapter);
 builder.Services.AddScoped<EmailService>();
-
 
 // Register AuthService
 builder.Services.AddScoped<IAuthService, AuthService>();
+
 // Add authentication (cookie) and authorization
 builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Login";
+        options.LogoutPath = "/Logout";
         options.AccessDeniedPath = "/Login";
         options.ExpireTimeSpan = System.TimeSpan.FromHours(8);
     });
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
+
 // Session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -124,6 +127,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
+
 app.UseStaticFiles();
 
 app.UseRouting();
