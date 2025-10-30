@@ -1,7 +1,8 @@
-﻿using System.Globalization;
+﻿using Common.Application.EmailServices;
+using Common.Domain.SharedPorts;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using Common.Application.EmailServices;
 using UserManagementService.Application.RepositoryServices;
 using UserManagementService.Domain.Models;
 using UserManagementService.Domain.Ports;
@@ -23,9 +24,9 @@ namespace UserManagementService.Application.IdentityServices
 
         private static readonly Dictionary<int, string> CodeToRole = RoleToCode.ToDictionary(kv => kv.Value, kv => kv.Key);
 
-        public AuthService(IUserRepositoryService userService, EmailService emailService)
+        public AuthService(IRepositoryServiceFactory<User> userService, EmailService emailService)
         {
-            _userService = userService;
+            _userService = (IUserRepositoryService)userService.CreateRepositoryService();
             _emailService = emailService;
         }
 
