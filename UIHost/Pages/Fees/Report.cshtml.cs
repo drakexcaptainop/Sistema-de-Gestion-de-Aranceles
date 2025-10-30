@@ -28,7 +28,6 @@ namespace UIHost.Pages.Fees
         {
             // Apply filters (StartDate, EndDate, MinAmount, MaxAmount) as needed
             // You can inject your service/builder here via DI
-            Console.WriteLine("1 " + ReportType);
 
             if (string.Equals(ReportType, "pdf", StringComparison.OrdinalIgnoreCase))
             {
@@ -45,7 +44,6 @@ namespace UIHost.Pages.Fees
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
                     "reporte_aranceles.xlsx");
             }
-            Console.WriteLine("2 " + ReportType);
             
 
             // If invalid type, reload the page
@@ -54,8 +52,6 @@ namespace UIHost.Pages.Fees
 
         private byte[] GeneratePdfReport()
         {
-            Console.WriteLine(ReportType);
-            
             Report report = _reportService.GeneratePdf(StartDate, EndDate, MinAmount, MaxAmount);
             return report.Result;
         }

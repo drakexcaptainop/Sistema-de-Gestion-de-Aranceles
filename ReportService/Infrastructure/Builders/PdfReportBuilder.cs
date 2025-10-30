@@ -39,6 +39,11 @@ public class PdfReportBuilder : IReportBuilder<Fee>
         // _report.Chart = _chartGenerator.GenerateChartAsPng(data);
     }
 
+    public void setChart(byte[] chart)
+    {
+        _report.Chart = chart;
+    }
+
     public void BuildFooter()
     {
         _report.Footer = $"Reporte generado el {DateTime.Now:dd/MM/yyyy HH:mm}";
@@ -133,11 +138,11 @@ public class PdfReportBuilder : IReportBuilder<Fee>
 
     private void ComposeChartPlaceholder(IContainer container)
     {
-        container.AlignCenter().Border(1).BorderColor(Colors.Grey.Lighten2).Height(150)
-            .AlignMiddle()
-            .Text("Gráfico (pendiente de implementación)")
-            .FontColor(Colors.Grey.Darken1)
-            .Italic();
+        // container.AlignCenter().Border(1).BorderColor(Colors.Grey.Lighten2).Height(150)
+        //     .AlignMiddle()
+        //     .Text("Gráfico (pendiente de implementación)")
+        //     .FontColor(Colors.Grey.Darken1)
+        //     .Italic();
     }
 
     private void ComposeFooter(IContainer container)
