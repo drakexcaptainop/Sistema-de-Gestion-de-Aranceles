@@ -14,6 +14,7 @@ namespace UIHost.Pages.Establishments
 
         [BindProperty]
         public Establishment Establishment { get; set; } = new();
+
         public List<PersonInCharge> PersonsInCharge { get; set; } = new();
 
         public Result<IEnumerable<PersonInCharge>> ResultGetAllPersonInCharge { get; set; }
@@ -57,8 +58,15 @@ namespace UIHost.Pages.Establishments
             {
                 return RedirectToPage("./Index");
             }
+
+            // Si falla, recargar personas
+            ResultGetAllPersonInCharge = _personRepository.GetAll();
+            if (ResultGetAllPersonInCharge.IsSuccess)
+            {
+                PersonsInCharge = ResultGetAllPersonInCharge.Value.Where(personInCharge => personInCharge.Status).ToList();
+            }
+
             return Page();
         }
-
     }
 }

@@ -57,20 +57,26 @@
                         </td>
                         <td>
                             <span class="badge bg-info-subtle text-info px-3 py-2">
-                                @e.EstablishmentType
-                            </span>
+                                @(e.EstablishmentType switch
+                                {
+                                    "RESTAURANT" => "Restaurante",
+                                    "BAR" => "Bar",
+                                    "CAFETERIA" => "Cafetería",
+                                    "FAST_FOOD" => "Comida Rápida",
+                                    "OTHER" => "Otro",
+                                    _ => e.EstablishmentType
+                                })
+                        </span>
                         </td>
-                        <td class="text-center">
+                        <td class="text-end">
                             <div class="btn-group" role="group">
-                                <a asp-page="Edit"
-                                   asp-route-id="@(Model.Protect(e.Id))"
-                                   class="btn btn-sm btn-outline-warning">
+                                <a asp-page="Edit" asp-route-id="@(Model.Protect(e.Id))"
+                                   class="btn btn-sm bg-warning bg-opacity-25 text-dark border-warning btn-hover-warning">
                                     <i class="bi bi-pencil-square me-1"></i>Editar
                                 </a>
-                                <a asp-page="Delete"
-                                   asp-route-id="@(Model.Protect(e.Id))"
-                                   class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash3 me-1"></i>Eliminar
+                                <a asp-page="Delete" asp-route-id="@(Model.Protect(e.Id))"
+                                   class="btn btn-sm bg-danger bg-opacity-25 text-dark border-danger btn-hover-danger">
+                                    <i class="bi bi-trash me-1"></i>Eliminar
                                 </a>
                             </div>
                         </td>
