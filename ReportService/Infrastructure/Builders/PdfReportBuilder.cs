@@ -21,7 +21,7 @@ public class PdfReportBuilder: IReportBuilder
         throw new NotImplementedException();
     }
     
-    public void BuildData(List<string> data)
+    public void BuildData(List<(string Encargado, string Ci, string Establecimiento, string Licencia, string Direccion)> data)
     {
         throw new NotImplementedException();
     }

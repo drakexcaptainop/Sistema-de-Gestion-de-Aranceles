@@ -1,11 +1,10 @@
+using Common.Domain.SharedPorts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
-
+using UIHost.Security;
 using UserManagementService.Application.RepositoryServices;
 using UserManagementService.Domain.Models;
-using UIHost.Security;
 
 namespace UIHost.Pages.Users
 {
@@ -18,9 +17,9 @@ namespace UIHost.Pages.Users
         [BindProperty]
         public new User User { get; set; } = new();
 
-        public EditModel(IUserRepositoryService userService, IdProtector idProtector)
+        public EditModel(IRepositoryServiceFactory<User> userService, IdProtector idProtector)
         {
-            _repository = userService;
+            _repository = (IUserRepositoryService)userService.CreateRepositoryService();
             _idProtector = idProtector;
         }
 

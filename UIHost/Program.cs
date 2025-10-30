@@ -16,11 +16,10 @@ using UserManagementService.Application.ServiceFactory;
 using UserManagementService.Domain.Models;
 using UserManagementService.Domain.Ports;
 using UserManagementService.Infrastructure.Adapters;
+using ReportService.Application;
 using QuestPDF.Infrastructure;
 
 QuestPDF.Settings.License = LicenseType.Community;
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,16 +51,6 @@ builder.Services.AddScoped<IRepositoryServiceFactory<PersonInCharge>, PersonInCh
 builder.Services.AddSingleton<IDbRepository<Establishment>, EstablishmentRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<Establishment>, EstablishmentRepositoryServiceCreator>();
 
-// ==========================
-//  FEE CONFIG
-// ==========================
-
-builder.Services.AddSingleton<IDbRepository<Fee>, FeeRepository>();
-builder.Services.AddScoped<IRepositoryServiceFactory<Fee>, FeeRepositoryServiceCreator>();
-
-// ==========================
-//  USER CONFIG
-// ==========================
 
 builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
