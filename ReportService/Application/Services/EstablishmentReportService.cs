@@ -3,19 +3,35 @@ using EstablishmentService.Domain.Models;
 using ReportService.Infrastructure.Directors;
 using ReportService.Infrastructure.Builders;
 using ReportService.Domain.Models;
+using ReportService.Infrastructure.RepositoryAdapters;
 
 public class EstablishmentReportService
 {
     private readonly IDbRepository<Establishment> _establishmentRepo;
     private readonly IDbRepository<PersonInCharge> _personRepo;
+    private EstablishmentWithPersonDtoRepository _establishmentWithPersonDtoRepository;
 
     public EstablishmentReportService(IDbRepository<Establishment> establishmentRepo,
-                                      IDbRepository<PersonInCharge> personRepo)
+                                      IDbRepository<PersonInCharge> personRepo, EstablishmentWithPersonDtoRepository  establishmentWithPersonDtoRepository)
     {
         _establishmentRepo = establishmentRepo;
         _personRepo = personRepo;
+        _establishmentWithPersonDtoRepository = establishmentWithPersonDtoRepository; 
     }
 
+    public Report GenerateEstablishmentPersonInChargeReport(string exportedBy)
+    {
+        IEnumerable<EstablishmentWithPersonDto> establishmentWithPersonDtos =_establishmentWithPersonDtoRepository.GetAll();
+        var groupedData = establishmentWithPersonDtos.Select(g =>
+        {
+            return (g.Encargado, g.Ci, g.Establecimiento, g.Licencia, g.Direccion);
+        });
+        var builder = new XlsxReportBuilder();
+        var director = new ReportDirector();
+        builder.SetFooter($"Exportado por: {exportedBy} | Fecha/Hora: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        var report = director.BuildReport(builder, "Reporte de Encargados y Establecimientos", groupedData.ToList());
+        return report;
+    }
     public Report GenerateEncargadoReport(string exportedBy)
     {
         var establishments = _establishmentRepo.GetAll().ToList();

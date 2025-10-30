@@ -61,12 +61,7 @@ builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServic
 builder.Services.AddScoped<IUserRepositoryService, UserRepositoryService>();
 
 // 🔹 Report service registration
-builder.Services.AddScoped<EstablishmentReportService>(sp =>
-{
-    var estRepo = sp.GetRequiredService<IDbRepository<Establishment>>();
-    var personRepo = sp.GetRequiredService<IDbRepository<PersonInCharge>>();
-    return new EstablishmentReportService(estRepo, personRepo);
-});
+
 
 
 var _configuration = builder.Configuration;
