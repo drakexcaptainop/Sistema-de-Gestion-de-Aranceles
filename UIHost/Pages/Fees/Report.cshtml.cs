@@ -1,20 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ReportService.Application.Services;
+using ReportService.Domain.Models;
 
 namespace UIHost.Pages.Fees
 {
     public class ReportModel : PageModel
     {
+        private readonly FeeReportService _reportService;
         [BindProperty(SupportsGet = true)] public string? ReportType { get; set; }
-        [BindProperty(SupportsGet = true)] public DateTime? StartDate { get; set; } = DateTime.Now;
-        [BindProperty(SupportsGet = true)] public DateTime? EndDate { get; set; } = DateTime.Now;
-        [BindProperty(SupportsGet = true)] public decimal? MinAmount { get; set; }
-        [BindProperty(SupportsGet = true)] public decimal? MaxAmount { get; set; }
+        [BindProperty(SupportsGet = true)] public DateTime StartDate { get; set; } = DateTime.Now;
+        [BindProperty(SupportsGet = true)] public DateTime EndDate { get; set; } = DateTime.Now;
+        [BindProperty(SupportsGet = true)] public decimal MinAmount { get; set; } = 50;
+        [BindProperty(SupportsGet = true)] public decimal MaxAmount { get; set; } = 850;
 
-        public IActionResult OnGetGenerateReport()
+        
+        public void OnGet()
+        {
+            Console.WriteLine("OnGet triggered");
+        }
+        public ReportModel(FeeReportService reportService)
+        {
+            _reportService = reportService;
+        }
+
+        public IActionResult OnPostGenerateReport()
         {
             // Apply filters (StartDate, EndDate, MinAmount, MaxAmount) as needed
             // You can inject your service/builder here via DI
+            Console.WriteLine("1 " + ReportType);
 
             if (string.Equals(ReportType, "pdf", StringComparison.OrdinalIgnoreCase))
             {
@@ -31,6 +45,8 @@ namespace UIHost.Pages.Fees
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
                     "reporte_aranceles.xlsx");
             }
+            Console.WriteLine("2 " + ReportType);
+            
 
             // If invalid type, reload the page
             return Page();
@@ -38,16 +54,10 @@ namespace UIHost.Pages.Fees
 
         private byte[] GeneratePdfReport()
         {
-            // Placeholder: integrate with your PdfReportBuilder here
-            // Example:
-            // var report = _pdfReportBuilder.Build(...).GetReport();
-            // return (byte[])report.Result;
-
-            using var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write("Demo PDF content");
-            writer.Flush();
-            return stream.ToArray();
+            Console.WriteLine(ReportType);
+            
+            Report report = _reportService.GeneratePdf(StartDate, EndDate, MinAmount, MaxAmount);
+            return report.Result;
         }
 
         private byte[] GenerateExcelReport()

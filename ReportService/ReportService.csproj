@@ -14,5 +14,6 @@
     <ItemGroup>
         <ProjectReference Include="..\Common\Common.csproj" />
         <ProjectReference Include="..\EstablishmentService\EstablishmentService.csproj" />
+        <ProjectReference Include="..\TariffingService\TariffingService.csproj" />
     </ItemGroup>
 </Project>

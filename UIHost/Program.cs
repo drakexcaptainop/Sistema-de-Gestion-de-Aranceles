@@ -18,6 +18,7 @@ using UserManagementService.Domain.Ports;
 using UserManagementService.Infrastructure.Adapters;
 using ReportService.Application;
 using QuestPDF.Infrastructure;
+using ReportService.Application.Services;
 
 QuestPDF.Settings.License = LicenseType.Community;
 
@@ -63,6 +64,12 @@ builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
 builder.Services.AddScoped<IUserRepositoryService, UserRepositoryService>();
 
+builder.Services.AddScoped<FeeReportService>(sp =>
+{
+    var feeRepo = sp.GetRequiredService<IDbRepository<Fee>>();
+    var catRepo = sp.GetRequiredService<IDbRepository<Category>>();
+    return new FeeReportService(feeRepo, catRepo);
+});
 // 🔹 Report service registration
 builder.Services.AddScoped<EstablishmentReportService>(sp =>
 {

@@ -1,5 +1,6 @@
 using ReportService.Application.Interfaces;
 using ReportService.Domain.Models;
+using TariffingService.Domain.Models;
 
 namespace ReportService.Infrastructure.Directors;
 
@@ -15,6 +16,16 @@ public class ReportDirector
         builder.BuildData(data);
         builder.BuildFooter();
         // builder.BuildChart();
+        return builder.GetReport();
+    }
+
+    public Report BuildPdfReport(IReportBuilder<Fee> builder, string title, List<Fee> data)
+    {
+        builder.BuildLogo();
+        builder.BuildTitle(title);
+        builder.BuildData(data);
+        builder.BuildChart();
+        builder.BuildFooter();
         return builder.GetReport();
     }
 }

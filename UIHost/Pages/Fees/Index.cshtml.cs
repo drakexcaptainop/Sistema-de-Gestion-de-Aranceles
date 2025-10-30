@@ -32,7 +32,7 @@ namespace UIHost.Pages.Fees
 
             foreach (var fee in ResultFeeGetAll.Value)
             {
-                fee.Category = _categoryRepository.GetAll().Value.FirstOrDefault(c => c.Id == fee.Id);
+                fee.Category = _categoryRepository.GetAll().Value.FirstOrDefault(c => c.Id == fee.CategoryId);
             }
         }
 
