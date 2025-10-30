@@ -59,7 +59,6 @@ namespace UIHost.Pages.Establishments
                 return RedirectToPage("./Index");
             }
 
-            // Si falla, recargar personas
             ResultGetAllPersonInCharge = _personRepository.GetAll();
             if (ResultGetAllPersonInCharge.IsSuccess)
             {
