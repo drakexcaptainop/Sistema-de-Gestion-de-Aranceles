@@ -44,6 +44,17 @@ builder.Services.AddScoped<IRepositoryServiceFactory<PersonInCharge>, PersonInCh
 builder.Services.AddSingleton<IDbRepository<Establishment>, EstablishmentRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<Establishment>, EstablishmentRepositoryServiceCreator>();
 
+// ==========================
+//  FEE CONFIG
+// ==========================
+
+builder.Services.AddSingleton<IDbRepository<Fee>, FeeRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<Fee>, FeeRepositoryServiceCreator>();
+
+// ==========================
+//  USER CONFIG
+// ==========================
+
 builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
 
