@@ -29,7 +29,7 @@ public class EstablishmentReportService
         var builder = new XlsxReportBuilder();
         var director = new ReportDirector();
         builder.SetFooter($"Exportado por: {exportedBy} | Fecha/Hora: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
-        var report = director.BuildReport(builder, "Reporte de Encargados y Establecimientos", groupedData.ToList());
+        var report = director.BuildXlsxReport(builder, "Reporte de Encargados y Establecimientos", groupedData.ToList());
         return report;
     }
     public Report GenerateEncargadoReport(string exportedBy)
