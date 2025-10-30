@@ -1,43 +1,33 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
-using EstablishmentService.Domain.Models;
-using Common.Domain.Patterns;
 using Common.Domain.SharedPorts;
+using EstablishmentService.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using UIHost.Security;
-
-
 
 namespace UIHost.Pages.PersonInCharges
 {
-    public class IndexModel : PageModel
+    public class ReportModel : PageModel
     {
-        private readonly IRepositoryService<PersonInCharge> _repository;
-        private readonly IdProtector _idProtector;
-        private readonly EstablishmentReportService _establishmentReportService;
-        
-        [BindProperty]
-        public string SearchTerm { get; set; }
-        public List<PersonInCharge> Persons { get; set; } = new();
-        public Result<IEnumerable<PersonInCharge>> ResultGetAllPersonInCharge { get; set; }
 
-        public IndexModel(IRepositoryServiceFactory<PersonInCharge> factory, IdProtector idProtector, EstablishmentReportService  establishmentReportService)
+        private readonly EstablishmentReportService _establishmentReportService;
+
+        [BindProperty]
+        public DateTime? FechaInicio { get; set; }
+
+        [BindProperty]
+        public string? EstablishmentType { get; set; }
+
+        public ReportModel(EstablishmentReportService establishmentReportService)
         {
             _establishmentReportService = establishmentReportService;
-            _repository = factory.CreateRepositoryService();
-            _idProtector = idProtector;
         }
 
         public void OnGet()
         {
-            ResultGetAllPersonInCharge = _repository.GetAll();
+
         }
 
-        public void OnPost()
-        {
-            ResultGetAllPersonInCharge = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
-        }
-        public IActionResult OnGetGenerateReport()
+        public IActionResult OnPostFiltrar()
         {
             var reportService = _establishmentReportService;
             if (reportService == null)
@@ -63,7 +53,5 @@ namespace UIHost.Pages.PersonInCharges
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 fileName);
         }
-
-        public string Protect(int id) => _idProtector.ProtectInt(id);
     }
 }

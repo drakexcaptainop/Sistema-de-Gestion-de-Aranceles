@@ -16,9 +16,14 @@
         </p>
     </div>
     <div class="d-flex gap-2">
-        <a asp-page-handler="GenerateReport" class="btn btn-success">
+        <a asp-page="Report" class="btn btn-success">
             <i class="bi bi-file-earmark-excel"></i> Generar Reporte Excel
         </a>
+
+        <a asp-page="ReportPdf" class="btn btn-success">
+            <i class="bi bi-file-earmark-pdf"></i> Generar Reporte PDF
+        </a>
+
         <a asp-page="Create" class="btn btn-primary">
             <i class="bi bi-person-plus me-2"></i>Nuevo Encargado
         </a>

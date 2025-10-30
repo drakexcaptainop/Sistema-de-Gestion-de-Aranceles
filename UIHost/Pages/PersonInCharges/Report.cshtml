@@ -1,0 +1,32 @@
+﻿@page
+@model UIHost.Pages.PersonInCharges.ReportModel
+@{
+    ViewData["Title"] = "Filtro por fechas";
+}
+
+<form method="post" asp-page-handler="Filtrar" class="row g-3">
+    <div class="col-md-4">
+        <label asp-for="FechaInicio" class="form-label">Fecha inicio</label>
+        <input asp-for="FechaInicio" class="form-control" type="date" />
+        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="EstablishmentType" class="form-label fw-semibold">
+            <i class="bi bi-ui-checks-grid text-primary me-1"></i>Tipo de Establecimiento
+        </label>
+        <select asp-for="EstablishmentType" class="form-select">
+            <option value="">Seleccionar tipo</option>
+            <option value="RESTAURANT">RESTAURANT</option>
+            <option value="BAR">BAR</option>
+            <option value="CAFETERIA">CAFETERIA</option>
+            <option value="FAST_FOOD">FAST_FOOD</option>
+            <option value="OTHER">OTHER</option>
+        </select>
+        <span asp-validation-for="EstablishmentType" class="text-danger d-block mt-2 fw-semibold" style="font-size: 0.9rem;"></span>
+    </div>
+
+    <div class="col-md-4 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+    </div>
+</form>

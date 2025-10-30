@@ -99,7 +99,6 @@ namespace EstablishmentService.Infrastructure.Adapters
                 WHERE id = @Id;";
             return _dbConnectionManager.ExecuteParameterizedNonQuery(query, model);
         }
-
         public IEnumerable<Establishment> Search(string property)
         {
             var probe = new Establishment
