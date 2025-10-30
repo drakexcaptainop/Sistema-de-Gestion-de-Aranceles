@@ -30,6 +30,8 @@
     </div>
 </form>
 
+@if(Model.ResultGetAllUser.IsSuccess)
+{
 <table class="table table-hover align-middle">
     <thead class="table-primary">
     <tr>
@@ -43,7 +45,7 @@
     </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model.ResultGetAllUser.Value.Where(u => u.Status))
+        @foreach (var user in Model.ResultGetAllUser.Value)
         {
             <tr>
                 <td>@user.Username</td>
@@ -87,4 +89,16 @@
             </tr>
         }
     </tbody>
-</table>
+    </table>
+}
+else
+{
+    <tr>
+        <td colspan="5" class="text-center py-4">
+            <div class="text-muted">
+                <i class="bi bi-info-circle me-2"></i>
+                No hay Usuarios registradas.
+            </div>
+        </td>
+    </tr>
+}

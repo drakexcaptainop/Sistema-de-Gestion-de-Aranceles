@@ -29,13 +29,11 @@ namespace UIHost.Pages.Establishments
         public void OnGet()
         {
             ResultEstablishmentsGetAll = _repository.GetAll();
-            Establishments = ResultEstablishmentsGetAll.Value?.ToList() ?? new List<Establishment>();
         }
 
         public void OnPost()
         {
             ResultEstablishmentsGetAll = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
-            Establishments = ResultEstablishmentsGetAll.Value?.ToList() ?? new List<Establishment>();
         }
 
         public string Protect(int id) => _idProtector.ProtectInt(id);

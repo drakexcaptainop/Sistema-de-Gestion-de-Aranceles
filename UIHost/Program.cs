@@ -45,8 +45,8 @@ builder.Services.AddSingleton<IDbRepository<Establishment>, EstablishmentReposit
 builder.Services.AddScoped<IRepositoryServiceFactory<Establishment>, EstablishmentRepositoryServiceCreator>();
 
 builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
+
 builder.Services.AddScoped<IUserRepositoryService, UserRepositoryService>();
 
 // 🔹 Report service registration
@@ -93,6 +93,7 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.C
     .AddCookie(options =>
     {
         options.LoginPath = "/Login";
+        options.LogoutPath = "/Logout";
         options.AccessDeniedPath = "/Login";
         options.ExpireTimeSpan = System.TimeSpan.FromHours(8);
     });

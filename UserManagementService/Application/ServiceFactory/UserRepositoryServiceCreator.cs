@@ -11,9 +11,9 @@ public class UserRepositoryServiceCreator : BaseRepositoryServiceCreator<User>
 {
     private readonly IUserRepository _userRepository;
     
-    public UserRepositoryServiceCreator(IDbRepository<User> repository, IUserRepository userRepository) : base(repository)
+    public UserRepositoryServiceCreator(IDbRepository<User> repository) : base(repository)
     {
-        _userRepository = userRepository;
+        _userRepository = (IUserRepository)repository;
     }
     
     public override IRepositoryService<User> CreateRepositoryService()

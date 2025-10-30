@@ -27,13 +27,11 @@ namespace UIHost.Pages.PersonInCharges
         public void OnGet()
         {
             ResultGetAllPersonInCharge = _repository.GetAll();
-            Persons = ResultGetAllPersonInCharge.Value?.ToList() ?? new List<PersonInCharge>();
         }
 
         public void OnPost()
         {
             ResultGetAllPersonInCharge = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
-            Persons = ResultGetAllPersonInCharge.Value?.ToList() ?? new List<PersonInCharge>();
         }
         public IActionResult OnGetGenerateReport()
         {
