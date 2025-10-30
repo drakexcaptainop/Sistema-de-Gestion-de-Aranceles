@@ -20,7 +20,17 @@ namespace UIHost.Pages.Users
 
         [BindProperty]
         public InputModel Input { get; set; } = new();
-        
+
+        [BindProperty]
+        [StringLength(50, ErrorMessage = "El segundo nombre no puede exceder 50 caracteres.")]
+        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$", ErrorMessage = "El segundo nombre solo puede contener letras y espacios.")]
+        public string? SecondName { get; set; }
+
+        [BindProperty]
+        [StringLength(50, ErrorMessage = "El segundo apellido no puede exceder 50 caracteres.")]
+        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$", ErrorMessage = "El segundo apellido solo puede contener letras y espacios.")]
+        public string? SecondLastName { get; set; }
+
         public string? GeneratedUsername { get; set; }
 
         public class InputModel
@@ -46,7 +56,6 @@ namespace UIHost.Pages.Users
             public string Role { get; set; } = "Contador";
         }
 
-
         public void OnGet() { }
 
         public IActionResult OnPost()
@@ -56,15 +65,26 @@ namespace UIHost.Pages.Users
                 return Page();
             }
 
-            // Get the id of the admin creating this user from the authenticated principal
             int adminId = 0;
             var idClaim = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (!string.IsNullOrWhiteSpace(idClaim) && int.TryParse(idClaim, out var parsedId))
                 adminId = parsedId;
 
+            var fullFirstName = Input.FirstName.Trim();
+            if (!string.IsNullOrWhiteSpace(SecondName))
+            {
+                fullFirstName += " " + SecondName.Trim();
+            }
+
+            var fullLastName = Input.LastName.Trim();
+            if (!string.IsNullOrWhiteSpace(SecondLastName))
+            {
+                fullLastName += " " + SecondLastName.Trim();
+            }
+
             var (ok, usern, passw, err) = _auth.RegisterUser(
-                Input.FirstName,
-                Input.LastName,
+                fullFirstName,      
+                fullLastName,       
                 Input.Email,
                 Input.Role,
                 adminId
@@ -77,10 +97,9 @@ namespace UIHost.Pages.Users
             }
 
             GeneratedUsername = usern;
-            
-            // Log that email was sent (password is sent via email, not shown)
+
             _logger.LogInformation("New user created: {Username}. Credentials sent to: {Email}", usern, Input.Email);
-            
+
             return Page();
         }
     }
