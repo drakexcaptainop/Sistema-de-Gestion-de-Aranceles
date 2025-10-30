@@ -1,13 +1,19 @@
+using QuestPDF.Companion;
+using QuestPDF.Fluent;
 using ReportService.Application.Interfaces;
 using ReportService.Domain.Models;
+using QuestPDF.Infrastructure;
 
 namespace ReportService.Infrastructure.Builders;
 
 public class PdfReportBuilder: IReportBuilder
 {
+    public Report Report = new();
+    public Document doc = Document.Create(container => {});
+
     public void BuildLogo()
     {
-        throw new NotImplementedException();
+        
     }
     
     public void BuildTitle(string title)
@@ -30,8 +36,20 @@ public class PdfReportBuilder: IReportBuilder
         throw new NotImplementedException();
     }
 
-    public Report GetReport()
+    public object GenerarPdf()
     {
         throw new NotImplementedException();
+    }
+
+    public Report GetReport()
+    {
+        return new Report
+        {
+            Logo = Report.Logo,
+            Title = Report.Title,
+            Data = Report.Data,
+            Footer = Report.Footer,
+            Result = GenerarPdf()
+        };
     }
 }
