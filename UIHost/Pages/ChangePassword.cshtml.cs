@@ -49,13 +49,19 @@ namespace UIHost.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid) return Page();
-
             var userId = User.GetUserId();
             if (userId == null) return RedirectToPage("/Login");
 
             var user = _authService.GetUserById(userId.Value);
             if (user == null) return RedirectToPage("/Login");
+
+            IsFirstLogin = (user.FirstLogin == 0);
+            ViewData["HideSidebar"] = IsFirstLogin;
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
             (bool ok, string? error) result;
 

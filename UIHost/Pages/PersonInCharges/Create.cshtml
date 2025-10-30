@@ -35,11 +35,11 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label asp-for="Person.FirstName" class="form-label fw-semibold">
-                            <i class="bi bi-person text-primary me-1"></i>Nombre
+                            <i class="bi bi-person text-primary me-1"></i>Primer Nombre
                         </label>
                         <input asp-for="Person.FirstName"
                                class="form-control"
-                               placeholder="Ingrese el nombre"
+                               placeholder="Ej: Juan"
                                required
                                minlength="3"
                                maxlength="50"
@@ -51,18 +51,44 @@
                     </div>
 
                     <div class="col-md-6">
+                        <label asp-for="SecondName" class="form-label fw-semibold">
+                            <i class="bi bi-person text-primary me-1"></i>Segundo Nombre
+                        </label>
+                        <input asp-for="SecondName"
+                               class="form-control"
+                               placeholder="Ej: Carlos"
+                               maxlength="50" />
+                        <span asp-validation-for="SecondName"
+                              class="text-danger d-block mt-2 fw-semibold"
+                              style="font-size: 0.9rem;"></span>
+                    </div>
+
+                    <div class="col-md-6">
                         <label asp-for="Person.LastName" class="form-label fw-semibold">
-                            <i class="bi bi-person text-primary me-1"></i>Apellido
+                            <i class="bi bi-person text-primary me-1"></i>Primer Apellido
                         </label>
                         <input asp-for="Person.LastName"
                                class="form-control"
-                               placeholder="Ingrese el apellido"
+                               placeholder="Ej: Pérez"
                                required
                                minlength="3"
                                maxlength="50"
                                pattern="^(?!\d+$).+"
                                title="El apellido debe contener letras y no puede ser solo números." />
                         <span asp-validation-for="Person.LastName"
+                              class="text-danger d-block mt-2 fw-semibold"
+                              style="font-size: 0.9rem;"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="SecondLastName" class="form-label fw-semibold">
+                            <i class="bi bi-person text-primary me-1"></i>Segundo Apellido
+                        </label>
+                        <input asp-for="SecondLastName"
+                               class="form-control"
+                               placeholder="Ej: García"
+                               maxlength="50" />
+                        <span asp-validation-for="SecondLastName"
                               class="text-danger d-block mt-2 fw-semibold"
                               style="font-size: 0.9rem;"></span>
                     </div>
