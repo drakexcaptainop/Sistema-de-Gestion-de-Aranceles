@@ -17,6 +17,7 @@ using UserManagementService.Domain.Models;
 using UserManagementService.Domain.Ports;
 using UserManagementService.Infrastructure.Adapters;
 using ReportService.Application;
+using ReportService.Infrastructure.RepositoryAdapters;
 using QuestPDF.Infrastructure;
 using ReportService.Application.Services;
 
@@ -64,19 +65,9 @@ builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
 builder.Services.AddScoped<IUserRepositoryService, UserRepositoryService>();
 
-builder.Services.AddScoped<FeeReportService>(sp =>
-{
-    var feeRepo = sp.GetRequiredService<IDbRepository<Fee>>();
-    var catRepo = sp.GetRequiredService<IDbRepository<Category>>();
-    return new FeeReportService(feeRepo, catRepo);
-});
 // 🔹 Report service registration
-builder.Services.AddScoped<EstablishmentReportService>(sp =>
-{
-    var estRepo = sp.GetRequiredService<IDbRepository<Establishment>>();
-    var personRepo = sp.GetRequiredService<IDbRepository<PersonInCharge>>();
-    return new EstablishmentReportService(estRepo, personRepo);
-});
+builder.Services.AddScoped<EstablishmentReportService>();
+builder.Services.AddScoped<EstablishmentWithPersonDtoRepository>();
 
 
 var _configuration = builder.Configuration;

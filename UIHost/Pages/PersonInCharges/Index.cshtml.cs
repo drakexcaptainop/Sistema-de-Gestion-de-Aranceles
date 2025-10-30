@@ -6,20 +6,24 @@ using Common.Domain.SharedPorts;
 using Microsoft.AspNetCore.Mvc;
 using UIHost.Security;
 
+
+
 namespace UIHost.Pages.PersonInCharges
 {
     public class IndexModel : PageModel
     {
         private readonly IRepositoryService<PersonInCharge> _repository;
         private readonly IdProtector _idProtector;
-
+        private readonly EstablishmentReportService _establishmentReportService;
+        
         [BindProperty]
         public string SearchTerm { get; set; }
         public List<PersonInCharge> Persons { get; set; } = new();
         public Result<IEnumerable<PersonInCharge>> ResultGetAllPersonInCharge { get; set; }
 
-        public IndexModel(IRepositoryServiceFactory<PersonInCharge> factory, IdProtector idProtector)
+        public IndexModel(IRepositoryServiceFactory<PersonInCharge> factory, IdProtector idProtector, EstablishmentReportService  establishmentReportService)
         {
+            _establishmentReportService = establishmentReportService;
             _repository = factory.CreateRepositoryService();
             _idProtector = idProtector;
         }
@@ -35,7 +39,7 @@ namespace UIHost.Pages.PersonInCharges
         }
         public IActionResult OnGetGenerateReport()
         {
-            var reportService = HttpContext.RequestServices.GetService<EstablishmentReportService>();
+            var reportService = _establishmentReportService;
             if (reportService == null)
             {
                 TempData["ErrorMessage"] = "No se pudo obtener el servicio de reporte.";
@@ -44,7 +48,7 @@ namespace UIHost.Pages.PersonInCharges
 
             string createdBy = User.Identity?.Name ?? "Usuario desconocido";
 
-            var report = reportService.GenerateEncargadoReport(createdBy);
+            var report = reportService.GenerateEstablishmentPersonInChargeReport(createdBy);
 
             if (report == null || report.Result == null)
             {
