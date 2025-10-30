@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using Common.Domain.Patterns;
 using Common.Domain.SharedPorts;
+using Common.Infrastructure.Logger;
 using EstablishmentService.Domain.Models;
 
 namespace UIHost.Pages.Establishments
@@ -41,6 +42,7 @@ namespace UIHost.Pages.Establishments
 
             if (!ModelState.IsValid)
             {
+                AuditHelper.LogUserAction(User, "CREATE", nameof(Establishment), $"Se creó el siguiente establecimiento {Establishment.Name}");
                 ResultGetAllPersonInCharge = _personRepository.GetAll();
                 if (ResultGetAllPersonInCharge.IsSuccess)
                 {

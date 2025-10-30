@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using Common.Domain.SharedPorts;
+using Common.Infrastructure.Logger;
 using UIHost.Security;
 using TariffingService.Domain.Models;
 
@@ -52,6 +53,7 @@ namespace UIHost.Pages.Categories
             var result = _repository.Delete(Category);
             if (result.IsSuccess)
             {
+                AuditHelper.LogUserAction(User, "UPDATE", nameof(Category), $"Se editó categoría {Category.Name} con ID {Category.Id}");
                 return RedirectToPage("./Index");
             }
             foreach (var error in result.Errors)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Common.Domain.Patterns;
 using Common.Domain.SharedPorts;
+using Common.Infrastructure.Logger;
 using EstablishmentService.Domain.Models;
 using UserManagementService.Application.Helpers;
 
@@ -56,6 +57,7 @@ namespace UIHost.Pages.Establishments
         {
             if (!ModelState.IsValid)
             {
+                AuditHelper.LogUserAction(User, "UPDATE", nameof(Establishment), $"Se editó establecimiento {Establishment.Name} con ID {Establishment.Id}");
                 Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Establishment)}");
                 return Page();
             }

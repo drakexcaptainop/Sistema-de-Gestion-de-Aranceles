@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using UIHost.Security;
 using EstablishmentService.Domain.Models;
 using Common.Domain.SharedPorts;
-
+using Common.Infrastructure.Logger;
 
 
 namespace UIHost.Pages.PersonInCharges
@@ -27,6 +27,7 @@ namespace UIHost.Pages.PersonInCharges
         {
             if (!ModelState.IsValid)
             {
+                AuditHelper.LogUserAction(User, "CREATE", nameof(Person), $"Se creó el siguiente encargado {Person.FirstName}");
                 Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Person)}");
                 return Page();
             }

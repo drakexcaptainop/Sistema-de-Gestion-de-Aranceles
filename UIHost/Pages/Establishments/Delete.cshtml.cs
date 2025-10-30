@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using Common.Domain.Patterns;
 using Common.Domain.SharedPorts;
+using Common.Infrastructure.Logger;
 using EstablishmentService.Domain.Models;
 using UIHost.Security;
 
@@ -54,6 +55,7 @@ namespace UIHost.Pages.Establishments
             var result = _repository.Delete(Establishment);
             if (result.IsSuccess)
             {
+                AuditHelper.LogUserAction(User, "DELETE", nameof(Establishment), $"Se eliminó establecimiento con ID {Establishment.Id}");
                 return RedirectToPage("./Index");
             }
             foreach (var error in result.Errors)

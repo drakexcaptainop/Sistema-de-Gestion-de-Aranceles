@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using Common.Domain.SharedPorts;
+using Common.Infrastructure.Logger;
 using EstablishmentService.Domain.Models;
 using UIHost.Security;
 
@@ -52,6 +53,7 @@ namespace UIHost.Pages.PersonInCharges
             if (!ModelState.IsValid)
             {
                 Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Person)}");
+                AuditHelper.LogUserAction(User, "UPDATE", nameof(PersonInCharge), $"Se editó encargado {Person.FirstName} {Person.LastName} con ID {Person.Id}");
                 return Page();
             }
             

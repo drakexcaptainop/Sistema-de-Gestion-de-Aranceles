@@ -20,7 +20,10 @@ using ReportService.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// =========================================
+// 🔹 Configuración general y dependencias
+// =========================================
+
 builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<MySqlConnectionManager>(new MySqlConnectionManager(
@@ -29,6 +32,9 @@ builder.Services.AddSingleton<MySqlConnectionManager>(new MySqlConnectionManager
 builder.Services.AddDataProtection();
 builder.Services.AddSingleton<IdProtector>();
 
+// ==========================
+//  CATEGORY CONFIG
+// ==========================
 builder.Services.AddSingleton<IDbRepository<Category>, CategoryRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<Category>, CategoryRespositoryServiceCreator>();
 
@@ -44,12 +50,17 @@ builder.Services.AddScoped<IRepositoryServiceFactory<PersonInCharge>, PersonInCh
 builder.Services.AddSingleton<IDbRepository<Establishment>, EstablishmentRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<Establishment>, EstablishmentRepositoryServiceCreator>();
 
+// ==========================
+//  USER CONFIG
+// ==========================
 builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
 builder.Services.AddScoped<IUserRepositoryService, UserRepositoryService>();
 
-// 🔹 Report service registration
+// ==========================
+//  REPORT CONFIG
+// ==========================
 builder.Services.AddScoped<EstablishmentReportService>(sp =>
 {
     var estRepo = sp.GetRequiredService<IDbRepository<Establishment>>();
@@ -57,6 +68,9 @@ builder.Services.AddScoped<EstablishmentReportService>(sp =>
     return new EstablishmentReportService(estRepo, personRepo);
 });
 
+// ==========================
+//  EMAIL CONFIG
+// ==========================
 var _configuration = builder.Configuration;
 var smtpHost = _configuration["Email:SmtpHost"];
 var smtpPort = int.Parse(_configuration["Email:SmtpPort"] ?? "587");
@@ -85,42 +99,49 @@ var adapter = new SmtpEmailAdapter(
 builder.Services.AddScoped<IEmailService, SmtpEmailAdapter>(sp => adapter);
 builder.Services.AddScoped<EmailService>();
 
-// Register AuthService
+// ==========================
+//  AUTH & SESSION CONFIG
+// ==========================
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-// Add authentication (cookie) and authorization
 builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Login";
         options.AccessDeniedPath = "/Login";
-        options.ExpireTimeSpan = System.TimeSpan.FromHours(8);
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
     });
+
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 
-// Session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = System.TimeSpan.FromHours(8);
+    options.IdleTimeout = TimeSpan.FromHours(8);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
 
+
+// =========================================
+// 🔹 Construcción y middleware del pipeline
+// =========================================
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
 
 app.UseStaticFiles();
-
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapRazorPages();
 

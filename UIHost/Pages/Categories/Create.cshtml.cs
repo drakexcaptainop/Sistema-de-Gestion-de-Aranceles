@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using Common.Domain.SharedPorts;
+using Common.Infrastructure.Logger;
 using TariffingService.Domain.Models;
 
 namespace UIHost.Pages.Categories
@@ -22,6 +23,7 @@ namespace UIHost.Pages.Categories
 
         public IActionResult OnPost()
         {
+            AuditHelper.LogUserAction(User, "CREATE", nameof(Category), $"Se creó categoría {Category.Name}");
             Category.CreatedDate = DateTime.Now;
             Category.LastUpdate = DateTime.Now;
             // use authenticated user's id as CreatedBy

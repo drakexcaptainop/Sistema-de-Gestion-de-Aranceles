@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using Common.Domain.Patterns;
 using Common.Domain.SharedPorts;
+using Common.Infrastructure.Logger;
 using UIHost.Security;
 using EstablishmentService.Domain.Models;
 
@@ -53,6 +54,7 @@ namespace UIHost.Pages.PersonInCharges
             var result = _repository.Delete(Person);
             if (result.IsSuccess)
             {
+                AuditHelper.LogUserAction(User, "DELETE", nameof(Person), $"Se eliminó encargado con ID {Person.Id}");
                 return RedirectToPage("./Index");
             }
             foreach (var error in result.Errors)

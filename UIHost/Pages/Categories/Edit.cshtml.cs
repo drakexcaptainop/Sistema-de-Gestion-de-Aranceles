@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using Common.Domain.SharedPorts;
 using Common.Domain.Patterns;
+using Common.Infrastructure.Logger;
 using UIHost.Security;
 using TariffingService.Domain.Models;
 
@@ -52,9 +53,9 @@ namespace UIHost.Pages.Categories
 
         public IActionResult OnPost()
         {
-            
             if (!ModelState.IsValid)
             {
+                AuditHelper.LogUserAction(User, "DELETE", nameof(Category), $"Se eliminó categoría con ID {Category.Id}");
                 Console.WriteLine($"[DEBUG] Insertando: {System.Text.Json.JsonSerializer.Serialize(Category)}");
                 return Page();
             }
