@@ -29,10 +29,11 @@ namespace UIHost.Pages.Fees
         public void OnGet()
         {
             ResultFeeGetAll = _repository.GetAll();
+            var categoryList = _categoryRepository.GetAll();
 
             foreach (var fee in ResultFeeGetAll.Value)
             {
-                fee.Category = _categoryRepository.GetAll().Value.FirstOrDefault(c => c.Id == fee.Id);
+                fee.Category = categoryList.Value.FirstOrDefault(c => c.Id == fee.CategoryId);
             }
         }
 
