@@ -9,8 +9,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\EstablishmentService\EstablishmentService.csproj" />
+    <ProjectReference Include="..\ReportService\ReportService.csproj" />
     <ProjectReference Include="..\TariffingService\TariffingService.csproj" />
     <ProjectReference Include="..\UserManagementService\UserManagementService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
   </ItemGroup>
 
 </Project>
