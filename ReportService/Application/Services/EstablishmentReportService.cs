@@ -61,7 +61,7 @@ public class EstablishmentReportService
         var director = new ReportDirector();
         builder.SetFooter($"Exportado por: {exportedBy} | Fecha/Hora: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
 
-        var report = director.BuildReport(builder, "Reporte de Encargados y Establecimientos", data);
+        var report = director.BuildXlsxReport(builder, "Reporte de Encargados y Establecimientos", data);
         return report;
     }
 

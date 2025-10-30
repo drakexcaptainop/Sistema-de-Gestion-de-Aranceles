@@ -17,10 +17,7 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        ReportDirector director = new ReportDirector();
-        PdfReportBuilder builder = new PdfReportBuilder();
-
-        director.BuildReport(builder, "titulo ejemplo", ["dato1", "dato2", "dato3"]);
+        
 
 
     }

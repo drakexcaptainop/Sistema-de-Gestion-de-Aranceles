@@ -51,12 +51,25 @@ builder.Services.AddScoped<IRepositoryServiceFactory<PersonInCharge>, PersonInCh
 builder.Services.AddSingleton<IDbRepository<Establishment>, EstablishmentRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<Establishment>, EstablishmentRepositoryServiceCreator>();
 
+// ==========================
+//  FEE CONFIG
+// ==========================
+
+builder.Services.AddSingleton<IDbRepository<Fee>, FeeRepository>();
+builder.Services.AddScoped<IRepositoryServiceFactory<Fee>, FeeRepositoryServiceCreator>();
 
 builder.Services.AddSingleton<IDbRepository<User>, UserRepository>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRepositoryServiceFactory<User>, UserRepositoryServiceCreator>();
 builder.Services.AddScoped<IUserRepositoryService, UserRepositoryService>();
 
+// 🔹 Report service registration
+builder.Services.AddScoped<EstablishmentReportService>(sp =>
+{
+    var estRepo = sp.GetRequiredService<IDbRepository<Establishment>>();
+    var personRepo = sp.GetRequiredService<IDbRepository<PersonInCharge>>();
+    return new EstablishmentReportService(estRepo, personRepo);
+});
 
 
 var _configuration = builder.Configuration;

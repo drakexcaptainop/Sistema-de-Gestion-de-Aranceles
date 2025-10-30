@@ -36,10 +36,10 @@ namespace UIHost.Pages.Fees
             }
         }
 
-        public void OnPostSearch()
-        {
-            ResultFeeGetAll = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
-            Fees = ResultFeeGetAll.Value?.ToList() ?? new List<Fee>();
-        }
+        // public void OnPostSearch()
+        // {
+        //     ResultFeeGetAll = string.IsNullOrWhiteSpace(SearchTerm) ? _repository.GetAll() : _repository.Search(SearchTerm);
+        //     Fees = ResultFeeGetAll.Value?.ToList() ?? new List<Fee>();
+        // }
     }
 }

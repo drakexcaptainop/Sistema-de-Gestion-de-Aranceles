@@ -2,7 +2,7 @@ using ReportService.Application.Interfaces;
 using ReportService.Domain.Models;
 using ClosedXML.Excel;
 
-public class XlsxReportBuilder : IReportBuilder
+public class XlsxReportBuilder : IReportBuilder<(string Encargado, string Ci, string Establecimiento, string Licencia, string Direccion)>
 {
     private XLWorkbook _workbook;
     private IXLWorksheet _sheet;

@@ -5,8 +5,8 @@ namespace ReportService.Infrastructure.Directors;
 
 public class ReportDirector
 {
-    public Report BuildReport(
-        IReportBuilder builder,
+    public Report BuildXlsxReport(
+        IReportBuilder<(string Encargado, string Ci, string Establecimiento, string Licencia, string Direccion)> builder,
         string title,
         List<(string Encargado, string Ci, string Establecimiento, string Licencia, string Direccion)> data)
     {
