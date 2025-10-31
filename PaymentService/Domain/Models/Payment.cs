@@ -1,4 +1,6 @@
-﻿namespace PaymentService.Domain.Models;
+﻿using System;
+
+namespace PaymentService.Domain.Models;
 
 public class Payment
 {

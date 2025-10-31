@@ -1,4 +1,5 @@
-﻿using Common.Domain.SharedPorts;
+﻿using System.Collections.Generic;
+using Common.Domain.SharedPorts;
 using TariffingService.Domain.Models;
 using Common.Infrastructure.Persistence.Database;
 using TariffingService.Domain.RepositoryPorts;

@@ -1,6 +1,8 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using UserManagementService.Application.Helpers;
 using UserManagementService.Domain.Ports;
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Common.Domain.Patterns;
 using Common.Domain.SharedPorts;
 using Microsoft.AspNetCore.Authorization;

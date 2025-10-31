@@ -1,3 +1,4 @@
+using System.Linq;
 using Common.Domain.SharedPorts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

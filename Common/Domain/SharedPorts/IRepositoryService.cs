@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Common.Domain.Patterns;
 
 namespace Common.Domain.SharedPorts;

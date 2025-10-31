@@ -1,4 +1,6 @@
-﻿namespace TariffingService.Domain.Models
+﻿using System;
+
+namespace TariffingService.Domain.Models
 {
     public class Fee
     {

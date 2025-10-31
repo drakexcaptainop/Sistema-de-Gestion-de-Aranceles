@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
@@ -17,12 +18,12 @@ namespace UIHost.Pages.PersonInCharges
 
         [BindProperty]
         [StringLength(50, ErrorMessage = "El segundo nombre no puede exceder 50 caracteres.")]
-        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$", ErrorMessage = "El segundo nombre solo puede contener letras y espacios.")]
+        [RegularExpression(@"^[a-zA-Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\s]*$", ErrorMessage = "El segundo nombre solo puede contener letras y espacios.")]
         public string? SecondName { get; set; }
 
         [BindProperty]
         [StringLength(50, ErrorMessage = "El segundo apellido no puede exceder 50 caracteres.")]
-        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$", ErrorMessage = "El segundo apellido solo puede contener letras y espacios.")]
+        [RegularExpression(@"^[a-zA-Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\s]*$", ErrorMessage = "El segundo apellido solo puede contener letras y espacios.")]
         public string? SecondLastName { get; set; }
 
         public CreateModel(IRepositoryServiceFactory<PersonInCharge> factory)

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using MySqlX.XDevAPI.Common;
 using ReportService.Infrastructure.Builders;
 using ReportService.Infrastructure.Directors;

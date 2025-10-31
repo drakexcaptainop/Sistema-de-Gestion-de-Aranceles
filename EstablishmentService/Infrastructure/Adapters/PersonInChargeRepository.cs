@@ -1,4 +1,5 @@
-﻿using Common.Infrastructure.Persistence.Database;
+﻿using System.Collections.Generic;
+using Common.Infrastructure.Persistence.Database;
 using Common.Domain.SharedPorts;
 using EstablishmentService.Domain.Models;
 using EstablishmentService.Domain.RepositoryPorts;

@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ReportService.Application.Services;
