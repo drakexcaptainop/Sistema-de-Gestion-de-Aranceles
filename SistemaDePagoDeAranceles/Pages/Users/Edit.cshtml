@@ -1,0 +1,75 @@
+@page "{id?}"
+@model SistemaDePagoDeAranceles.Pages.Users.EditModel
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<form method="post" class="card shadow-sm p-4">
+    <input type="hidden" asp-for="User.Id" />
+    <input type="hidden" asp-for="User.Username" />
+    <input type="hidden" asp-for="User.PasswordHash" />
+    <input type="hidden" asp-for="User.CreatedBy" />
+    <input type="hidden" asp-for="User.CreatedDate" />
+    
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Usuario</label>
+            <input value="@Model.User.Username" class="form-control" disabled />
+            <small class="text-muted">El nombre de usuario no puede ser modificado</small>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="User.Status" class="form-label">Estado</label>
+            <select asp-for="User.Status" class="form-select">
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="User.FirstName" class="form-label">Nombre</label>
+            <input asp-for="User.FirstName" class="form-control" required />
+            <span asp-validation-for="User.FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="User.LastName" class="form-label">Apellido</label>
+            <input asp-for="User.LastName" class="form-control" required />
+            <span asp-validation-for="User.LastName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="User.Email" class="form-label">Correo Electrónico</label>
+            <input asp-for="User.Email" type="email" class="form-control" required />
+            <span asp-validation-for="User.Email" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="User.Role" class="form-label">Rol</label>
+            <select asp-for="User.Role" class="form-select" required>
+                <option value="1">Admin</option>
+                <option value="2">Contador</option>
+            </select>
+            <span asp-validation-for="User.Role" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <div class="alert alert-info">
+                <strong>Nota:</strong> Para cambiar la contraseña del usuario, debe eliminar y crear uno nuevo.
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-warning">Actualizar</button>
+        <a asp-page="Index" class="btn btn-secondary ms-2">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
